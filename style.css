@@ -1,0 +1,51 @@
+/* Estilo general de la página */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f0f8ff;
+  color: #333;
+  margin-top: 50px;
+}
+
+/* Estilo para los inputs de texto */
+input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
+  margin-right: 10px;
+}
+
+/* Estilo general de todos los botones */
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #0077cc;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+/* Botón deshabilitado */
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Hover para todos los botones activos */
+button:hover:enabled {
+  background: #005fa3;
+}
+
+/* Margen para botones de modalidad, materias y dificultad */
+.modBtn, .difBtn, .matBtn {
+  margin: 5px;
+}
+
+/* Mensajes de saludo, selección de modalidad y materia */
+#saludo, #seleccion, #seleccionMateria {
+  font-weight: bold;
+  margin-top: 20px;
+  font-size: 1.1em;
+}
