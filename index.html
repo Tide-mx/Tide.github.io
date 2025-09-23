@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Página de Estudio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>📚 Bienvenido a tu página de estudio</h1>
+  
+  <!-- Ingreso de nombre -->
+  <div id="ingresoNombre">
+    <p>Inserta tu nombre:</p>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre">
+    <button id="botonListo" disabled>Listo</button>
+  </div>
+
+  <p id="saludo"></p>
+
+  <!-- Modalidad -->
+  <div id="modalidad" style="display:none;">
+    <p>Selecciona la modalidad a completar:</p>
+    <button class="modBtn">Primaria</button>
+    <button class="modBtn">Secundaria</button>
+    <button class="modBtn">Preparatoria</button>
+    <button class="modBtn">Universidad</button>
+    <button class="modBtn">Postgrado</button>
+  </div>
+
+  <p id="seleccion"></p>
+
+  <!-- Materias -->
+  <div id="materias" style="display:none;">
+    <p>Selecciona la materia a estudiar:</p>
+    <div id="botonesMaterias"></div>
+  </div>
+
+  <p id="seleccionMateria"></p>
+
+  <script src="script.js"></script>
+</body>
+</html>
