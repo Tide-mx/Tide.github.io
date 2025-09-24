@@ -9,13 +9,17 @@ const seleccionMateria = document.getElementById("seleccionMateria");
 
 // Habilitar botón solo si hay texto
 inputNombre.addEventListener("input", () => {
-  botonListo.disabled = inputNombre.value.trim() === "";
+  if (inputNombre.value.trim() !== "") {
+    botonListo.disabled = false;
+  } else {
+    botonListo.disabled = true;
+  }
 });
 
 // Acción al hacer clic en "Listo"
 botonListo.addEventListener("click", () => {
   const nombre = inputNombre.value.trim();
-  saludo.textContent = ¡Hola, ${nombre}! Bienvenido/a.;
+  saludo.textContent = `¡Hola, ${nombre}! Bienvenido/a.`;
   modalidadDiv.style.display = "block";
   document.getElementById("ingresoNombre").style.display = "none";
 });
@@ -34,7 +38,7 @@ const botonesModalidad = document.querySelectorAll(".modBtn");
 botonesModalidad.forEach(button => {
   button.addEventListener("click", () => {
     const modalidadElegida = button.textContent;
-    seleccion.textContent = Has seleccionado: ${modalidadElegida};
+    seleccion.textContent = `Has seleccionado: ${modalidadElegida}`;
 
     // Limpiar botones anteriores de materias
     botonesMateriasDiv.innerHTML = "";
@@ -45,7 +49,7 @@ botonesModalidad.forEach(button => {
       btn.textContent = materia;
       btn.className = "matBtn";
       btn.addEventListener("click", () => {
-        seleccionMateria.textContent = Materia seleccionada: ${materia};
+        seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
       });
       botonesMateriasDiv.appendChild(btn);
     });
