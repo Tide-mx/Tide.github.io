@@ -97,7 +97,7 @@ function mostrarResumen(modalidad, materia, dificultad) {
   resumenFinalDiv.style.display = "block";
 }
 
-// Reiniciar todo
+// Reiniciar todos
 reiniciarBtn.addEventListener("click", () => {
   // Ocultar todo
   saludo.textContent = "";
