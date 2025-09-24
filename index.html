@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>📚 Bienvenido a tu página de estudios</h1>
+  <h1>📚 Bienvenido a tu página de estudio</h1>
   
   <!-- Ingreso de nombre -->
   <div id="ingresoNombre">
@@ -36,13 +36,21 @@
   </div>
 
   <p id="seleccionMateria"></p>
-<!-- Dificultades -->
-<div id="dificultades" style="display:none;">
-  <p>Selecciona la dificultad:</p>
-  <div id="botonesDificultad"></div>
-</div>
 
-<p id="seleccionDificultad"></p>
+  <!-- Dificultades -->
+  <div id="dificultades" style="display:none;">
+    <p>Selecciona la dificultad:</p>
+    <div id="botonesDificultad"></div>
+  </div>
+
+  <p id="seleccionDificultad"></p>
+
+  <!-- Resumen final -->
+  <div id="resumenFinal" style="display:none; margin-top:30px; padding:20px; border:2px solid #0077cc; border-radius:10px; background:#e6f3ff;">
+    <h2>📋 Resumen de tu selección</h2>
+    <p id="resumenTexto"></p>
+    <button id="reiniciarBtn">🔄 Reiniciar</button>
+  </div>
 
   <script src="script.js"></script>
 </body>
