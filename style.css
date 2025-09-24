@@ -7,6 +7,11 @@ body {
   margin-top: 50px;
 }
 
+/* Títulos */
+h1 {
+  color: #0077cc;
+}
+
 /* Estilo para los inputs de texto */
 input {
   padding: 10px;
@@ -24,7 +29,7 @@ button {
   color: white;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.2s;
 }
 
 /* Botón deshabilitado */
@@ -36,6 +41,7 @@ button:disabled {
 /* Hover para todos los botones activos */
 button:hover:enabled {
   background: #005fa3;
+  transform: scale(1.05);
 }
 
 /* Margen para botones de modalidad, materias y dificultad */
@@ -43,26 +49,48 @@ button:hover:enabled {
   margin: 5px;
 }
 
+/* Botones de dificultad con colores distintos */
+.difBtn:nth-child(1) { background: #6eff6e; }   /* Extremadamente Fácil */
+.difBtn:nth-child(2) { background: #9bff6e; }   /* Muy Fácil */
+.difBtn:nth-child(3) { background: #caff6e; }   /* Fácil */
+.difBtn:nth-child(4) { background: #ffe36e; }   /* Normal */
+.difBtn:nth-child(5) { background: #ffb26e; }   /* Difícil */
+.difBtn:nth-child(6) { background: #ff6e6e; }   /* Muy Difícil */
+.difBtn:nth-child(7) { background: #a86eff; }   /* Extremadamente Difícil */
+.difBtn:nth-child(8) { background: #000; }      /* Imposible 💀 */
+.difBtn:nth-child(8):hover { background: #222; }
+
 /* Mensajes de saludo, selección de modalidad y materia */
-#saludo, #seleccion, #seleccionMateria {
+#saludo, #seleccion, #seleccionMateria, #seleccionDificultad {
   font-weight: bold;
   margin-top: 20px;
   font-size: 1.1em;
 }
 
+/* Caja de resumen final */
 #resumenFinal {
-  max-width: 400px;
-  margin: 20px auto;
-  text-align: left;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-top: 30px;
+  padding: 20px;
+  border: 2px solid #0077cc;
+  border-radius: 10px;
+  background: #e6f3ff;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #resumenFinal h2 {
-  margin-top: 0;
-  color: #0077cc;
+  margin-bottom: 15px;
+  color: #005fa3;
 }
 
-#resumenTexto {
-  white-space: pre-line; /* Para que respete saltos de línea */
+#reiniciarBtn {
+  margin-top: 15px;
+  background: #ff6e6e;
 }
+
+#reiniciarBtn:hover {
+  background: #cc0000;
+}
+
 
