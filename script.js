@@ -7,13 +7,14 @@ const materiasDiv = document.getElementById("materias");
 const botonesMateriasDiv = document.getElementById("botonesMaterias");
 const seleccionMateria = document.getElementById("seleccionMateria");
 
+// NUEVOS elementos para dificultades
+const dificultadesDiv = document.getElementById("dificultades");
+const botonesDificultadDiv = document.getElementById("botonesDificultad");
+const seleccionDificultad = document.getElementById("seleccionDificultad");
+
 // Habilitar botón solo si hay texto
 inputNombre.addEventListener("input", () => {
-  if (inputNombre.value.trim() !== "") {
-    botonListo.disabled = false;
-  } else {
-    botonListo.disabled = true;
-  }
+  botonListo.disabled = inputNombre.value.trim() === "";
 });
 
 // Acción al hacer clic en "Listo"
@@ -33,6 +34,17 @@ const materiasPorModalidad = {
   "Postgrado": ["Investigación Avanzada", "Estadística Avanzada", "Filosofía Aplicada", "Gestión de Proyectos", "Especialización Profesional"]
 };
 
+// Definir dificultades (más niveles)
+const dificultades = [
+  "Extremadamente fácil",
+  "Muy fácil",
+  "Fácil",
+  "Normal",
+  "Difícil",
+  "Muy difícil",
+  "Extremo"
+];
+
 // Botones de modalidad
 const botonesModalidad = document.querySelectorAll(".modBtn");
 botonesModalidad.forEach(button => {
@@ -50,6 +62,19 @@ botonesModalidad.forEach(button => {
       btn.className = "matBtn";
       btn.addEventListener("click", () => {
         seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
+
+        // Mostrar dificultades
+        botonesDificultadDiv.innerHTML = ""; // limpiar anteriores
+        dificultades.forEach(dif => {
+          const difBtn = document.createElement("button");
+          difBtn.textContent = dif;
+          difBtn.className = "difBtn";
+          difBtn.addEventListener("click", () => {
+            seleccionDificultad.textContent = `Dificultad seleccionada: ${dif}`;
+          });
+          botonesDificultadDiv.appendChild(difBtn);
+        });
+        dificultadesDiv.style.display = "block";
       });
       botonesMateriasDiv.appendChild(btn);
     });
