@@ -49,3 +49,20 @@ button:hover:enabled {
   margin-top: 20px;
   font-size: 1.1em;
 }
+
+#resumenFinal {
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#resumenFinal h2 {
+  margin-top: 0;
+  color: #0077cc;
+}
+
+#resumenTexto {
+  white-space: pre-line; /* Para que respete saltos de línea */
+}
+
