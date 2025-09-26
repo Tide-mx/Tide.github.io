@@ -29,6 +29,7 @@ botonListo.addEventListener("click", () => {
   nombreUsuario = inputNombre.value.trim();
   saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
   modalidadDiv.style.display = "block";
+  modalidadDiv.classList.add("fade-in");
   document.getElementById("ingresoNombre").style.display = "none";
   actualizarResumen();
 });
@@ -56,7 +57,9 @@ const dificultades = [
 
 // Botones de modalidad
 const botonesModalidad = document.querySelectorAll(".modBtn");
-botonesModalidad.forEach(button => {
+botonesModalidad.forEach((button, index) => {
+  button.style.animationDelay = `${index * 0.1}s`; // efecto cascada
+  button.classList.add("fade-in");
   button.addEventListener("click", () => {
     modalidadSeleccionada = button.textContent;
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
@@ -70,11 +73,12 @@ botonesModalidad.forEach(button => {
     botonesDificultadDiv.innerHTML = "";
     dificultadesDiv.style.display = "none";
 
-    // Crear botones de materias según modalidad
-    materiasPorModalidad[modalidadSeleccionada].forEach(materia => {
+    // Crear botones de materias con animación en cascada
+    materiasPorModalidad[modalidadSeleccionada].forEach((materia, i) => {
       const btn = document.createElement("button");
       btn.textContent = materia;
-      btn.className = "matBtn";
+      btn.className = "matBtn fade-in";
+      btn.style.animationDelay = `${i * 0.1}s`; // cascada
       btn.addEventListener("click", () => {
         materiaSeleccionada = materia;
         seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
@@ -85,6 +89,7 @@ botonesModalidad.forEach(button => {
     });
 
     materiasDiv.style.display = "block";
+    materiasDiv.classList.add("fade-in");
     actualizarResumen();
   });
 });
@@ -93,10 +98,11 @@ botonesModalidad.forEach(button => {
 function mostrarDificultades() {
   botonesDificultadDiv.innerHTML = "";
 
-  dificultades.forEach(dif => {
+  dificultades.forEach((dif, i) => {
     const btn = document.createElement("button");
     btn.textContent = dif;
-    btn.className = "difBtn";
+    btn.className = "difBtn fade-in";
+    btn.style.animationDelay = `${i * 0.1}s`; // cascada
     btn.addEventListener("click", () => {
       dificultadSeleccionada = dif;
       seleccionDificultad.textContent = `Dificultad seleccionada: ${dif}`;
@@ -106,6 +112,7 @@ function mostrarDificultades() {
   });
 
   dificultadesDiv.style.display = "block";
+  dificultadesDiv.classList.add("fade-in");
 }
 
 // Función para actualizar el resumen
@@ -116,9 +123,10 @@ function actualizarResumen() {
       `Modalidad: ${modalidadSeleccionada || "—"} | ` +
       `Materia: ${materiaSeleccionada || "—"} | ` +
       `Dificultad: ${dificultadSeleccionada || "—"}`;
-    resumenFinalDiv.style.display = "block";
+    
+    resumenFinalDiv.classList.add("show");
   } else {
-    resumenFinalDiv.style.display = "none";
+    resumenFinalDiv.classList.remove("show");
   }
 }
 
@@ -141,7 +149,7 @@ reiniciarBtn.addEventListener("click", () => {
   modalidadDiv.style.display = "none";
   materiasDiv.style.display = "none";
   dificultadesDiv.style.display = "none";
-  resumenFinalDiv.style.display = "none";
+  resumenFinalDiv.classList.remove("show");
 
   // Resetear input
   inputNombre.value = "";
