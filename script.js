@@ -13,6 +13,12 @@ const resumenFinalDiv = document.getElementById("resumenFinal");
 const resumenTexto = document.getElementById("resumenTexto");
 const reiniciarBtn = document.getElementById("reiniciarBtn");
 
+// Variables de selección
+let nombreUsuario = "";
+let modalidadSeleccionada = "";
+let materiaSeleccionada = "";
+let dificultadSeleccionada = "";
+
 // Habilitar botón solo si hay texto
 inputNombre.addEventListener("input", () => {
   botonListo.disabled = inputNombre.value.trim() === "";
@@ -20,10 +26,11 @@ inputNombre.addEventListener("input", () => {
 
 // Acción al hacer clic en "Listo"
 botonListo.addEventListener("click", () => {
-  const nombre = inputNombre.value.trim();
-  saludo.textContent = `¡Hola, ${nombre}! Bienvenido/a.`;
+  nombreUsuario = inputNombre.value.trim();
+  saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
   modalidadDiv.style.display = "block";
   document.getElementById("ingresoNombre").style.display = "none";
+  actualizarResumen();
 });
 
 // Definir materias según modalidad
@@ -51,30 +58,39 @@ const dificultades = [
 const botonesModalidad = document.querySelectorAll(".modBtn");
 botonesModalidad.forEach(button => {
   button.addEventListener("click", () => {
-    const modalidadElegida = button.textContent;
-    seleccion.textContent = `Has seleccionado: ${modalidadElegida}`;
+    modalidadSeleccionada = button.textContent;
+    seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
 
-    // Limpiar botones anteriores
+    // Reiniciar materia y dificultad al cambiar modalidad
+    materiaSeleccionada = "";
+    dificultadSeleccionada = "";
+    seleccionMateria.textContent = "";
+    seleccionDificultad.textContent = "";
     botonesMateriasDiv.innerHTML = "";
+    botonesDificultadDiv.innerHTML = "";
+    dificultadesDiv.style.display = "none";
 
     // Crear botones de materias según modalidad
-    materiasPorModalidad[modalidadElegida].forEach(materia => {
+    materiasPorModalidad[modalidadSeleccionada].forEach(materia => {
       const btn = document.createElement("button");
       btn.textContent = materia;
       btn.className = "matBtn";
       btn.addEventListener("click", () => {
+        materiaSeleccionada = materia;
         seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
-        mostrarDificultades(modalidadElegida, materia);
+        mostrarDificultades();
+        actualizarResumen();
       });
       botonesMateriasDiv.appendChild(btn);
     });
 
     materiasDiv.style.display = "block";
+    actualizarResumen();
   });
 });
 
 // Función para mostrar dificultades
-function mostrarDificultades(modalidad, materia) {
+function mostrarDificultades() {
   botonesDificultadDiv.innerHTML = "";
 
   dificultades.forEach(dif => {
@@ -82,8 +98,9 @@ function mostrarDificultades(modalidad, materia) {
     btn.textContent = dif;
     btn.className = "difBtn";
     btn.addEventListener("click", () => {
+      dificultadSeleccionada = dif;
       seleccionDificultad.textContent = `Dificultad seleccionada: ${dif}`;
-      mostrarResumen(modalidad, materia, dif);
+      actualizarResumen();
     });
     botonesDificultadDiv.appendChild(btn);
   });
@@ -91,15 +108,29 @@ function mostrarDificultades(modalidad, materia) {
   dificultadesDiv.style.display = "block";
 }
 
-// Función para mostrar resumen final
-function mostrarResumen(modalidad, materia, dificultad) {
-  resumenTexto.textContent = `Modalidad: ${modalidad} | Materia: ${materia} | Dificultad: ${dificultad}`;
-  resumenFinalDiv.style.display = "block";
+// Función para actualizar el resumen
+function actualizarResumen() {
+  if (nombreUsuario || modalidadSeleccionada || materiaSeleccionada || dificultadSeleccionada) {
+    resumenTexto.textContent =
+      `Nombre: ${nombreUsuario || "—"} | ` +
+      `Modalidad: ${modalidadSeleccionada || "—"} | ` +
+      `Materia: ${materiaSeleccionada || "—"} | ` +
+      `Dificultad: ${dificultadSeleccionada || "—"}`;
+    resumenFinalDiv.style.display = "block";
+  } else {
+    resumenFinalDiv.style.display = "none";
+  }
 }
 
-// Reiniciar todos
+// Reiniciar todo
 reiniciarBtn.addEventListener("click", () => {
-  // Ocultar todo
+  // Resetear variables
+  nombreUsuario = "";
+  modalidadSeleccionada = "";
+  materiaSeleccionada = "";
+  dificultadSeleccionada = "";
+
+  // Ocultar y limpiar textos
   saludo.textContent = "";
   seleccion.textContent = "";
   seleccionMateria.textContent = "";
