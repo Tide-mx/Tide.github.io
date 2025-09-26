@@ -5,13 +5,6 @@ body {
   background: #f0f8ff;
   color: #333;
   margin-top: 50px;
-  transition: background 0.5s;
-}
-
-/* Títulos */
-h1 {
-  color: #0077cc;
-  animation: fadeInDown 1s ease;
 }
 
 /* Estilo para los inputs de texto */
@@ -51,70 +44,46 @@ button:hover:enabled {
   margin: 5px;
 }
 
-/* Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-  animation: fadeIn 0.8s ease forwards;
-}
-
-/* Botones de dificultad con colores */
-.difBtn:nth-child(1) { background: #6eff6e; }
-.difBtn:nth-child(2) { background: #9bff6e; }
-.difBtn:nth-child(3) { background: #caff6e; }
-.difBtn:nth-child(4) { background: #ffe36e; }
-.difBtn:nth-child(5) { background: #ffb26e; }
-.difBtn:nth-child(6) { background: #ff6e6e; }
-.difBtn:nth-child(7) { background: #a86eff; }
-.difBtn:nth-child(8) { background: #000; }
-.difBtn:nth-child(8):hover { background: #222; }
-
-/* Mensajes */
+/* Mensajes de saludo, selección de modalidad y materia */
 #saludo, #seleccion, #seleccionMateria, #seleccionDificultad {
   font-weight: bold;
   margin-top: 20px;
   font-size: 1.1em;
-  animation: fadeIn 0.7s ease;
 }
 
-/* Caja de resumen final */
+/* --- Animaciones generales --- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.4s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Resumen final con transición --- */
 #resumenFinal {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
   margin-top: 30px;
-  padding: 20px;
+  padding: 15px;
+  background: #ffffffcc;
   border: 2px solid #0077cc;
   border-radius: 10px;
-  background: #e6f3ff;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  display: inline-block;
 }
 
 #resumenFinal.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: scale(1);
 }
 
-#resumenFinal h2 {
-  margin-bottom: 15px;
-  color: #005fa3;
-}
-
-#reiniciarBtn {
-  margin-top: 15px;
-  background: #ff6e6e;
-}
-
-#reiniciarBtn:hover {
-  background: #cc0000;
+/* Botones animados en cascada */
+.modBtn, .matBtn, .difBtn {
+  animation-fill-mode: both; /* asegura que se quede visible después */
 }
