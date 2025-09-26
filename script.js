@@ -186,3 +186,32 @@ reiniciarBtn.addEventListener("click", () => {
   botonListo.disabled = true;
   resumenTexto.innerHTML = "";
 });
+const avisoPestana = document.getElementById("avisoPestana");
+
+// Detecta cambio de visibilidad de la pestaña
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    // Pestaña inactiva
+    avisoPestana.style.display = "block";
+    setTimeout(() => {
+      avisoPestana.classList.add("show");
+    }, 50);
+  } else {
+    // Pestaña activa
+    avisoPestana.classList.remove("show");
+    setTimeout(() => {
+      avisoPestana.style.display = "none";
+    }, 500); // coincide con la transición
+  }
+});
+
+// También se puede usar focus/blur de ventana
+window.addEventListener("blur", () => {
+  avisoPestana.style.display = "block";
+  setTimeout(() => avisoPestana.classList.add("show"), 50);
+});
+
+window.addEventListener("focus", () => {
+  avisoPestana.classList.remove("show");
+  setTimeout(() => avisoPestana.style.display = "none", 500);
+});
