@@ -32,19 +32,25 @@ const palabrasProhibidas = [
   "nazi","hitler","negro","maricon","gay","sexo","rape"
 ];
 
-// Normaliza el texto: minúsculas, sin acentos, solo letras y números
-function normalizarTexto(texto) {
-  return texto
-    .toLowerCase()
+// Normaliza el texto y reemplaza caracteres estilo "leet speak"
+function normalizarTextoAvanzado(texto) {
+  let t = texto.toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]/g, "");
+    .replace(/[\u0300-\u036f]/g, ""); // quitar acentos
+
+  const reemplazos = { 
+    "0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t", "@": "a", "$": "s" 
+  };
+  t = t.replace(/[013457@$]/g, c => reemplazos[c]);
+
+  t = t.replace(/[^a-z]/g, ""); // dejar solo letras
+  return t;
 }
 
-// Valida nombre
-function nombreEsValido(nombre) {
-  const nombreLimpio = normalizarTexto(nombre);
-  return !palabrasProhibidas.some(palabra => nombreLimpio.includes(palabra));
+// Validación avanzada de nombres
+function nombreEsValidoAvanzado(nombre) {
+  const limpio = normalizarTextoAvanzado(nombre);
+  return !palabrasProhibidas.some(palabra => limpio.includes(palabra));
 }
 
 // Habilitar botón solo si hay texto
@@ -56,14 +62,14 @@ inputNombre.addEventListener("input", () => {
 botonListo.addEventListener("click", () => {
   nombreUsuario = inputNombre.value.trim();
 
-  if (!nombreEsValido(nombreUsuario)) {
+  if (!nombreEsValidoAvanzado(nombreUsuario)) {
     errorNombre.textContent = "⚠️ Ese nombre no está permitido. Por favor elige otro.";
     inputNombre.value = "";
     botonListo.disabled = true;
     return;
   }
 
-  errorNombre.textContent = ""; // limpiar mensaje
+  errorNombre.textContent = ""; 
   saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
   modalidadDiv.style.display = "block";
   modalidadDiv.classList.add("fade-in");
@@ -71,7 +77,7 @@ botonListo.addEventListener("click", () => {
   actualizarResumen();
 });
 
-// Definir materias según modalidad
+// Definir materias por modalidad
 const materiasPorModalidad = {
   "Primaria": ["Matemáticas Básicas", "Lengua", "Ciencias Naturales", "Historia", "Arte", "Educación Física"],
   "Secundaria": ["Matemáticas", "Lengua y Literatura", "Biología", "Química", "Historia Universal", "Arte", "Tecnología"],
@@ -80,28 +86,20 @@ const materiasPorModalidad = {
   "Postgrado": ["Investigación Avanzada", "Estadística Avanzada", "Filosofía Aplicada", "Gestión de Proyectos", "Especialización Profesional"]
 };
 
-// Lista de dificultades
+// Dificultades
 const dificultades = [
-  "Extremadamente Fácil",
-  "Muy Fácil",
-  "Fácil",
-  "Normal",
-  "Difícil",
-  "Muy Difícil",
-  "Extremadamente Difícil",
-  "Imposible 💀"
+  "Extremadamente Fácil","Muy Fácil","Fácil","Normal","Difícil","Muy Difícil","Extremadamente Difícil","Imposible 💀"
 ];
 
 // Botones de modalidad
 const botonesModalidad = document.querySelectorAll(".modBtn");
 botonesModalidad.forEach((button, index) => {
-  button.style.animationDelay = `${index * 0.1}s`; // efecto cascada
+  button.style.animationDelay = `${index * 0.1}s`; 
   button.classList.add("fade-in");
   button.addEventListener("click", () => {
     modalidadSeleccionada = button.textContent;
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
 
-    // Reiniciar materia y dificultad al cambiar modalidad
     materiaSeleccionada = "";
     dificultadSeleccionada = "";
     seleccionMateria.textContent = "";
@@ -110,60 +108,56 @@ botonesModalidad.forEach((button, index) => {
     botonesDificultadDiv.innerHTML = "";
     dificultadesDiv.style.display = "none";
 
-    // Crear botones de materias con animación en cascada
-    materiasPorModalidad[modalidadSeleccionada].forEach((materia, i) => {
-      const btn = document.createElement("button");
-      btn.textContent = materia;
-      btn.className = "matBtn fade-in";
-      btn.style.animationDelay = `${i * 0.1}s`; // cascada
-      btn.addEventListener("click", () => {
-        materiaSeleccionada = materia;
-        seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
+    materiasPorModalidad[modalidadSeleccionada].forEach((materia,i)=>{
+      const btn=document.createElement("button");
+      btn.textContent=materia;
+      btn.className="matBtn fade-in";
+      btn.style.animationDelay=`${i*0.1}s`;
+      btn.addEventListener("click",()=>{
+        materiaSeleccionada=materia;
+        seleccionMateria.textContent=`Materia seleccionada: ${materia}`;
         mostrarDificultades();
         actualizarResumen();
       });
       botonesMateriasDiv.appendChild(btn);
     });
 
-    materiasDiv.style.display = "block";
+    materiasDiv.style.display="block";
     materiasDiv.classList.add("fade-in");
     actualizarResumen();
   });
 });
 
-// Función para mostrar dificultades
-function mostrarDificultades() {
-  botonesDificultadDiv.innerHTML = "";
-
-  dificultades.forEach((dif, i) => {
-    const btn = document.createElement("button");
-    btn.textContent = dif;
-    btn.className = "difBtn fade-in";
-    btn.style.animationDelay = `${i * 0.1}s`; // cascada
-    btn.addEventListener("click", () => {
-      dificultadSeleccionada = dif;
-      seleccionDificultad.textContent = `Dificultad seleccionada: ${dif}`;
+// Mostrar dificultades
+function mostrarDificultades(){
+  botonesDificultadDiv.innerHTML="";
+  dificultades.forEach((dif,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=dif;
+    btn.className="difBtn fade-in";
+    btn.style.animationDelay=`${i*0.1}s`;
+    btn.addEventListener("click",()=>{
+      dificultadSeleccionada=dif;
+      seleccionDificultad.textContent=`Dificultad seleccionada: ${dif}`;
       actualizarResumen();
     });
     botonesDificultadDiv.appendChild(btn);
   });
-
-  dificultadesDiv.style.display = "block";
+  dificultadesDiv.style.display="block";
   dificultadesDiv.classList.add("fade-in");
 }
 
-// Función para actualizar el resumen (formato lista con íconos)
-function actualizarResumen() {
-  resumenTexto.innerHTML = `
+// Actualizar resumen
+function actualizarResumen(){
+  resumenTexto.innerHTML=`
     <li>✅ <span>Nombre:</span> ${nombreUsuario || "—"}</li>
     <li>🎓 <span>Modalidad:</span> ${modalidadSeleccionada || "—"}</li>
     <li>📖 <span>Materia:</span> ${materiaSeleccionada || "—"}</li>
     <li>🔥 <span>Dificultad:</span> ${dificultadSeleccionada || "—"}</li>
   `;
-
-  if (nombreUsuario || modalidadSeleccionada || materiaSeleccionada || dificultadSeleccionada) {
+  if(nombreUsuario||modalidadSeleccionada||materiaSeleccionada||dificultadSeleccionada){
     resumenFinalDiv.classList.add("show");
-  } else {
+  }else{
     resumenFinalDiv.classList.remove("show");
   }
 }
@@ -179,7 +173,7 @@ reiniciarBtn.addEventListener("click", () => {
   seleccion.textContent = "";
   seleccionMateria.textContent = "";
   seleccionDificultad.textContent = "";
-  resumenTexto.innerHTML = "";
+  inputNombre.value = "";
   errorNombre.textContent = "";
 
   document.getElementById("ingresoNombre").style.display = "block";
@@ -187,7 +181,8 @@ reiniciarBtn.addEventListener("click", () => {
   materiasDiv.style.display = "none";
   dificultadesDiv.style.display = "none";
   resumenFinalDiv.classList.remove("show");
-
-  inputNombre.value = "";
+  botonesMateriasDiv.innerHTML = "";
+  botonesDificultadDiv.innerHTML = "";
   botonListo.disabled = true;
+  resumenTexto.innerHTML = "";
 });
