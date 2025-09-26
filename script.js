@@ -12,12 +12,40 @@ const seleccionDificultad = document.getElementById("seleccionDificultad");
 const resumenFinalDiv = document.getElementById("resumenFinal");
 const resumenTexto = document.getElementById("resumenTexto");
 const reiniciarBtn = document.getElementById("reiniciarBtn");
+const errorNombre = document.getElementById("errorNombre");
 
 // Variables de selección
 let nombreUsuario = "";
 let modalidadSeleccionada = "";
 let materiaSeleccionada = "";
 let dificultadSeleccionada = "";
+
+// Lista de palabras prohibidas (multilenguaje)
+const palabrasProhibidas = [
+  // Español
+  "puta","puto","mierda","imbecil","idiota","estupido","cabron","perra","culo","pendejo",
+  // Inglés
+  "fuck","shit","bitch","asshole","bastard","retard","slut","dick","cock",
+  // Portugués
+  "merda","caralho","otario","besta","idiota","puta",
+  // General ofensivo
+  "nazi","hitler","negro","maricon","gay","sexo","rape"
+];
+
+// Normaliza el texto: minúsculas, sin acentos, solo letras y números
+function normalizarTexto(texto) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+// Valida nombre
+function nombreEsValido(nombre) {
+  const nombreLimpio = normalizarTexto(nombre);
+  return !palabrasProhibidas.some(palabra => nombreLimpio.includes(palabra));
+}
 
 // Habilitar botón solo si hay texto
 inputNombre.addEventListener("input", () => {
@@ -27,6 +55,15 @@ inputNombre.addEventListener("input", () => {
 // Acción al hacer clic en "Listo"
 botonListo.addEventListener("click", () => {
   nombreUsuario = inputNombre.value.trim();
+
+  if (!nombreEsValido(nombreUsuario)) {
+    errorNombre.textContent = "⚠️ Ese nombre no está permitido. Por favor elige otro.";
+    inputNombre.value = "";
+    botonListo.disabled = true;
+    return;
+  }
+
+  errorNombre.textContent = ""; // limpiar mensaje
   saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
   modalidadDiv.style.display = "block";
   modalidadDiv.classList.add("fade-in");
@@ -133,18 +170,17 @@ function actualizarResumen() {
 
 // Reiniciar todo
 reiniciarBtn.addEventListener("click", () => {
-  // Resetear variables
   nombreUsuario = "";
   modalidadSeleccionada = "";
   materiaSeleccionada = "";
   dificultadSeleccionada = "";
 
-  // Ocultar y limpiar textos
   saludo.textContent = "";
   seleccion.textContent = "";
   seleccionMateria.textContent = "";
   seleccionDificultad.textContent = "";
   resumenTexto.innerHTML = "";
+  errorNombre.textContent = "";
 
   document.getElementById("ingresoNombre").style.display = "block";
   modalidadDiv.style.display = "none";
@@ -152,7 +188,6 @@ reiniciarBtn.addEventListener("click", () => {
   dificultadesDiv.style.display = "none";
   resumenFinalDiv.classList.remove("show");
 
-  // Resetear input
   inputNombre.value = "";
   botonListo.disabled = true;
 });
