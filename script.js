@@ -13,69 +13,86 @@ const resumenFinalDiv = document.getElementById("resumenFinal");
 const resumenTexto = document.getElementById("resumenTexto");
 const reiniciarBtn = document.getElementById("reiniciarBtn");
 const errorNombre = document.getElementById("errorNombre");
+const avisoPestana = document.getElementById("avisoPestana");
 
-// Variables de selección
+// Variables
 let nombreUsuario = "";
 let modalidadSeleccionada = "";
 let materiaSeleccionada = "";
 let dificultadSeleccionada = "";
 
-// Lista de palabras prohibidas (multilenguaje)
-const palabrasProhibidas = [
-  // Español
-  "puta","puto","mierda","imbecil","idiota","estupido","cabron","perra","culo","pendejo",
-  // Inglés
-  "fuck","shit","bitch","asshole","bastard","retard","slut","dick","cock",
-  // Portugués
-  "merda","caralho","otario","besta","idiota","puta",
-  // General ofensivo
-  "nazi","hitler","negro","maricon","gay","sexo","rape"
-];
+// Palabras prohibidas
+const palabrasProhibidas = ["puta","mierda","fuck","shit","bitch","sexo","rape"];
 
-// Normaliza el texto y reemplaza caracteres estilo "leet speak"
-function normalizarTextoAvanzado(texto) {
-  let t = texto.toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, ""); // quitar acentos
-
-  const reemplazos = { 
-    "0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t", "@": "a", "$": "s" 
-  };
-  t = t.replace(/[013457@$]/g, c => reemplazos[c]);
-
-  t = t.replace(/[^a-z]/g, ""); // dejar solo letras
-  return t;
+// Normalizar
+function normalizarTexto(texto) {
+  return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
 }
 
-// Validación avanzada de nombres
-function nombreEsValidoAvanzado(nombre) {
-  const limpio = normalizarTextoAvanzado(nombre);
-  return !palabrasProhibidas.some(palabra => limpio.includes(palabra));
+function nombreEsValido(nombre) {
+  const limpio = normalizarTexto(nombre);
+  return !palabrasProhibidas.some(p => limpio.includes(p));
 }
 
-// Habilitar botón solo si hay texto
+// Habilitar botón
 inputNombre.addEventListener("input", () => {
   botonListo.disabled = inputNombre.value.trim() === "";
 });
 
-// Acción al hacer clic en "Listo"
-botonListo.addEventListener("click", () => {
-  nombreUsuario = inputNombre.value.trim();
+// Guardar en Firebase
+async function guardarDatos() {
+  if (!nombreUsuario) return;
+  const userId = nombreUsuario.replace(/\s+/g, "_"); // ID simple
+  await db.collection("usuarios").doc(userId).set({
+    nombre: nombreUsuario,
+    modalidad: modalidadSeleccionada,
+    materia: materiaSeleccionada,
+    dificultad: dificultadSeleccionada
+  });
+}
 
-  if (!nombreEsValidoAvanzado(nombreUsuario)) {
-    errorNombre.textContent = "⚠️ Ese nombre no está permitido. Por favor elige otro.";
+// Cargar datos
+async function cargarDatos() {
+  const userId = inputNombre.value.trim().replace(/\s+/g, "_");
+  const docSnap = await db.collection("usuarios").doc(userId).get();
+  if (docSnap.exists) {
+    const data = docSnap.data();
+    nombreUsuario = data.nombre || "";
+    modalidadSeleccionada = data.modalidad || "";
+    materiaSeleccionada = data.materia || "";
+    dificultadSeleccionada = data.dificultad || "";
+
+    saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
+    document.getElementById("ingresoNombre").style.display = "none";
+    if (modalidadSeleccionada) {
+      modalidadDiv.style.display = "block";
+      seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
+    }
+    if (materiaSeleccionada) seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
+    if (dificultadSeleccionada) seleccionDificultad.textContent = `Dificultad seleccionada: ${dificultadSeleccionada}`;
+    actualizarResumen();
+  }
+}
+
+// Botón listo
+botonListo.addEventListener("click", async () => {
+  nombreUsuario = inputNombre.value.trim();
+  if (!nombreEsValido(nombreUsuario)) {
+    errorNombre.textContent = "⚠️ Ese nombre no está permitido.";
     inputNombre.value = "";
     botonListo.disabled = true;
     return;
   }
-
-  errorNombre.textContent = ""; 
+  errorNombre.textContent = "";
   saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
-  modalidadDiv.style.display = "block";
-  modalidadDiv.classList.add("fade-in");
   document.getElementById("ingresoNombre").style.display = "none";
-  actualizarResumen();
+  modalidadDiv.style.display = "block";
+  await cargarDatos();
+  guardarDatos();
 });
+
+// --- Aquí va todo tu código de modalidades, materias, dificultades ---
+// Cada vez que el usuario elige algo, llamar guardarDatos()
 
 // Definir materias por modalidad
 const materiasPorModalidad = {
