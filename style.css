@@ -51,6 +51,13 @@ button:hover:enabled {
   font-size: 1.1em;
 }
 
+/* Mensaje de error */
+.error {
+  color: red;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
 /* --- Animaciones generales --- */
 .fade-in {
   opacity: 0;
@@ -106,4 +113,4 @@ button:hover:enabled {
 /* Botones animados en cascada */
 .modBtn, .matBtn, .difBtn {
   animation-fill-mode: both;
-}
+  }
