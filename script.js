@@ -115,15 +115,16 @@ function mostrarDificultades() {
   dificultadesDiv.classList.add("fade-in");
 }
 
-// Función para actualizar el resumen
+// Función para actualizar el resumen (formato lista con íconos)
 function actualizarResumen() {
+  resumenTexto.innerHTML = `
+    <li>✅ <span>Nombre:</span> ${nombreUsuario || "—"}</li>
+    <li>🎓 <span>Modalidad:</span> ${modalidadSeleccionada || "—"}</li>
+    <li>📖 <span>Materia:</span> ${materiaSeleccionada || "—"}</li>
+    <li>🔥 <span>Dificultad:</span> ${dificultadSeleccionada || "—"}</li>
+  `;
+
   if (nombreUsuario || modalidadSeleccionada || materiaSeleccionada || dificultadSeleccionada) {
-    resumenTexto.textContent =
-      `Nombre: ${nombreUsuario || "—"} | ` +
-      `Modalidad: ${modalidadSeleccionada || "—"} | ` +
-      `Materia: ${materiaSeleccionada || "—"} | ` +
-      `Dificultad: ${dificultadSeleccionada || "—"}`;
-    
     resumenFinalDiv.classList.add("show");
   } else {
     resumenFinalDiv.classList.remove("show");
@@ -143,7 +144,7 @@ reiniciarBtn.addEventListener("click", () => {
   seleccion.textContent = "";
   seleccionMateria.textContent = "";
   seleccionDificultad.textContent = "";
-  resumenTexto.textContent = "";
+  resumenTexto.innerHTML = "";
 
   document.getElementById("ingresoNombre").style.display = "block";
   modalidadDiv.style.display = "none";
