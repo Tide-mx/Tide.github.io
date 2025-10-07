@@ -63,7 +63,7 @@ button:disabled {
 }
 
 /* 🧩 Secciones */
-#modalidad, #materias, #dificultades {
+#modalidad, #materias, #dificultades, #resumenFinal, #contenidoTest {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -76,10 +76,47 @@ button:disabled {
   transition: all 0.5s ease;
 }
 
-#modalidad.fadeIn, #materias.fadeIn, #dificultades.fadeIn {
+#modalidad.fadeIn, #materias.fadeIn, #dificultades.fadeIn, #resumenFinal.fadeIn, #contenidoTest.fadeIn {
   opacity: 1;
   transform: translateY(0);
 }
+
+
+/* 💬 Texto de resumen y secciones */
+#saludo, #seleccion, #seleccionMateria, #resumenFinal, #infoUsuario, #temasDiv, #testDiv, #resultadosDiv {
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 1.1em;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+/* 🌟 Animación de entrada */
+.fadeIn {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 📚 Contenido y temas */
+.temaItem {
+  margin: 10px 0;
+  padding: 8px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.temaItem button {
+  padding: 5px 10px;
+  font-size: 0.9em;
+}
+
 
 /* 🎨 Botones de materias con imágenes */
 #botonesMaterias {
@@ -157,21 +194,4 @@ button:disabled {
 .matBtn[data-materia="Idiomas"] { background-image: url('https://www.alphatrad.es/sites/alphatrad.es/files/images/articles/idiomas%20mas%20hablados%20en%20el%20mundo.jpg'); }
 .matBtn[data-materia="Educación Superior"] { background-image: url('https://www.unesco.org/sites/default/files/2022-05/Higher%20education-unleash%20the%20talent%20of%20next%20generation-Gorodenkoff-Shutterstock.jpg'); }
 
-/* 💬 Texto de resumen */
-#saludo, #seleccion, #seleccionMateria, #resumenFinal {
-  font-weight: bold;
-  margin-top: 15px;
-  font-size: 1.1em;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
-}
 
-/* 🌟 Animación de entrada */
-.fadeIn {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeIn 0.6s forwards;
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; transform: translateY(0); }
-}
