@@ -130,6 +130,8 @@ button:disabled {
 .matBtn[data-materia="Español"] { background-image: url('https://soledaddurazo.com/storage/2023/03/R.jpg'); }
 .matBtn[data-materia="Historia"] { background-image: url('https://cdn.todamateria.com/imagenes/historia-og.jpg'); }
 .matBtn[data-materia="Inglés"] { background-image: url('https://youtalkonline.com/wp-content/uploads/ingl%C3%A9s-en-casa.jpg'); }
+.matBtn[data-materia="Inglés II"] { background-image: url('https://youtalkonline.com/wp-content/uploads/ingl%C3%A9s-en-casa.jpg'); }
+.matBtn[data-materia="Inglés III"] { background-image: url('https://youtalkonline.com/wp-content/uploads/ingl%C3%A9s-en-casa.jpg'); }
 .matBtn[data-materia="Arte"] { background-image: url('https://pymstatic.com/143552/conversions/el-arte-siempre-ha-sido-trascendental-small-16_9.jpg'); }
 .matBtn[data-materia="Educación Física"] { background-image: url('https://www.esneca.com/wp-content/uploads/que-es-educacion-fisica.jpg'); }
 .matBtn[data-materia="Física"] { background-image: url('https://www.emagister.com/blog/wp-content/uploads/2021/11/GettyImages-936903524.jpg'); }
