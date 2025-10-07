@@ -1,228 +1,170 @@
-/* FUENTE: Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
-/* 🌈 Fondo Animado Suave (no ciego) */
+/* 🌈 Fondo animado suave y agradable */
 body {
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    background: linear-gradient(-45deg, #e0f7fa, #b3e5fc, #81d4fa, #4fc3f7); /* Tonos azules muy claros */
-    background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite;
-    color: #333;
-    margin: 0;
-    padding: 30px 20px 80px 20px;
-    min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  background: linear-gradient(-45deg, #74ebd5, #acb6e5, #cfd9df, #e2ebf0);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  color: #333;
+  margin: 0;
+  padding: 40px;
 }
 
 @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-header {
-    margin-bottom: 40px;
-}
-
+/* 🖋️ Título */
 h1 {
-    font-size: 2.5em;
-    color: #01579b; /* Azul marino profundo */
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  font-size: 2.2em;
+  color: #222;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
-h2 {
-    color: #0277bd;
-    font-size: 1.5em;
-    border-bottom: 2px solid #b3e5fc;
-    padding-bottom: 10px;
-    margin-bottom: 25px;
+/* 📥 Input del nombre */
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 220px;
+  font-size: 1em;
+  margin-right: 10px;
+  outline: none;
+  transition: box-shadow 0.3s ease;
 }
 
-/* Contenedores de cada paso */
-.step-container {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-    padding: 30px;
-    margin: 25px auto;
-    width: 90%;
-    max-width: 800px;
-    /* Oculto por defecto, JS añadirá .fadeIn */
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
-    display: none; 
+input:focus {
+  box-shadow: 0 0 10px #74ebd5;
 }
 
-/* Animación de entrada */
-.fadeIn {
-    display: block !important;
-    animation: fadeIn 0.8s forwards;
-}
-
-@keyframes fadeIn {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* INPUTS Y BOTONES GENERALES */
-input[type="text"] {
-    padding: 12px 15px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-    width: 250px;
-    font-size: 1em;
-    margin-right: 15px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-    transition: border-color 0.3s;
-}
-
+/* 🔘 Botones generales */
 button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    background: linear-gradient(135deg, #03a9f4, #01579b);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.3s;
-    margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6dd5fa, #2980b9);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 button:hover:enabled {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
 button:disabled {
-    background: #bdbdbd;
-    cursor: not-allowed;
-    box-shadow: none;
+  background: #999;
+  cursor: not-allowed;
 }
 
-/* ESTILO PARA BOTONES SELECCIONADOS (MODALIDAD Y DIFICULTAD) */
-button.seleccionado {
-    background: linear-gradient(135deg, #ff9800, #ff5722); /* Naranja/Rojo vivo */
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.5);
+/* 🧩 Secciones */
+#modalidad, #materias, #dificultades {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin: 25px auto;
+  width: 80%;
+  max-width: 700px;
+  transition: all 0.5s ease;
 }
 
-/* 🎨 ESTILOS DE DIFICULTAD TEMÁTICA */
-.difBtn {
-    border-radius: 8px;
-    padding: 10px 18px;
-    margin: 8px;
-    color: #fff;
-    font-weight: 600;
-}
-
-.difBtn.seleccionado {
-    border: 3px solid #fff;
-}
-
-/* Colores de dificultad */
-.difBtn[data-dificultad*="Fácil"] { background: linear-gradient(45deg, #66bb6a, #43a047); } /* Verde */
-.difBtn[data-dificultad="Normal"] { background: linear-gradient(45deg, #ffeb3b, #fbc02d); color: #333; } /* Amarillo */
-.difBtn[data-dificultad*="Difícil"] { background: linear-gradient(45deg, #ff7043, #e64a19); } /* Rojo/Naranja */
-.difBtn[data-dificultad*="Extremadamente Difícil"] { background: linear-gradient(45deg, #212121, #424242); } /* Negro/Gris oscuro */
-
-
-/* 🖼️ BOTONES DE MATERIAS CON IMAGEN */
+/* 🎨 Botones de materias con imágenes */
 #botonesMaterias {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
 .matBtn {
-    position: relative;
-    width: 180px;
-    height: 120px;
-    padding: 0;
-    border-radius: 15px;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  width: 160px;
+  height: 120px;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1em;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .matBtn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* Título de la materia (sobre la imagen) */
+/* Overlay para mejorar legibilidad del texto */
+.matBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
 .matBtn span {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 5px;
-    background: rgba(0, 0, 0, 0.65); /* Fondo oscuro semi-transparente */
-    color: white;
-    font-weight: 700;
-    font-size: 1em;
-    z-index: 2;
-    transition: background 0.3s;
+  position: relative;
+  z-index: 2;
 }
 
-/* Borde naranja para la materia seleccionada */
-.matBtn.seleccionado {
-    transform: scale(1.1) !important;
-    border: 5px solid #ff9800; 
-    box-shadow: 0 15px 40px rgba(255, 152, 0, 0.5);
-}
-
-/* 📝 MENSAJES DE ESTADO Y RESUMEN */
-.saludo-mensaje {
-    font-size: 1.5em;
-    font-weight: 700;
-    color: #039be5;
-    margin: 20px 0;
-}
-
-.selection-display {
-    font-weight: 600;
-    color: #555;
-    margin-top: 20px;
-    font-style: italic;
-}
-
-#resumen-container {
-    margin-top: 40px;
-    padding: 20px;
-    border-top: 2px dashed #b3e5fc;
-}
-
-.final-summary {
-    font-size: 1.3em;
-    font-weight: 700;
-    color: #1a237e;
-    padding: 10px;
-    background: #e3f2fd;
-    border-radius: 8px;
-}
-
-/* --- Imágenes de Materias (Manteniendo las URLs originales) --- */
+/* 🎯 Imágenes de materias */
 .matBtn[data-materia="Matemáticas"] { background-image: url('https://manguselearning.com/images/imagenes_cursos/matematicas/matematicas.jpg'); }
 .matBtn[data-materia="Ciencias"] { background-image: url('https://www.cosasdeeducacion.es/wp-content/uploads/sites/6/2009/07/que-es-ciencia.jpg'); }
+.matBtn[data-materia="Geografía"] { background-image: url('https://humanidades.com/wp-content/uploads/2017/07/geografia-1-e1571191539294-800x416.jpg'); }
 .matBtn[data-materia="Español"] { background-image: url('https://soledaddurazo.com/storage/2023/03/R.jpg'); }
-.matBtn[data-materia="Historia"], .matBtn[data-materia*="Historia"] { background-image: url('https://cdn.todamateria.com/imagenes/historia-og.jpg'); }
-.matBtn[data-materia*="Inglés"], .matBtn[data-materia="Idiomas"] { background-image: url('https://youtalkonline.com/wp-content/uploads/ingl%C3%A9s-en-casa.jpg'); }
+.matBtn[data-materia="Historia"] { background-image: url('https://cdn.todamateria.com/imagenes/historia-og.jpg'); }
+.matBtn[data-materia="Inglés"] { background-image: url('https://youtalkonline.com/wp-content/uploads/ingl%C3%A9s-en-casa.jpg'); }
 .matBtn[data-materia="Arte"] { background-image: url('https://pymstatic.com/143552/conversions/el-arte-siempre-ha-sido-trascendental-small-16_9.jpg'); }
 .matBtn[data-materia="Educación Física"] { background-image: url('https://www.esneca.com/wp-content/uploads/que-es-educacion-fisica.jpg'); }
-.matBtn[data-materia*="Física"] { background-image: url('https://www.emagister.com/blog/wp-content/uploads/2021/11/GettyImages-936903524.jpg'); }
-.matBtn[data-materia*="Química"] { background-image: url('https://concepto.de/wp-content/uploads/2014/08/quimica-1-e1589576942464-800x400.jpg'); }
-.matBtn[data-materia*="Programación"] { background-image: url('https://concepto.de/wp-content/uploads/2020/08/Programacion-informatica-scaled-e1724960033513.jpg'); }
+.matBtn[data-materia="Física"] { background-image: url('https://www.emagister.com/blog/wp-content/uploads/2021/11/GettyImages-936903524.jpg'); }
+.matBtn[data-materia="Química"] { background-image: url('https://concepto.de/wp-content/uploads/2014/08/quimica-1-e1589576942464-800x400.jpg'); }
+.matBtn[data-materia="Programación"] { background-image: url('https://concepto.de/wp-content/uploads/2020/08/Programacion-informatica-scaled-e1724960033513.jpg'); }
 .matBtn[data-materia="Economía"] { background-image: url('https://www.marketeroslatam.com/wp-content/uploads/2023/05/tipos-de-economia.jpg'); }
-.matBtn[data-materia="Filosofía"], .matBtn[data-materia*="Filosofía"] { background-image: url('https://pymstatic.com/9932/conversions/ramas-de-filosofia-small-16_9.jpg'); }
-.matBtn[data-materia*="Literatura"] { background-image: url('https://s1.significados.com/foto/literatura-ca.jpg'); }
-.matBtn[data-materia*="Álgebra"], .matBtn[data-materia*="Cálculo"] { background-image: url('https://definicion.de/wp-content/uploads/2008/09/calculo-1.jpg'); }
+.matBtn[data-materia="Filosofía"] { background-image: url('https://pymstatic.com/9932/conversions/ramas-de-filosofia-small-16_9.jpg'); }
+.matBtn[data-materia="Literatura"] { background-image: url('https://s1.significados.com/foto/literatura-ca.jpg'); }
+.matBtn[data-materia="Álgebra"] { background-image: url('https://dropinblog.net/34249715/files/auxiliar-post/que-es-el-algebra-todos-los-detalles.jpg'); }
+.matBtn[data-materia="Historia Universal"] { background-image: url('https://i.pinimg.com/736x/f0/58/c8/f058c8d2040409ce63a77f42bba34b9e.jpg'); }
 .matBtn[data-materia="Biología"] { background-image: url('https://amautas.com/wp-content/uploads/2023/06/C047_fondo-curso-min-scaled.jpg'); }
+.matBtn[data-materia="Cálculo"] { background-image: url('https://definicion.de/wp-content/uploads/2008/09/calculo-1.jpg'); }
+.matBtn[data-materia="Física Avanzada"] { background-image: url('https://media.tutellus.com/libraries/45/01/lib/1360531664932.jpg?size=854x493s&ext=jpg'); }
+.matBtn[data-materia="Historia Avanzada"] { background-image: url('https://images.ecestaticos.com/oIZPwPI5BHDGbrQWUHy69mhiLnw=/0x0:2119x1414/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F991%2Fcf9%2F53c%2F991cf953cc6b39aa83a7025ed6850aea.jpg'); }
+.matBtn[data-materia="Idiomas"] { background-image: url('https://www.alphatrad.es/sites/alphatrad.es/files/images/articles/idiomas%20mas%20hablados%20en%20el%20mundo.jpg'); }
+.matBtn[data-materia="Ingeniería"] { background-image: url('https://universidadeuropea.com/resources/media/images/tipos-de-ingenieria-1200x630.original.jpg'); }
+.matBtn[data-materia="Cálculo Integral"] { background-image: url('https://bloque10.unimagdalena.edu.co/wp-content/uploads/2021/06/portada-curso-calculo-integral.jpg'); }
 .matBtn[data-materia="Estadística"] { background-image: url('https://unade.edu.mx/wp-content/uploads/2025/09/estadistica_descriptiva.jpg'); }
 .matBtn[data-materia="Diseño"] { background-image: url('https://universidadeuropea.com/resources/media/images/herramientas_diseno_grafico.width-640.jpg'); }
 .matBtn[data-materia="Psicología"] { background-image: url('https://udlondres.com/wp-content/uploads/2023/03/UDL-portada-blog-psicologia-1080x675.webp'); }
-.matBtn[data-materia*="Gestión"], .matBtn[data-materia*="Investigación"] { background-image: url('https://triskellsoftware.com/wp-content/uploads/2024/02/top-pmo-trends-1-1024x535.jpg'); }
-.matBtn[data-materia*="Ingeniería"] { background-image: url('https://universidadeuropea.com/resources/media/images/tipos-de-ingenieria-1200x630.original.jpg'); }
+.matBtn[data-materia="Gestión de Proyectos"] { background-image: url('https://triskellsoftware.com/wp-content/uploads/2024/02/top-pmo-trends-1-1024x535.jpg'); }
+.matBtn[data-materia="Investigación Avanzada"] { background-image: url('https://www.techtitute.com/techtitute/cursos/00728400/recursos/banner/curso-metodologia-investigacion-avanzada-portada.jpg'); }
+.matBtn[data-materia="Filosofía Aplicada"] { background-image: url('https://postgrados.uandes.cl/content/uploads/E-MANDE-E-14.jpg'); }
+.matBtn[data-materia="Educación Superior"] { background-image: url('https://www.unesco.org/sites/default/files/2022-05/Higher%20education-unleash%20the%20talent%20of%20next%20generation-Gorodenkoff-Shutterstock.jpg'); }
+
+
+
+/* 💬 Texto de resumen */
+#saludo, #seleccion, #seleccionMateria, #resumenFinal {
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 1.1em;
+}
+
+/* 🌟 Animación de entrada */
+.fadeIn {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
