@@ -2,22 +2,22 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página de Estudio</title>
-
-  <!-- Fuente y CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <h1>📚 Bienvenido a tu Página de Estudio</h1>
+  <h1>📚 Bienvenido a tu página de estudio</h1>
 
-  <!-- Sección de ingreso de nombre -->
+  <!-- Ingreso de nombre -->
   <div id="ingresoNombre">
     <p>Inserta tu nombre:</p>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
     <button id="botonListo" disabled>Listo</button>
+
+    <!-- Aviso de errores -->
+    <p id="avisoErrores" class="fadeIn" style="color: red; font-size: 0.9em; margin-top: 10px; animation-delay: 0.5s;">
+      ⚠️ Esta página puede tener errores.
+    </p>
   </div>
 
   <p id="saludo"></p>
@@ -38,9 +38,8 @@
   <div id="materias" style="display:none;">
     <p>Selecciona la materia a estudiar:</p>
     <div id="botonesMaterias"></div>
+    <p id="seleccionMateria"></p>
   </div>
-
-  <p id="seleccionMateria"></p>
 
   <!-- Dificultades -->
   <div id="dificultades" style="display:none;">
@@ -51,7 +50,7 @@
   <!-- Resumen final -->
   <div id="resumenFinal"></div>
 
-  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>
+
