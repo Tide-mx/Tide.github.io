@@ -1,4 +1,4 @@
-// --- Referencias del DOM ---
+// Selección de elementos
 const inputNombre = document.getElementById("nombre");
 const botonListo = document.getElementById("botonListo");
 const saludo = document.getElementById("saludo");
@@ -11,44 +11,38 @@ const dificultadesDiv = document.getElementById("dificultades");
 const botonesDificultadDiv = document.getElementById("botonesDificultad");
 const resumenFinal = document.getElementById("resumenFinal");
 
-// --- Variables de selección ---
+// Variables globales
 let nombreUsuario = "";
 let modalidadSeleccionada = "";
 let materiaSeleccionada = "";
 let dificultadSeleccionada = "";
 
-// --- Dificultades disponibles ---
+// Lista de dificultades
 const dificultades = [
-  "Extremadamente Fácil",
-  "Muy Fácil",
-  "Fácil",
-  "Normal",
-  "Difícil",
-  "Muy Difícil",
-  "Extremo",
-  "Imposible 💀"
+  "Extremadamente Fácil","Muy Fácil","Fácil","Normal",
+  "Difícil","Muy Difícil","Extremo","Imposible 💀"
 ];
 
-// --- Materias por modalidad ---
+// Materias por modalidad
 const materiasPorModalidad = {
-  "Primaria": ["Matemáticas", "Ciencias", "Geografía", "Español", "Historia", "Inglés", "Arte", "Educación Física"],
-  "Secundaria": ["Álgebra", "Física", "Química", "Historia Universal", "Biología", "Arte", "Inglés"],
-  "Preparatoria": ["Cálculo", "Física Avanzada", "Literatura", "Química", "Historia Moderna", "Filosofía", "Idiomas"],
-  "Universidad": ["Programación", "Economía", "Ingeniería", "Cálculo Integral", "Estadística", "Diseño", "Psicología"],
-  "Postgrado": ["Gestión de Proyectos", "Investigación Avanzada", "Filosofía Aplicada", "Educación Superior"]
+  "Primaria": ["Matemáticas","Ciencias","Geografía","Español","Historia","Inglés","Arte","Educación Física"],
+  "Secundaria": ["Álgebra","Física","Química","Historia Universal","Biología","Arte","Inglés"],
+  "Preparatoria": ["Cálculo","Física Avanzada","Literatura","Química","Historia Moderna","Filosofía","Idiomas"],
+  "Universidad": ["Programación","Economía","Ingeniería","Cálculo Integral","Estadística","Diseño","Psicología"],
+  "Postgrado": ["Gestión de Proyectos","Investigación Avanzada","Filosofía Aplicada","Educación Superior"]
 };
 
-// --- Habilitar botón solo si hay texto ---
+// 🔹 Habilitar botón "Listo" solo si hay texto
 inputNombre.addEventListener("input", () => {
   botonListo.disabled = inputNombre.value.trim() === "";
 });
 
-// --- Clic en botón "Listo" ---
+// 🔹 Acción al hacer clic en "Listo"
 botonListo.addEventListener("click", () => {
   nombreUsuario = inputNombre.value.trim();
 
-  // Filtro de palabras inapropiadas (simple)
-  const palabrasBloqueadas = ["tonto", "idiota", "puto", "fuck", "shit", "mierda"];
+  // Filtro de nombres inapropiados (puedes ampliar)
+  const palabrasBloqueadas = ["tonto","idiota","puto","fuck","shit","mierda"];
   if (palabrasBloqueadas.some(p => nombreUsuario.toLowerCase().includes(p))) {
     alert("⚠️ Ese nombre no está permitido. Intenta con otro.");
     return;
@@ -62,7 +56,7 @@ botonListo.addEventListener("click", () => {
   modalidadDiv.classList.add("fadeIn");
 });
 
-// --- Botones de modalidad ---
+// 🔹 Botones de modalidad
 const botonesModalidad = document.querySelectorAll(".modBtn");
 botonesModalidad.forEach(button => {
   button.addEventListener("click", () => {
@@ -70,61 +64,64 @@ botonesModalidad.forEach(button => {
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
     seleccion.classList.add("fadeIn");
 
-    // Limpiar materias anteriores
-    // Limpiar materias, dificultad y resumen
+    // Limpiar selección anterior
     botonesMateriasDiv.innerHTML = "";
     materiaSeleccionada = "";
     dificultadSeleccionada = "";
-    resumenFinal.textContent = "";
     resumenFinal.innerHTML = "";
+    botonesDificultadDiv.innerHTML = "";
+    dificultadesDiv.style.display = "none";
 
-    // Crear botones de materias
-    materiasPorModalidad[modalidadSeleccionada].forEach((materia, index) => {
-@@ -89,6 +89,11 @@
+    // Crear botones de materias según modalidad
+    materiasPorModalidad[modalidadSeleccionada].forEach((materia,index)=>{
+      const btn = document.createElement("button");
+      btn.classList.add("matBtn","fadeIn");
+      btn.setAttribute("data-materia",materia);
+      btn.innerHTML = `<span>${materia}</span>`;
+      btn.style.animationDelay = `${index*0.1}s`;
+
+      btn.addEventListener("click", () => {
+        materiaSeleccionada = materia;
         seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
         seleccionMateria.classList.add("fadeIn");
 
-        // Reiniciar dificultad y resumen
         dificultadSeleccionada = "";
         botonesDificultadDiv.innerHTML = "";
         resumenFinal.innerHTML = "";
 
-        // Mostrar dificultades
         mostrarDificultades();
       });
-@@ -98,37 +103,40 @@
+
+      botonesMateriasDiv.appendChild(btn);
+    });
 
     materiasDiv.style.display = "block";
     materiasDiv.classList.add("fadeIn");
-
-    // Ocultar dificultades si existían
-    dificultadesDiv.style.display = "none";
   });
 });
 
-// --- Mostrar dificultades ---
+// 🔹 Mostrar dificultades
 function mostrarDificultades() {
   botonesDificultadDiv.innerHTML = "";
-  dificultades.forEach((dif, index) => {
+  dificultades.forEach((dif,index)=>{
     const btn = document.createElement("button");
-    btn.classList.add("difBtn", "fadeIn");
+    btn.classList.add("difBtn","fadeIn");
     btn.textContent = dif;
-    btn.style.animationDelay = `${index * 0.1}s`;
+    btn.style.animationDelay = `${index*0.1}s`;
     btn.addEventListener("click", () => {
       dificultadSeleccionada = dif;
       mostrarResumen();
     });
     botonesDificultadDiv.appendChild(btn);
   });
-
   dificultadesDiv.style.display = "block";
   dificultadesDiv.classList.add("fadeIn");
 }
 
-// --- Mostrar resumen final ---
+// 🔹 Mostrar resumen final
 function mostrarResumen() {
   resumenFinal.innerHTML = `
-    <div class="fadeIn" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); max-width: 500px; margin-inline: auto;">
+    <div class="fadeIn" style="margin-top:20px;padding:15px;background:rgba(255,255,255,0.9);border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.2);max-width:500px;margin-inline:auto;">
       <h3>📘 Resumen de tu selección</h3>
       <p><strong>Nombre:</strong> ${nombreUsuario}</p>
       <p><strong>Modalidad:</strong> ${modalidadSeleccionada}</p>
