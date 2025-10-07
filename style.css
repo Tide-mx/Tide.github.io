@@ -63,7 +63,7 @@ button:disabled {
 }
 
 /* 🧩 Secciones */
-#modalidad, #materias, #dificultad {
+#modalidad, #materias, #dificultades {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -74,7 +74,7 @@ button:disabled {
   transition: all 0.5s ease;
 }
 
-/* 🎨 Materias con imágenes */
+/* 🎨 Botones de materias con imágenes */
 #botonesMaterias {
   display: flex;
   flex-wrap: wrap;
@@ -104,7 +104,7 @@ button:disabled {
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* 🖼️ Filtros para mejorar legibilidad */
+/* Overlay para mejorar legibilidad del texto */
 .matBtn::before {
   content: "";
   position: absolute;
@@ -117,31 +117,21 @@ button:disabled {
   z-index: 2;
 }
 
-/* 📚 Imágenes específicas de materias */
-.matBtn[data-materia="Matemáticas"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921823.png');
-}
-.matBtn[data-materia="Ciencias"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/2729/2729007.png');
-}
-.matBtn[data-materia="Geografía"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/3062/3062634.png');
-}
-.matBtn[data-materia="Español"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921226.png');
-}
-.matBtn[data-materia="Historia"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/888/888879.png');
-}
-.matBtn[data-materia="Inglés"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/888/888856.png');
-}
-.matBtn[data-materia="Arte"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921891.png');
-}
-.matBtn[data-materia="Educación Física"] {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png');
-}
+/* 🎯 Imágenes de materias */
+.matBtn[data-materia="Matemáticas"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921823.png'); }
+.matBtn[data-materia="Ciencias"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2729/2729007.png'); }
+.matBtn[data-materia="Geografía"] { background-image: url('https://cdn-icons-png.flaticon.com/512/3062/3062634.png'); }
+.matBtn[data-materia="Español"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921226.png'); }
+.matBtn[data-materia="Historia"] { background-image: url('https://cdn-icons-png.flaticon.com/512/888/888879.png'); }
+.matBtn[data-materia="Inglés"] { background-image: url('https://cdn-icons-png.flaticon.com/512/888/888856.png'); }
+.matBtn[data-materia="Arte"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921891.png'); }
+.matBtn[data-materia="Educación Física"] { background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png'); }
+.matBtn[data-materia="Física"] { background-image: url('https://cdn-icons-png.flaticon.com/512/1995/1995560.png'); }
+.matBtn[data-materia="Química"] { background-image: url('https://cdn-icons-png.flaticon.com/512/616/616408.png'); }
+.matBtn[data-materia="Programación"] { background-image: url('https://cdn-icons-png.flaticon.com/512/919/919842.png'); }
+.matBtn[data-materia="Economía"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2331/2331929.png'); }
+.matBtn[data-materia="Filosofía"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2490/2490917.png'); }
+.matBtn[data-materia="Literatura"] { background-image: url('https://cdn-icons-png.flaticon.com/512/1055/1055646.png'); }
 
 /* 💬 Texto de resumen */
 #saludo, #seleccion, #seleccionMateria, #resumenFinal {
@@ -158,8 +148,5 @@ button:disabled {
 }
 
 @keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
