@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Página de Estudio Interactivo</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Página de Estudio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>📚 Bienvenido a tu página de estudio</h1>
-    <p class="aviso">Esta página puede tener errores</p>
-  </header>
+  <h1>📚 Bienvenido a tu página de estudio</h1>
 
-    <div id="ingresoNombre" class="step-container">
-    <h2>Paso 1: Identificación</h2>
-    <input type="text" id="nombre" placeholder="Escribe tu nombre">
-    <button id="botonListo" disabled>Continuar</button>
-  </div>
+  <!-- Ingreso de nombre -->
+  <div id="ingresoNombre">
+    <p>Inserta tu nombre:</p>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre">
+    <button id="botonListo" disabled>Listo</button>
 
-  <p id="saludo" class="saludo-mensaje"></p>
+    <!-- Aviso de errores -->
+    <p id="avisoErrores" class="fadeIn" style="color: red; font-size: 0.9em; margin-top: 10px; animation-delay: 0.5s;">
+      ⚠️ Esta página puede tener errores.
+    </p>
+  </div>
 
-    <div id="modalidad" class="step-container">
-    <h2>Paso 2: Selecciona la modalidad</h2>
-    <div id="botonesModalidadContainer">
-      <button class="modBtn">Primaria</button>
-      <button class="modBtn">Secundaria</button>
-      <button class="modBtn">Preparatoria</button>
-      <button class="modBtn">Universidad</button>
-      <button class="modBtn">Postgrado</button>
-    </div>
-    <p id="seleccion" class="selection-display"></p>
-  </div>
+  <p id="saludo"></p>
 
-    <div id="materias" class="step-container">
-    <h2>Paso 3: Selecciona la materia a estudiar</h2>
-    <div id="botonesMaterias"></div>
-    <p id="seleccionMateria" class="selection-display"></p>
-  </div>
+  <!-- Modalidad -->
+  <div id="modalidad" style="display:none;">
+    <p>Selecciona la modalidad a completar:</p>
+    <button class="modBtn">Primaria</button>
+    <button class="modBtn">Secundaria</button>
+    <button class="modBtn">Preparatoria</button>
+    <button class="modBtn">Universidad</button>
+    <button class="modBtn">Postgrado</button>
+  </div>
 
-    <div id="dificultades" class="step-container">
-    <h2>Paso 4: Selecciona la dificultad</h2>
-    <div id="botonesDificultad"></div>
-  </div>
+  <p id="seleccion"></p>
 
-    <div id="resumen-container">
-    <h3>Resumen de tu Sesión</h3>
-    <p id="resumenFinal" class="final-summary"></p>
-  </div>
+  <!-- Materias -->
+  <div id="materias" style="display:none;">
+    <p>Selecciona la materia a estudiar:</p>
+    <div id="botonesMaterias"></div>
+    <p id="seleccionMateria"></p>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- Dificultades -->
+  <div id="dificultades" style="display:none;">
+    <p>Selecciona la dificultad:</p>
+    <div id="botonesDificultad"></div>
+  </div>
+
+  <!-- Resumen final -->
+  <div id="resumenFinal"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
