@@ -118,20 +118,20 @@ button:disabled {
 }
 
 /* 🎯 Imágenes de materias */
-.matBtn[data-materia="Matemáticas"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921823.png'); }
-.matBtn[data-materia="Ciencias"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2729/2729007.png'); }
-.matBtn[data-materia="Geografía"] { background-image: url('https://cdn-icons-png.flaticon.com/512/3062/3062634.png'); }
-.matBtn[data-materia="Español"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921226.png'); }
-.matBtn[data-materia="Historia"] { background-image: url('https://cdn-icons-png.flaticon.com/512/888/888879.png'); }
-.matBtn[data-materia="Inglés"] { background-image: url('https://cdn-icons-png.flaticon.com/512/888/888856.png'); }
-.matBtn[data-materia="Arte"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921891.png'); }
-.matBtn[data-materia="Educación Física"] { background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png'); }
-.matBtn[data-materia="Física"] { background-image: url('https://cdn-icons-png.flaticon.com/512/1995/1995560.png'); }
-.matBtn[data-materia="Química"] { background-image: url('https://cdn-icons-png.flaticon.com/512/616/616408.png'); }
-.matBtn[data-materia="Programación"] { background-image: url('https://cdn-icons-png.flaticon.com/512/919/919842.png'); }
-.matBtn[data-materia="Economía"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2331/2331929.png'); }
-.matBtn[data-materia="Filosofía"] { background-image: url('https://cdn-icons-png.flaticon.com/512/2490/2490917.png'); }
-.matBtn[data-materia="Literatura"] { background-image: url('https://cdn-icons-png.flaticon.com/512/1055/1055646.png'); }
+.matBtn[data-materia="Matemáticas"] { background-image: url('https://manguselearning.com/images/imagenes_cursos/matematicas/matematicas.jpg'); }
+.matBtn[data-materia="Ciencias"] { background-image: url('https://www.cosasdeeducacion.es/wp-content/uploads/sites/6/2009/07/que-es-ciencia.jpg'); }
+.matBtn[data-materia="Geografía"] { background-image: url('https://humanidades.com/wp-content/uploads/2017/07/geografia-1-e1571191539294-800x416.jpg'); }
+.matBtn[data-materia="Español"] { background-image: url('https://soledaddurazo.com/storage/2023/03/R.jpg'); }
+.matBtn[data-materia="Historia"] { background-image: url('https://cdn.todamateria.com/imagenes/historia-og.jpg'); }
+.matBtn[data-materia="Inglés"] { background-image: url('https://youtalkonline.com/wp-content/uploads/ingl%C3%A9s-en-casa.jpg'); }
+.matBtn[data-materia="Arte"] { background-image: url('https://pymstatic.com/143552/conversions/el-arte-siempre-ha-sido-trascendental-small-16_9.jpg'); }
+.matBtn[data-materia="Educación Física"] { background-image: url('https://www.esneca.com/wp-content/uploads/que-es-educacion-fisica.jpg'); }
+.matBtn[data-materia="Física"] { background-image: url('https://www.emagister.com/blog/wp-content/uploads/2021/11/GettyImages-936903524.jpg'); }
+.matBtn[data-materia="Química"] { background-image: url('https://concepto.de/wp-content/uploads/2014/08/quimica-1-e1589576942464-800x400.jpg'); }
+.matBtn[data-materia="Programación"] { background-image: url('https://concepto.de/wp-content/uploads/2020/08/Programacion-informatica-scaled-e1724960033513.jpg'); }
+.matBtn[data-materia="Economía"] { background-image: url('https://www.marketeroslatam.com/wp-content/uploads/2023/05/tipos-de-economia.jpg'); }
+.matBtn[data-materia="Filosofía"] { background-image: url('https://pymstatic.com/9932/conversions/ramas-de-filosofia-small-16_9.jpg'); }
+.matBtn[data-materia="Literatura"] { background-image: url('https://s1.significados.com/foto/literatura-ca.jpg'); }
 
 /* 💬 Texto de resumen */
 #saludo, #seleccion, #seleccionMateria, #resumenFinal {
