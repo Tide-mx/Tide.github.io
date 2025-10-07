@@ -193,5 +193,10 @@ button:disabled {
 .matBtn[data-materia="Filosofía Aplicada"] { background-image: url('https://postgrados.uandes.cl/content/uploads/E-MANDE-E-14.jpg'); }
 .matBtn[data-materia="Idiomas"] { background-image: url('https://www.alphatrad.es/sites/alphatrad.es/files/images/articles/idiomas%20mas%20hablados%20en%20el%20mundo.jpg'); }
 .matBtn[data-materia="Educación Superior"] { background-image: url('https://www.unesco.org/sites/default/files/2022-05/Higher%20education-unleash%20the%20talent%20of%20next%20generation-Gorodenkoff-Shutterstock.jpg'); }
-
+/* Marcar dificultad seleccionada */
+.activeDifBtn {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+}
 
