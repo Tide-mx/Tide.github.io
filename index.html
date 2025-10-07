@@ -13,10 +13,13 @@
     <p>Inserta tu nombre:</p>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
     <button id="botonListo" disabled>Listo</button>
-    <p style="margin-top:10px; font-size:0.9em; color:#555;">Esta página puede tener errores ⚠️</p>
+
+    <!-- Aviso de errores -->
+    <p id="avisoErrores" class="fadeIn" style="color: red; font-size: 0.9em; margin-top: 10px; animation-delay: 0.5s;">
+      ⚠️ Esta página puede tener errores.
+    </p>
   </div>
 
-  <!-- Saludo -->
   <p id="saludo"></p>
 
   <!-- Modalidad -->
@@ -35,9 +38,8 @@
   <div id="materias" style="display:none;">
     <p>Selecciona la materia a estudiar:</p>
     <div id="botonesMaterias"></div>
+    <p id="seleccionMateria"></p>
   </div>
-
-  <p id="seleccionMateria"></p>
 
   <!-- Dificultades -->
   <div id="dificultades" style="display:none;">
