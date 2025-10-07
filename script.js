@@ -1,4 +1,4 @@
-// --- Variables del DOM ---
+// --- Referencias del DOM ---
 const inputNombre = document.getElementById("nombre");
 const botonListo = document.getElementById("botonListo");
 const saludo = document.getElementById("saludo");
@@ -17,144 +17,118 @@ let modalidadSeleccionada = "";
 let materiaSeleccionada = "";
 let dificultadSeleccionada = "";
 
-// --- Materias según modalidad ---
-const materiasPorModalidad = {
-  "Primaria": ["Matemáticas Básicas", "Lengua", "Ciencias Naturales", "Historia", "Arte", "Educación Física"],
-  "Secundaria": ["Matemáticas", "Lengua y Literatura", "Biología", "Química", "Historia Universal", "Arte", "Tecnología"],
-  "Preparatoria": ["Álgebra", "Física", "Química Avanzada", "Literatura", "Historia Contemporánea", "Filosofía", "Idiomas"],
-  "Universidad": ["Cálculo", "Física Moderna", "Química Orgánica", "Literatura Universal", "Historia Moderna", "Programación", "Economía"],
-  "Postgrado": ["Investigación Avanzada", "Estadística Avanzada", "Filosofía Aplicada", "Gestión de Proyectos", "Especialización Profesional"]
-};
-
-// --- Dificultades ---
-const nivelesDificultad = [
-  "Extremadamente fácil", "Muy fácil", "Fácil", "Normal", "Difícil", "Muy difícil", "Extremo", "Experto", "Imposible"
+// --- Dificultades disponibles ---
+const dificultades = [
+  "Extremadamente Fácil",
+  "Muy Fácil",
+  "Fácil",
+  "Normal",
+  "Difícil",
+  "Muy Difícil",
+  "Extremo",
+  "Imposible 💀"
 ];
 
-// --- Función para mostrar animaciones ---
-function animarEntrada(elemento) {
-  elemento.style.opacity = "0";
-  elemento.style.transform = "translateY(20px)";
-  elemento.style.display = "block";
-  setTimeout(() => {
-    elemento.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-    elemento.style.opacity = "1";
-    elemento.style.transform = "translateY(0)";
-  }, 50);
-}
+// --- Materias por modalidad ---
+const materiasPorModalidad = {
+  "Primaria": ["Matemáticas", "Ciencias", "Geografía", "Español", "Historia", "Inglés", "Arte", "Educación Física"],
+  "Secundaria": ["Álgebra", "Física", "Química", "Historia Universal", "Biología", "Arte", "Inglés"],
+  "Preparatoria": ["Cálculo", "Física Avanzada", "Literatura", "Química", "Historia Moderna", "Filosofía", "Idiomas"],
+  "Universidad": ["Programación", "Economía", "Ingeniería", "Cálculo Integral", "Estadística", "Diseño", "Psicología"],
+  "Postgrado": ["Gestión de Proyectos", "Investigación Avanzada", "Filosofía Aplicada", "Educación Superior"]
+};
 
 // --- Habilitar botón solo si hay texto ---
 inputNombre.addEventListener("input", () => {
   botonListo.disabled = inputNombre.value.trim() === "";
 });
 
-// --- Guardar progreso ---
-function guardarProgreso() {
-  const datos = {
-    nombre: nombreUsuario,
-    modalidad: modalidadSeleccionada,
-    materia: materiaSeleccionada,
-    dificultad: dificultadSeleccionada
-  };
-  localStorage.setItem("progresoEstudio", JSON.stringify(datos));
-}
-
-// --- Cargar progreso ---
-function cargarProgreso() {
-  const datosGuardados = localStorage.getItem("progresoEstudio");
-  if (datosGuardados) {
-    const datos = JSON.parse(datosGuardados);
-    nombreUsuario = datos.nombre || "";
-    modalidadSeleccionada = datos.modalidad || "";
-    materiaSeleccionada = datos.materia || "";
-    dificultadSeleccionada = datos.dificultad || "";
-
-    if (nombreUsuario) {
-      saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a de nuevo.`;
-      document.getElementById("ingresoNombre").style.display = "none";
-      animarEntrada(modalidadDiv);
-    }
-
-    if (modalidadSeleccionada) {
-      mostrarMaterias(modalidadSeleccionada);
-    }
-
-    if (materiaSeleccionada) {
-      seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
-      animarEntrada(dificultadesDiv);
-    }
-
-    if (dificultadSeleccionada) {
-      mostrarResumen();
-    }
-  }
-}
-
-// --- Acción al hacer clic en "Listo" ---
+// --- Clic en botón "Listo" ---
 botonListo.addEventListener("click", () => {
   nombreUsuario = inputNombre.value.trim();
+
+  // Filtro de palabras inapropiadas (simple)
+  const palabrasBloqueadas = ["tonto", "idiota", "puto", "fuck", "shit", "mierda"];
+  if (palabrasBloqueadas.some(p => nombreUsuario.toLowerCase().includes(p))) {
+    alert("⚠️ Ese nombre no está permitido. Intenta con otro.");
+    return;
+  }
+
   saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
+  saludo.classList.add("fadeIn");
+
   document.getElementById("ingresoNombre").style.display = "none";
-  animarEntrada(modalidadDiv);
-  guardarProgreso();
+  modalidadDiv.style.display = "block";
+  modalidadDiv.classList.add("fadeIn");
 });
 
-// --- Crear botones de modalidad ---
-document.querySelectorAll(".modBtn").forEach(button => {
+// --- Botones de modalidad ---
+const botonesModalidad = document.querySelectorAll(".modBtn");
+botonesModalidad.forEach(button => {
   button.addEventListener("click", () => {
     modalidadSeleccionada = button.textContent;
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
-    mostrarMaterias(modalidadSeleccionada);
-    guardarProgreso();
+    seleccion.classList.add("fadeIn");
+
+    // Limpiar materias anteriores
+    botonesMateriasDiv.innerHTML = "";
+    materiaSeleccionada = "";
+    dificultadSeleccionada = "";
+    resumenFinal.textContent = "";
+
+    // Crear botones de materias
+    materiasPorModalidad[modalidadSeleccionada].forEach((materia, index) => {
+      const btn = document.createElement("button");
+      btn.classList.add("matBtn", "fadeIn");
+      btn.setAttribute("data-materia", materia);
+      btn.innerHTML = `<span>${materia}</span>`;
+      btn.style.animationDelay = `${index * 0.1}s`;
+
+      btn.addEventListener("click", () => {
+        materiaSeleccionada = materia;
+        seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
+        seleccionMateria.classList.add("fadeIn");
+
+        // Mostrar dificultades
+        mostrarDificultades();
+      });
+
+      botonesMateriasDiv.appendChild(btn);
+    });
+
+    materiasDiv.style.display = "block";
+    materiasDiv.classList.add("fadeIn");
   });
 });
 
-// --- Mostrar materias según modalidad ---
-function mostrarMaterias(modalidad) {
-  botonesMateriasDiv.innerHTML = "";
-  materiasPorModalidad[modalidad].forEach(materia => {
-    const btn = document.createElement("button");
-    btn.textContent = materia;
-    btn.className = "matBtn";
-    btn.addEventListener("click", () => {
-      materiaSeleccionada = materia;
-      seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
-      mostrarDificultades();
-      guardarProgreso();
-    });
-    botonesMateriasDiv.appendChild(btn);
-  });
-  animarEntrada(materiasDiv);
-}
-
-// --- Mostrar botones de dificultad ---
+// --- Mostrar dificultades ---
 function mostrarDificultades() {
   botonesDificultadDiv.innerHTML = "";
-  nivelesDificultad.forEach(nivel => {
+  dificultades.forEach((dif, index) => {
     const btn = document.createElement("button");
-    btn.textContent = nivel;
-    btn.className = "difBtn";
+    btn.classList.add("difBtn", "fadeIn");
+    btn.textContent = dif;
+    btn.style.animationDelay = `${index * 0.1}s`;
     btn.addEventListener("click", () => {
-      dificultadSeleccionada = nivel;
+      dificultadSeleccionada = dif;
       mostrarResumen();
-      guardarProgreso();
     });
     botonesDificultadDiv.appendChild(btn);
   });
-  animarEntrada(dificultadesDiv);
+
+  dificultadesDiv.style.display = "block";
+  dificultadesDiv.classList.add("fadeIn");
 }
 
 // --- Mostrar resumen final ---
 function mostrarResumen() {
   resumenFinal.innerHTML = `
-    <p><strong>Resumen:</strong></p>
-    <p>👤 Nombre: ${nombreUsuario}</p>
-    <p>🎓 Modalidad: ${modalidadSeleccionada}</p>
-    <p>📘 Materia: ${materiaSeleccionada}</p>
-    <p>🔥 Dificultad: ${dificultadSeleccionada}</p>
+    <div class="fadeIn" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); max-width: 500px; margin-inline: auto;">
+      <h3>📘 Resumen de tu selección</h3>
+      <p><strong>Nombre:</strong> ${nombreUsuario}</p>
+      <p><strong>Modalidad:</strong> ${modalidadSeleccionada}</p>
+      <p><strong>Materia:</strong> ${materiaSeleccionada}</p>
+      <p><strong>Dificultad:</strong> ${dificultadSeleccionada}</p>
+    </div>
   `;
-  animarEntrada(resumenFinal);
 }
-
-// --- Cargar progreso guardado al iniciar ---
-cargarProgreso();
