@@ -2,47 +2,51 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Página de Estudio</title>
-    <link rel="stylesheet" href="style.css">
+  <title>Página de Estudio Interactivo</title>
+  <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>📚 Bienvenido a tu página de estudio</h1>
+  <header>
+    <h1>📚 Bienvenido a tu página de estudio</h1>
+    <p class="aviso">Esta página puede tener errores</p>
+  </header>
 
-    <p style="font-size:0.9em; color:#555;">Esta página puede tener errores</p>
-
-    <div id="ingresoNombre">
-    <p>Inserta tu nombre:</p>
+    <div id="ingresoNombre" class="step-container">
+    <h2>Paso 1: Identificación</h2>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
-    <button id="botonListo" disabled>Listo</button>
+    <button id="botonListo" disabled>Continuar</button>
   </div>
 
-  <p id="saludo"></p>
+  <p id="saludo" class="saludo-mensaje"></p>
 
-      <div id="modalidad">
-    <p>Selecciona la modalidad a completar:</p>
-    <button class="modBtn">Primaria</button>
-    <button class="modBtn">Secundaria</button>
-    <button class="modBtn">Preparatoria</button>
-    <button class="modBtn">Universidad</button>
-    <button class="modBtn">Postgrado</button>
+    <div id="modalidad" class="step-container">
+    <h2>Paso 2: Selecciona la modalidad</h2>
+    <div id="botonesModalidadContainer">
+      <button class="modBtn">Primaria</button>
+      <button class="modBtn">Secundaria</button>
+      <button class="modBtn">Preparatoria</button>
+      <button class="modBtn">Universidad</button>
+      <button class="modBtn">Postgrado</button>
+    </div>
+    <p id="seleccion" class="selection-display"></p>
   </div>
 
-  <p id="seleccion"></p>
-
-      <div id="materias">
-    <p>Selecciona la materia a estudiar:</p>
+    <div id="materias" class="step-container">
+    <h2>Paso 3: Selecciona la materia a estudiar</h2>
     <div id="botonesMaterias"></div>
+    <p id="seleccionMateria" class="selection-display"></p>
   </div>
 
-  <p id="seleccionMateria"></p>
-
-      <div id="dificultades">
-    <p>Selecciona la dificultad:</p>
+    <div id="dificultades" class="step-container">
+    <h2>Paso 4: Selecciona la dificultad</h2>
     <div id="botonesDificultad"></div>
   </div>
 
-    <p id="resumenFinal"></p>
+    <div id="resumen-container">
+    <h3>Resumen de tu Sesión</h3>
+    <p id="resumenFinal" class="final-summary"></p>
+  </div>
 
   <script src="script.js"></script>
 </body>
