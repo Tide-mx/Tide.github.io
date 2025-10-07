@@ -2,13 +2,18 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página de Estudio</title>
+
+  <!-- Fuente y CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>📚 Bienvenido a tu página de estudio</h1>
 
-  <!-- Ingreso de nombre -->
+<body>
+  <h1>📚 Bienvenido a tu Página de Estudio</h1>
+
+  <!-- Sección de ingreso de nombre -->
   <div id="ingresoNombre">
     <p>Inserta tu nombre:</p>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
@@ -17,7 +22,7 @@
 
   <p id="saludo"></p>
 
-  <!-- Modalidades -->
+  <!-- Modalidad -->
   <div id="modalidad" style="display:none;">
     <p>Selecciona la modalidad a completar:</p>
     <button class="modBtn">Primaria</button>
@@ -44,13 +49,9 @@
   </div>
 
   <!-- Resumen final -->
-  <div id="resumenFinal" style="display:none; margin-top: 30px;"></div>
+  <div id="resumenFinal"></div>
 
-  <!-- Botón para reiniciar todo -->
-  <div style="margin-top: 30px;">
-    <button id="reiniciarBtn" style="display:none; background:#cc0000;">🔄 Reiniciar todo</button>
-  </div>
-
+  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>
