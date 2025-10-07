@@ -1,4 +1,4 @@
-/* 🌈 Fondo animado suave y agradable */
+/* 🌈 Fondo animado */
 body {
   font-family: "Poppins", sans-serif;
   text-align: center;
@@ -16,7 +16,7 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* 🖋️ Título */
+/* Título */
 h1 {
   font-size: 2.2em;
   color: #222;
@@ -24,7 +24,7 @@ h1 {
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
-/* 📥 Input del nombre */
+/* Input y botones */
 input {
   padding: 10px;
   border-radius: 8px;
@@ -35,12 +35,8 @@ input {
   outline: none;
   transition: box-shadow 0.3s ease;
 }
+input:focus { box-shadow: 0 0 10px #74ebd5; }
 
-input:focus {
-  box-shadow: 0 0 10px #74ebd5;
-}
-
-/* 🔘 Botones generales */
 button {
   padding: 10px 20px;
   border: none;
@@ -51,19 +47,11 @@ button {
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
+button:hover:enabled { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+button:disabled { background: #999; cursor: not-allowed; }
 
-button:hover:enabled {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-}
-
-button:disabled {
-  background: #999;
-  cursor: not-allowed;
-}
-
-/* 🧩 Secciones */
-#modalidad, #materias, #dificultades, #resumenFinal, #contenidoTest {
+/* Secciones */
+#modalidad, #materias, #dificultades, #resumenFinal, #inicioContenido {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -75,14 +63,10 @@ button:disabled {
   transform: translateY(10px);
   transition: all 0.5s ease;
 }
+.fadeIn { opacity:1; transform:translateY(0); animation: fadeIn 0.6s forwards; }
+@keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
 
-#modalidad.fadeIn, #materias.fadeIn, #dificultades.fadeIn, #resumenFinal.fadeIn, #contenidoTest.fadeIn {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-/* 💬 Texto de resumen y secciones */
+/* Texto de resumen y secciones */
 #saludo, #seleccion, #seleccionMateria, #resumenFinal, #infoUsuario, #temasDiv, #testDiv, #resultadosDiv {
   font-weight: bold;
   margin-top: 15px;
@@ -90,18 +74,7 @@ button:disabled {
   text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
 }
 
-/* 🌟 Animación de entrada */
-.fadeIn {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeIn 0.6s forwards;
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 📚 Contenido y temas */
+/* Contenido y temas */
 .temaItem {
   margin: 10px 0;
   padding: 8px;
@@ -111,54 +84,24 @@ button:disabled {
   justify-content: space-between;
   align-items: center;
 }
+.temaItem button { padding: 5px 10px; font-size: 0.9em; }
 
-.temaItem button {
-  padding: 5px 10px;
-  font-size: 0.9em;
-}
-
-
-/* 🎨 Botones de materias con imágenes */
-#botonesMaterias {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-}
-
+/* Botones de materias con imágenes */
+#botonesMaterias { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; }
 .matBtn {
-  position: relative;
-  width: 160px;
-  height: 120px;
-  border: none;
-  border-radius: 15px;
-  overflow: hidden;
-  color: white;
-  font-weight: bold;
-  font-size: 1.1em;
-  background-size: cover;
-  background-position: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; width:160px; height:120px; border:none; border-radius:15px;
+  overflow:hidden; color:white; font-weight:bold; font-size:1.1em;
+  background-size:cover; background-position:center; box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  cursor:pointer; transition:transform 0.3s ease, box-shadow 0.3s ease;
 }
+.matBtn:hover { transform: scale(1.07) rotateZ(1deg); box-shadow: 0 10px 25px rgba(0,0,0,0.35);}
+.matBtn::before { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.35);}
+.matBtn span { position:relative; z-index:2; }
 
-.matBtn:hover {
-  transform: scale(1.07) rotateZ(1deg);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-}
-
-.matBtn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-}
-
-.matBtn span {
-  position: relative;
-  z-index: 2;
-}
+/* Ejemplo: imágenes de materias (Primaria) */
+.matBtn[data-materia="Matemáticas"] { background-image: url('https://manguselearning.com/images/imagenes_cursos/matematicas/matematicas.jpg'); }
+.matBtn[data-materia="Ciencias"] { background-image: url('https://www.cosasdeeducacion.es/wp-content/uploads/sites/6/2009/07/que-es-ciencia.jpg'); }
+.matBtn[data-materia="Español"] { background-image: url('https://soledaddurazo.com/storage/2023/03/R.jpg'); }
 
 /* 🎯 Imágenes de materias por nombre */
 .matBtn[data-materia="Matemáticas"] { background-image: url('https://manguselearning.com/images/imagenes_cursos/matematicas/matematicas.jpg'); }
