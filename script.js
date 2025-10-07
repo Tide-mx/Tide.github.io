@@ -70,11 +70,11 @@ botonesModalidad.forEach(button => {
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
     seleccion.classList.add("fadeIn");
 
-    // Limpiar materias anteriores
+    // Limpiar materias, dificultad y resumen
     botonesMateriasDiv.innerHTML = "";
     materiaSeleccionada = "";
     dificultadSeleccionada = "";
-    resumenFinal.textContent = "";
+    resumenFinal.innerHTML = "";
 
     // Crear botones de materias
     materiasPorModalidad[modalidadSeleccionada].forEach((materia, index) => {
@@ -89,6 +89,11 @@ botonesModalidad.forEach(button => {
         seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
         seleccionMateria.classList.add("fadeIn");
 
+        // Reiniciar dificultad y resumen
+        dificultadSeleccionada = "";
+        botonesDificultadDiv.innerHTML = "";
+        resumenFinal.innerHTML = "";
+
         // Mostrar dificultades
         mostrarDificultades();
       });
@@ -98,6 +103,9 @@ botonesModalidad.forEach(button => {
 
     materiasDiv.style.display = "block";
     materiasDiv.classList.add("fadeIn");
+
+    // Ocultar dificultades si existían
+    dificultadesDiv.style.display = "none";
   });
 });
 
