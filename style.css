@@ -71,7 +71,14 @@ button:disabled {
   margin: 25px auto;
   width: 80%;
   max-width: 700px;
+  opacity: 0;
+  transform: translateY(10px);
   transition: all 0.5s ease;
+}
+
+#modalidad.fadeIn, #materias.fadeIn, #dificultades.fadeIn {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* 🎨 Botones de materias con imágenes */
@@ -100,11 +107,10 @@ button:disabled {
 }
 
 .matBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transform: scale(1.07) rotateZ(1deg);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
 }
 
-/* Overlay para mejorar legibilidad del texto */
 .matBtn::before {
   content: "";
   position: absolute;
@@ -149,13 +155,12 @@ button:disabled {
 .matBtn[data-materia="Filosofía Aplicada"] { background-image: url('https://postgrados.uandes.cl/content/uploads/E-MANDE-E-14.jpg'); }
 .matBtn[data-materia="Educación Superior"] { background-image: url('https://www.unesco.org/sites/default/files/2022-05/Higher%20education-unleash%20the%20talent%20of%20next%20generation-Gorodenkoff-Shutterstock.jpg'); }
 
-
-
 /* 💬 Texto de resumen */
 #saludo, #seleccion, #seleccionMateria, #resumenFinal {
   font-weight: bold;
   margin-top: 15px;
   font-size: 1.1em;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
 }
 
 /* 🌟 Animación de entrada */
