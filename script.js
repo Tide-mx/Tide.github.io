@@ -1,17 +1,8 @@
-// =============================
-// 📘 VARIABLES PRINCIPALES
-// =============================
-let nombreUsuario = "";
-let modalidadSeleccionada = "";
-let materiaSeleccionada = "";
-let dificultadSeleccionada = "";
-
-// =============================
-// 🎯 ELEMENTOS HTML
-// =============================
+// ✅ Elementos del DOM
 const inputNombre = document.getElementById("nombre");
 const botonListo = document.getElementById("botonListo");
 const saludo = document.getElementById("saludo");
+const ingresoNombreDiv = document.getElementById("ingresoNombre");
 const modalidadDiv = document.getElementById("modalidad");
 const seleccion = document.getElementById("seleccion");
 const materiasDiv = document.getElementById("materias");
@@ -20,84 +11,71 @@ const seleccionMateria = document.getElementById("seleccionMateria");
 const dificultadesDiv = document.getElementById("dificultades");
 const botonesDificultadDiv = document.getElementById("botonesDificultad");
 const resumenFinal = document.getElementById("resumenFinal");
-const ingresoNombreDiv = document.getElementById("ingresoNombre");
 
-// =============================
-// 🧠 LISTAS
-// =============================
+// 🌟 Variables de estado
+let nombreUsuario = "";
+let modalidadSeleccionada = "";
+let materiaSeleccionada = "";
+let dificultadSeleccionada = "";
+
+// 📦 Materias por modalidad
 const materiasPorModalidad = {
-  "Primaria": ["Matemáticas","Ciencias","Geografía","Español","Historia","Inglés","Arte","Educación Física"],
-  "Secundaria": ["Álgebra","Física","Química","Historia Universal","Biología","Arte","Inglés"],
-  "Preparatoria": ["Cálculo","Física Avanzada","Química Avanzada","Literatura","Historia Contemporánea","Filosofía","Idiomas"],
-  "Universidad": ["Programación","Economía","Ingeniería","Cálculo Integral","Estadística","Diseño","Psicología"],
-  "Postgrado": ["Gestión de Proyectos","Investigación Avanzada","Filosofía Aplicada","Educación Superior"]
+  "Primaria": ["Matemáticas", "Ciencias", "Historia", "Inglés", "Arte", "Educación Física"],
+  "Secundaria": ["Matemáticas", "Biología", "Química", "Historia Universal", "Español", "Arte", "Inglés", "Tecnología"],
+  "Preparatoria": ["Álgebra", "Física Avanzada", "Química", "Literatura", "Historia Avanzada", "Filosofía", "Idiomas"],
+  "Universidad": ["Cálculo", "Física", "Química Orgánica", "Literatura", "Historia", "Programación", "Economía"],
+  "Postgrado": ["Investigación Avanzada", "Estadística", "Filosofía Aplicada", "Gestión de Proyectos", "Especialización Profesional"]
 };
 
-const dificultades = [
-  "Extremadamente Fácil","Muy Fácil","Fácil","Normal",
-  "Difícil","Muy Difícil","Extremo","Imposible 💀"
-];
+// ⚡ Dificultades
+const dificultades = ["Extremadamente Fácil","Muy Fácil","Fácil","Normal","Difícil","Muy Difícil","Extremadamente Difícil"];
 
-// =============================
-// 🚫 FILTRO DE NOMBRES
-// =============================
-const palabrasProhibidas = ["idiota","tonto","mierda","puta","fuck","ass","bitch","imbécil"];
+// 🛑 Palabras prohibidas
+const palabrasProhibidas = ["puta","mierda","idiota","fuck","shit"]; // se pueden agregar más
+
 function contienePalabrasProhibidas(texto){
-  const normalizado = texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  return palabrasProhibidas.some(p => normalizado.includes(p));
+  const t = texto.toLowerCase();
+  return palabrasProhibidas.some(p => t.includes(p));
 }
 
-// =============================
-// 💾 LOCALSTORAGE
-// =============================
+// 💾 Guardar y cargar localStorage
 function guardarDatos(){
-  const datos = { nombreUsuario, modalidadSeleccionada, materiaSeleccionada, dificultadSeleccionada };
-  localStorage.setItem("estudioDatos", JSON.stringify(datos));
+  const datos = {nombreUsuario, modalidadSeleccionada, materiaSeleccionada, dificultadSeleccionada};
+  localStorage.setItem("datosUsuario", JSON.stringify(datos));
 }
 
-function recuperarDatos(){
-  const datos = JSON.parse(localStorage.getItem("estudioDatos"));
-  if(!datos) return;
-
-  nombreUsuario = datos.nombreUsuario || "";
-  modalidadSeleccionada = datos.modalidadSeleccionada || "";
-  materiaSeleccionada = datos.materiaSeleccionada || "";
-  dificultadSeleccionada = datos.dificultadSeleccionada || "";
-
-  if(nombreUsuario){
-    ingresoNombreDiv.style.display = "none";
-    saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
-    modalidadDiv.style.display = "block";
-  }
-  if(modalidadSeleccionada){
-    seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
-    mostrarMaterias(modalidadSeleccionada);
-    materiasDiv.style.display = "block";
-  }
-  if(materiaSeleccionada){
-    seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
-    mostrarDificultades();
-    dificultadesDiv.style.display = "block";
-  }
-  if(dificultadSeleccionada){
-    mostrarResumen();
+function cargarDatos(){
+  const datos = JSON.parse(localStorage.getItem("datosUsuario"));
+  if(datos){
+    nombreUsuario = datos.nombreUsuario || "";
+    modalidadSeleccionada = datos.modalidadSeleccionada || "";
+    materiaSeleccionada = datos.materiaSeleccionada || "";
+    dificultadSeleccionada = datos.dificultadSeleccionada || "";
+    if(nombreUsuario){
+      saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
+      ingresoNombreDiv.style.display = "none";
+      modalidadDiv.style.display = "block";
+      if(modalidadSeleccionada) mostrarMaterias(modalidadSeleccionada);
+      if(dificultadSeleccionada) mostrarDificultades();
+      actualizarResumen();
+    }
   }
 }
 
-// =============================
-// 🔹 EVENTOS NOMBRE
-// =============================
+// 🎯 Botón Listo
 inputNombre.addEventListener("input", () => {
   botonListo.disabled = inputNombre.value.trim() === "";
 });
 
 botonListo.addEventListener("click", () => {
   const nombre = inputNombre.value.trim();
-  if(nombre === "") return;
+  if(!nombre) return;
+
   if(contienePalabrasProhibidas(nombre)){
     alert("Ese nombre no está permitido.");
     return;
   }
+
   nombreUsuario = nombre;
   saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
   ingresoNombreDiv.style.display = "none";
@@ -105,89 +83,68 @@ botonListo.addEventListener("click", () => {
   guardarDatos();
 });
 
-// =============================
-// 🔹 BOTONES MODALIDAD
-// =============================
-document.querySelectorAll(".modBtn").forEach(button => {
+// 🏫 Modalidad
+const botonesModalidad = document.querySelectorAll(".modBtn");
+botonesModalidad.forEach(button => {
   button.addEventListener("click", () => {
     modalidadSeleccionada = button.textContent;
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
-    materiaSeleccionada = "";
-    dificultadSeleccionada = "";
-    resumenFinal.innerHTML = "";
-    botonesDificultadDiv.innerHTML = "";
-    guardarDatos();
+    materiaSeleccionada = ""; // reset materia
+    dificultadSeleccionada = ""; // reset dificultad
+    botonesMateriasDiv.innerHTML = "";
     mostrarMaterias(modalidadSeleccionada);
-    materiasDiv.style.display = "block";
+    dificultadesDiv.style.display = "none";
+    resumenFinal.textContent = "";
+    guardarDatos();
   });
 });
 
-// =============================
-// 🔹 FUNCIONES MATERIAS
-// =============================
+// 📚 Mostrar materias
 function mostrarMaterias(modalidad){
-  botonesMateriasDiv.innerHTML = "";
-  materiasPorModalidad[modalidad].forEach((materia,index)=>{
+  materiasDiv.style.display = "block";
+  materiasPorModalidad[modalidad].forEach(materia => {
     const btn = document.createElement("button");
+    btn.textContent = materia;
     btn.className = "matBtn fadeIn";
-    btn.setAttribute("data-materia",materia);
-    btn.innerHTML = `<span>${materia}</span>`;
-    btn.style.animationDelay = `${index*0.1}s`;
-
+    btn.setAttribute("data-materia", materia);
     btn.addEventListener("click", () => {
       materiaSeleccionada = materia;
-      seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
-      dificultadSeleccionada = "";
-      resumenFinal.innerHTML = "";
-      botonesDificultadDiv.innerHTML = "";
-      guardarDatos();
+      seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
+      dificultadSeleccionada = ""; // reset dificultad
       mostrarDificultades();
+      resumenFinal.textContent = "";
+      guardarDatos();
     });
-
     botonesMateriasDiv.appendChild(btn);
   });
 }
 
-// =============================
-// 🔹 FUNCIONES DIFICULTADES
-// =============================
+// 🎮 Mostrar dificultades
 function mostrarDificultades(){
+  dificultadesDiv.style.display = "block";
   botonesDificultadDiv.innerHTML = "";
-  dificultades.forEach((dif,index)=>{
+  dificultades.forEach(dif => {
     const btn = document.createElement("button");
-    btn.className = "difBtn fadeIn";
     btn.textContent = dif;
-    btn.style.animationDelay = `${index*0.1}s`;
-
-    btn.addEventListener("click", ()=>{
+    btn.className = "difBtn fadeIn";
+    btn.addEventListener("click", () => {
       dificultadSeleccionada = dif;
+      actualizarResumen();
       guardarDatos();
-      mostrarResumen();
     });
-
     botonesDificultadDiv.appendChild(btn);
   });
-  dificultadesDiv.style.display = "block";
 }
 
-// =============================
-// 🔹 FUNCIONES RESUMEN
-// =============================
-function mostrarResumen(){
-  if(nombreUsuario && modalidadSeleccionada && materiaSeleccionada && dificultadSeleccionada){
-    resumenFinal.innerHTML = `
-      <div class="fadeIn" style="margin-top:20px;padding:15px;background:rgba(255,255,255,0.9);border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.2);max-width:500px;margin-inline:auto;">
-        <h3>📘 Resumen de tu selección</h3>
-        <p><strong>Nombre:</strong> ${nombreUsuario}</p>
-        <p><strong>Modalidad:</strong> ${modalidadSeleccionada}</p>
-        <p><strong>Materia:</strong> ${materiaSeleccionada}</p>
-        <p><strong>Dificultad:</strong> ${dificultadSeleccionada}</p>
-      </div>
-    `;
-  }
+// 📋 Actualizar resumen
+function actualizarResumen(){
+  resumenFinal.innerHTML = `
+    <p>Nombre: ${nombreUsuario}</p>
+    <p>Modalidad: ${modalidadSeleccionada}</p>
+    <p>Materia: ${materiaSeleccionada}</p>
+    <p>Dificultad: ${dificultadSeleccionada}</p>
+  `;
 }
 
-// =============================
-// 🚀 INICIALIZAR
-// =============================
-recuperarDatos();
+// ⚡ Cargar datos al iniciar
+window.addEventListener("load", cargarDatos);
