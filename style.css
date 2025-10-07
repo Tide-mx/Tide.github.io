@@ -1,150 +1,165 @@
-/* --- Fondo animado --- */
+/* 🌈 Fondo animado suave y agradable */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   text-align: center;
-  color: #fff;
+  background: linear-gradient(-45deg, #74ebd5, #acb6e5, #cfd9df, #e2ebf0);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  color: #333;
   margin: 0;
-  padding-top: 50px;
-  min-height: 100vh;
-  background: linear-gradient(270deg, #1a73e8, #9333ea, #0ea5e9);
-  background-size: 600% 600%;
-  animation: fondoAnimado 12s ease infinite;
-  overflow-x: hidden;
+  padding: 40px;
 }
 
-@keyframes fondoAnimado {
+@keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* --- Encabezado principal --- */
+/* 🖋️ Título */
 h1 {
   font-size: 2.2em;
-  background: linear-gradient(to right, #00ffff, #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 30px;
-  text-shadow: 0 0 15px rgba(255,255,255,0.3);
+  color: #222;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
-/* --- Input del nombre --- */
+/* 📥 Input del nombre */
 input {
   padding: 10px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #ccc;
   width: 220px;
   font-size: 1em;
+  margin-right: 10px;
   outline: none;
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
-  transition: all 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
 input:focus {
-  box-shadow: 0 0 15px rgba(0,255,255,0.7);
+  box-shadow: 0 0 10px #74ebd5;
 }
 
-/* --- Botones generales --- */
+/* 🔘 Botones generales */
 button {
-  padding: 12px 22px;
+  padding: 10px 20px;
   border: none;
   border-radius: 12px;
+  background: linear-gradient(135deg, #6dd5fa, #2980b9);
+  color: white;
+  font-weight: bold;
   cursor: pointer;
-  font-size: 1em;
-  color: #fff;
-  margin: 8px;
-  transition: transform 0.25s ease, box-shadow 0.3s ease;
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 button:hover:enabled {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
-/* --- Botón deshabilitado --- */
 button:disabled {
-  opacity: 0.6;
+  background: #999;
   cursor: not-allowed;
 }
 
-/* --- Modalidades y materias en tarjetas --- */
-#modalidad button, .matBtn {
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(6px);
+/* 🧩 Secciones */
+#modalidad, #materias, #dificultad {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin: 25px auto;
+  width: 80%;
+  max-width: 700px;
+  transition: all 0.5s ease;
 }
 
-#modalidad button:hover, .matBtn:hover {
-  background: rgba(255,255,255,0.3);
-  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+/* 🎨 Materias con imágenes */
+#botonesMaterias {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
-/* --- Materias con imágenes --- */
 .matBtn {
-  width: 200px;
-  height: 130px;
+  position: relative;
+  width: 160px;
+  height: 120px;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
   color: white;
-  border-radius: 16px;
+  font-weight: bold;
+  font-size: 1.1em;
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.05em;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.7);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .matBtn:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255,255,255,0.6);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* --- Fondo de materias específicas (automático por JS opcionalmente) --- */
-.matBtn[data-materia*="Matemáticas"] { background-image: url('https://i.imgur.com/MuhY1eW.jpg'); }
-.matBtn[data-materia*="Lengua"] { background-image: url('https://i.imgur.com/8xqHoBo.jpg'); }
-.matBtn[data-materia*="Ciencias"] { background-image: url('https://i.imgur.com/y82C7FV.jpg'); }
-.matBtn[data-materia*="Historia"] { background-image: url('https://i.imgur.com/EfA6LFa.jpg'); }
-.matBtn[data-materia*="Arte"] { background-image: url('https://i.imgur.com/1I6tbLC.jpg'); }
-.matBtn[data-materia*="Física"] { background-image: url('https://i.imgur.com/2Oj1AEV.jpg'); }
-.matBtn[data-materia*="Química"] { background-image: url('https://i.imgur.com/1TTvL8A.jpg'); }
-.matBtn[data-materia*="Programación"] { background-image: url('https://i.imgur.com/vN4oY9S.jpg'); }
+/* 🖼️ Filtros para mejorar legibilidad */
+.matBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
 
-/* --- Texto de selección y saludo --- */
-#saludo, #seleccion, #seleccionMateria {
+.matBtn span {
+  position: relative;
+  z-index: 2;
+}
+
+/* 📚 Imágenes específicas de materias */
+.matBtn[data-materia="Matemáticas"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921823.png');
+}
+.matBtn[data-materia="Ciencias"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/2729/2729007.png');
+}
+.matBtn[data-materia="Geografía"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/3062/3062634.png');
+}
+.matBtn[data-materia="Español"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921226.png');
+}
+.matBtn[data-materia="Historia"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/888/888879.png');
+}
+.matBtn[data-materia="Inglés"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/888/888856.png');
+}
+.matBtn[data-materia="Arte"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/2921/2921891.png');
+}
+.matBtn[data-materia="Educación Física"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046784.png');
+}
+
+/* 💬 Texto de resumen */
+#saludo, #seleccion, #seleccionMateria, #resumenFinal {
   font-weight: bold;
+  margin-top: 15px;
   font-size: 1.1em;
-  margin-top: 20px;
-  color: #fff;
 }
 
-/* --- Resumen final --- */
-#resumenFinal {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.4);
-  border-radius: 16px;
-  display: none;
-  width: 350px;
-  margin: 30px auto;
-  padding: 20px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  animation: fadeIn 1s ease forwards;
+/* 🌟 Animación de entrada */
+.fadeIn {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.6s forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Botón Reiniciar --- */
-#reiniciarBtn {
-  background: linear-gradient(135deg, #e11d48, #be123c);
-}
-
-#reiniciarBtn:hover {
-  background: linear-gradient(135deg, #f43f5e, #b91c1c);
-  transform: scale(1.05);
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
