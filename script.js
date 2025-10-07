@@ -1,4 +1,4 @@
-// Elementos del DOM
+// --- Variables del DOM ---
 const inputNombre = document.getElementById("nombre");
 const botonListo = document.getElementById("botonListo");
 const saludo = document.getElementById("saludo");
@@ -9,89 +9,15 @@ const botonesMateriasDiv = document.getElementById("botonesMaterias");
 const seleccionMateria = document.getElementById("seleccionMateria");
 const dificultadesDiv = document.getElementById("dificultades");
 const botonesDificultadDiv = document.getElementById("botonesDificultad");
-const seleccionDificultad = document.getElementById("seleccionDificultad");
-const resumenTexto = document.getElementById("resumenTexto");
-const reiniciarBtn = document.getElementById("reiniciarBtn");
-const errorNombre = document.getElementById("errorNombre");
-const avisoPestana = document.getElementById("avisoPestana");
+const resumenFinal = document.getElementById("resumenFinal");
 
-// Variables
+// --- Variables de selección ---
 let nombreUsuario = "";
 let modalidadSeleccionada = "";
 let materiaSeleccionada = "";
 let dificultadSeleccionada = "";
 
-// Filtro de palabras prohibidas
-const palabrasProhibidas = ["puta","mierda","fuck","shit","bitch","sexo","rape"];
-function normalizarTexto(texto) {
-  return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
-}
-function nombreEsValido(nombre) {
-  const limpio = normalizarTexto(nombre);
-  return !palabrasProhibidas.some(p => limpio.includes(p));
-}
-
-// Habilitar botón solo si hay texto
-inputNombre.addEventListener("input", () => {
-  botonListo.disabled = inputNombre.value.trim() === "";
-});
-
-// Firebase: Guardar datos
-async function guardarDatos() {
-  if (!nombreUsuario) return;
-  const userId = nombreUsuario.replace(/\s+/g, "_");
-  await db.collection("usuarios").doc(userId).set({
-    nombre: nombreUsuario,
-    modalidad: modalidadSeleccionada,
-    materia: materiaSeleccionada,
-    dificultad: dificultadSeleccionada
-  });
-}
-
-// Firebase: Cargar datos
-async function cargarDatos() {
-  const userId = inputNombre.value.trim().replace(/\s+/g, "_");
-  const docSnap = await db.collection("usuarios").doc(userId).get();
-  if (docSnap.exists) {
-    const data = docSnap.data();
-    nombreUsuario = data.nombre || "";
-    modalidadSeleccionada = data.modalidad || "";
-    materiaSeleccionada = data.materia || "";
-    dificultadSeleccionada = data.dificultad || "";
-
-    saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
-    document.getElementById("ingresoNombre").style.display = "none";
-
-    if (modalidadSeleccionada) {
-      modalidadDiv.style.display = "block";
-      seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
-    }
-    if (materiaSeleccionada) seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
-    if (dificultadSeleccionada) seleccionDificultad.textContent = `Dificultad seleccionada: ${dificultadSeleccionada}`;
-
-    actualizarResumen();
-  }
-}
-
-// Botón Listo
-botonListo.addEventListener("click", async () => {
-  nombreUsuario = inputNombre.value.trim();
-  if (!nombreEsValido(nombreUsuario)) {
-    errorNombre.textContent = "⚠️ Ese nombre no está permitido.";
-    inputNombre.value = "";
-    botonListo.disabled = true;
-    return;
-  }
-  errorNombre.textContent = "";
-  saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
-  document.getElementById("ingresoNombre").style.display = "none";
-  modalidadDiv.style.display = "block";
-
-  await cargarDatos();
-  guardarDatos();
-});
-
-// --- Modalidades y materias ---
+// --- Materias según modalidad ---
 const materiasPorModalidad = {
   "Primaria": ["Matemáticas Básicas", "Lengua", "Ciencias Naturales", "Historia", "Arte", "Educación Física"],
   "Secundaria": ["Matemáticas", "Lengua y Literatura", "Biología", "Química", "Historia Universal", "Arte", "Tecnología"],
@@ -100,88 +26,135 @@ const materiasPorModalidad = {
   "Postgrado": ["Investigación Avanzada", "Estadística Avanzada", "Filosofía Aplicada", "Gestión de Proyectos", "Especialización Profesional"]
 };
 
-const botonesModalidad = document.querySelectorAll(".modBtn");
-botonesModalidad.forEach(button => {
-  button.addEventListener("click", async () => {
+// --- Dificultades ---
+const nivelesDificultad = [
+  "Extremadamente fácil", "Muy fácil", "Fácil", "Normal", "Difícil", "Muy difícil", "Extremo", "Experto", "Imposible"
+];
+
+// --- Función para mostrar animaciones ---
+function animarEntrada(elemento) {
+  elemento.style.opacity = "0";
+  elemento.style.transform = "translateY(20px)";
+  elemento.style.display = "block";
+  setTimeout(() => {
+    elemento.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+    elemento.style.opacity = "1";
+    elemento.style.transform = "translateY(0)";
+  }, 50);
+}
+
+// --- Habilitar botón solo si hay texto ---
+inputNombre.addEventListener("input", () => {
+  botonListo.disabled = inputNombre.value.trim() === "";
+});
+
+// --- Guardar progreso ---
+function guardarProgreso() {
+  const datos = {
+    nombre: nombreUsuario,
+    modalidad: modalidadSeleccionada,
+    materia: materiaSeleccionada,
+    dificultad: dificultadSeleccionada
+  };
+  localStorage.setItem("progresoEstudio", JSON.stringify(datos));
+}
+
+// --- Cargar progreso ---
+function cargarProgreso() {
+  const datosGuardados = localStorage.getItem("progresoEstudio");
+  if (datosGuardados) {
+    const datos = JSON.parse(datosGuardados);
+    nombreUsuario = datos.nombre || "";
+    modalidadSeleccionada = datos.modalidad || "";
+    materiaSeleccionada = datos.materia || "";
+    dificultadSeleccionada = datos.dificultad || "";
+
+    if (nombreUsuario) {
+      saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a de nuevo.`;
+      document.getElementById("ingresoNombre").style.display = "none";
+      animarEntrada(modalidadDiv);
+    }
+
+    if (modalidadSeleccionada) {
+      mostrarMaterias(modalidadSeleccionada);
+    }
+
+    if (materiaSeleccionada) {
+      seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
+      animarEntrada(dificultadesDiv);
+    }
+
+    if (dificultadSeleccionada) {
+      mostrarResumen();
+    }
+  }
+}
+
+// --- Acción al hacer clic en "Listo" ---
+botonListo.addEventListener("click", () => {
+  nombreUsuario = inputNombre.value.trim();
+  saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
+  document.getElementById("ingresoNombre").style.display = "none";
+  animarEntrada(modalidadDiv);
+  guardarProgreso();
+});
+
+// --- Crear botones de modalidad ---
+document.querySelectorAll(".modBtn").forEach(button => {
+  button.addEventListener("click", () => {
     modalidadSeleccionada = button.textContent;
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
-
-    // Limpiar materias
-    botonesMateriasDiv.innerHTML = "";
-
-    materiasPorModalidad[modalidadSeleccionada].forEach(materia => {
-      const btn = document.createElement("button");
-      btn.textContent = materia;
-      btn.className = "matBtn";
-      btn.addEventListener("click", async () => {
-        materiaSeleccionada = materia;
-        seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
-
-        // Mostrar dificultades
-        dificultadesDiv.style.display = "block";
-        crearBotonesDificultad();
-
-        await guardarDatos();
-      });
-      botonesMateriasDiv.appendChild(btn);
-    });
-
-    materiasDiv.style.display = "block";
-    await guardarDatos();
+    mostrarMaterias(modalidadSeleccionada);
+    guardarProgreso();
   });
 });
 
-// --- Dificultades ---
-const dificultades = ["Extremadamente Fácil", "Muy Fácil", "Fácil", "Normal", "Difícil", "Muy Difícil", "Extremadamente Difícil"];
-
-function crearBotonesDificultad() {
-  botonesDificultadDiv.innerHTML = "";
-  dificultades.forEach(dif => {
+// --- Mostrar materias según modalidad ---
+function mostrarMaterias(modalidad) {
+  botonesMateriasDiv.innerHTML = "";
+  materiasPorModalidad[modalidad].forEach(materia => {
     const btn = document.createElement("button");
-    btn.textContent = dif;
+    btn.textContent = materia;
+    btn.className = "matBtn";
+    btn.addEventListener("click", () => {
+      materiaSeleccionada = materia;
+      seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
+      mostrarDificultades();
+      guardarProgreso();
+    });
+    botonesMateriasDiv.appendChild(btn);
+  });
+  animarEntrada(materiasDiv);
+}
+
+// --- Mostrar botones de dificultad ---
+function mostrarDificultades() {
+  botonesDificultadDiv.innerHTML = "";
+  nivelesDificultad.forEach(nivel => {
+    const btn = document.createElement("button");
+    btn.textContent = nivel;
     btn.className = "difBtn";
-    btn.addEventListener("click", async () => {
-      dificultadSeleccionada = dif;
-      seleccionDificultad.textContent = `Dificultad seleccionada: ${dificultadSeleccionada}`;
-      actualizarResumen();
-      await guardarDatos();
+    btn.addEventListener("click", () => {
+      dificultadSeleccionada = nivel;
+      mostrarResumen();
+      guardarProgreso();
     });
     botonesDificultadDiv.appendChild(btn);
   });
+  animarEntrada(dificultadesDiv);
 }
 
-// --- Resumen ---
-function actualizarResumen() {
-  resumenTexto.innerHTML = `
-    <li>Nombre: ${nombreUsuario}</li>
-    <li>Modalidad: ${modalidadSeleccionada}</li>
-    <li>Materia: ${materiaSeleccionada}</li>
-    <li>Dificultad: ${dificultadSeleccionada}</li>
+// --- Mostrar resumen final ---
+function mostrarResumen() {
+  resumenFinal.innerHTML = `
+    <p><strong>Resumen:</strong></p>
+    <p>👤 Nombre: ${nombreUsuario}</p>
+    <p>🎓 Modalidad: ${modalidadSeleccionada}</p>
+    <p>📘 Materia: ${materiaSeleccionada}</p>
+    <p>🔥 Dificultad: ${dificultadSeleccionada}</p>
   `;
+  animarEntrada(resumenFinal);
 }
 
-// --- Reiniciar ---
-reiniciarBtn.addEventListener("click", () => {
-  nombreUsuario = "";
-  modalidadSeleccionada = "";
-  materiaSeleccionada = "";
-  dificultadSeleccionada = "";
-
-  inputNombre.value = "";
-  botonListo.disabled = true;
-
-  document.getElementById("ingresoNombre").style.display = "block";
-  modalidadDiv.style.display = "none";
-  materiasDiv.style.display = "none";
-  dificultadesDiv.style.display = "none";
-  resumenTexto.innerHTML = "";
-});
-
-// --- Detectar cambio de pestaña ---
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    avisoPestana.style.display = "block";
-  } else {
-    avisoPestana.style.display = "none";
-  }
-});
+// --- Cargar progreso guardado al iniciar ---
+cargarProgreso();
