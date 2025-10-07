@@ -132,6 +132,24 @@ button:disabled {
 .matBtn[data-materia="Economía"] { background-image: url('https://www.marketeroslatam.com/wp-content/uploads/2023/05/tipos-de-economia.jpg'); }
 .matBtn[data-materia="Filosofía"] { background-image: url('https://pymstatic.com/9932/conversions/ramas-de-filosofia-small-16_9.jpg'); }
 .matBtn[data-materia="Literatura"] { background-image: url('https://s1.significados.com/foto/literatura-ca.jpg'); }
+.matBtn[data-materia="Álgebra"] { background-image: url('https://dropinblog.net/34249715/files/auxiliar-post/que-es-el-algebra-todos-los-detalles.jpg'); }
+.matBtn[data-materia="Historia Universal"] { background-image: url('https://i.pinimg.com/736x/f0/58/c8/f058c8d2040409ce63a77f42bba34b9e.jpg'); }
+.matBtn[data-materia="Biología"] { background-image: url('https://amautas.com/wp-content/uploads/2023/06/C047_fondo-curso-min-scaled.jpg'); }
+.matBtn[data-materia="Cálculo"] { background-image: url('https://definicion.de/wp-content/uploads/2008/09/calculo-1.jpg'); }
+.matBtn[data-materia="Física Avanzada"] { background-image: url('https://media.tutellus.com/libraries/45/01/lib/1360531664932.jpg?size=854x493s&ext=jpg'); }
+.matBtn[data-materia="Historia Avanzada"] { background-image: url('https://images.ecestaticos.com/oIZPwPI5BHDGbrQWUHy69mhiLnw=/0x0:2119x1414/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F991%2Fcf9%2F53c%2F991cf953cc6b39aa83a7025ed6850aea.jpg'); }
+.matBtn[data-materia="Idiomas"] { background-image: url('https://www.alphatrad.es/sites/alphatrad.es/files/images/articles/idiomas%20mas%20hablados%20en%20el%20mundo.jpg'); }
+.matBtn[data-materia="Ingeniería"] { background-image: url('https://universidadeuropea.com/resources/media/images/tipos-de-ingenieria-1200x630.original.jpg'); }
+.matBtn[data-materia="Cálculo Integral"] { background-image: url('https://bloque10.unimagdalena.edu.co/wp-content/uploads/2021/06/portada-curso-calculo-integral.jpg'); }
+.matBtn[data-materia="Estadística"] { background-image: url('https://unade.edu.mx/wp-content/uploads/2025/09/estadistica_descriptiva.jpg'); }
+.matBtn[data-materia="Diseño"] { background-image: url('https://universidadeuropea.com/resources/media/images/herramientas_diseno_grafico.width-640.jpg'); }
+.matBtn[data-materia="Psicología"] { background-image: url('https://udlondres.com/wp-content/uploads/2023/03/UDL-portada-blog-psicologia-1080x675.webp'); }
+.matBtn[data-materia="Gestión de Proyectos"] { background-image: url('https://triskellsoftware.com/wp-content/uploads/2024/02/top-pmo-trends-1-1024x535.jpg'); }
+.matBtn[data-materia="Investigación Avanzada"] { background-image: url('https://www.techtitute.com/techtitute/cursos/00728400/recursos/banner/curso-metodologia-investigacion-avanzada-portada.jpg'); }
+.matBtn[data-materia="Filosofía Aplicada"] { background-image: url('https://postgrados.uandes.cl/content/uploads/E-MANDE-E-14.jpg'); }
+.matBtn[data-materia="Educación Superior"] { background-image: url('https://www.unesco.org/sites/default/files/2022-05/Higher%20education-unleash%20the%20talent%20of%20next%20generation-Gorodenkoff-Shutterstock.jpg'); }
+
+
 
 /* 💬 Texto de resumen */
 #saludo, #seleccion, #seleccionMateria, #resumenFinal {
