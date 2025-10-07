@@ -1,54 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Página de Estudio</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Página de Estudio</title>
+    <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>📚 Bienvenido a tu página de estudio</h1>
+  <h1>📚 Bienvenido a tu página de estudio</h1>
 
-  <!-- Aviso -->
-  <p style="font-size:0.9em; color:#555;">Esta página puede tener errores</p>
+    <p style="font-size:0.9em; color:#555;">Esta página puede tener errores</p>
 
-  <!-- Ingreso de nombre -->
-  <div id="ingresoNombre">
-    <p>Inserta tu nombre:</p>
-    <input type="text" id="nombre" placeholder="Escribe tu nombre">
-    <button id="botonListo" disabled>Listo</button>
-  </div>
+    <div id="ingresoNombre">
+    <p>Inserta tu nombre:</p>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre">
+    <button id="botonListo" disabled>Listo</button>
+  </div>
 
-  <p id="saludo"></p>
+  <p id="saludo"></p>
 
-  <!-- Modalidad -->
-  <div id="modalidad" style="display:none;">
-    <p>Selecciona la modalidad a completar:</p>
-    <button class="modBtn">Primaria</button>
-    <button class="modBtn">Secundaria</button>
-    <button class="modBtn">Preparatoria</button>
-    <button class="modBtn">Universidad</button>
-    <button class="modBtn">Postgrado</button>
-  </div>
+      <div id="modalidad">
+    <p>Selecciona la modalidad a completar:</p>
+    <button class="modBtn">Primaria</button>
+    <button class="modBtn">Secundaria</button>
+    <button class="modBtn">Preparatoria</button>
+    <button class="modBtn">Universidad</button>
+    <button class="modBtn">Postgrado</button>
+  </div>
 
-  <p id="seleccion"></p>
+  <p id="seleccion"></p>
 
-  <!-- Materias -->
-  <div id="materias" style="display:none;">
-    <p>Selecciona la materia a estudiar:</p>
-    <div id="botonesMaterias"></div>
-  </div>
+      <div id="materias">
+    <p>Selecciona la materia a estudiar:</p>
+    <div id="botonesMaterias"></div>
+  </div>
 
-  <p id="seleccionMateria"></p>
+  <p id="seleccionMateria"></p>
 
-  <!-- Dificultades -->
-  <div id="dificultades" style="display:none;">
-    <p>Selecciona la dificultad:</p>
-    <div id="botonesDificultad"></div>
-  </div>
+      <div id="dificultades">
+    <p>Selecciona la dificultad:</p>
+    <div id="botonesDificultad"></div>
+  </div>
 
-  <!-- Resumen final -->
-  <p id="resumenFinal"></p>
+    <p id="resumenFinal"></p>
 
-  <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
