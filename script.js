@@ -1,132 +1,163 @@
-// Selección de elementos
-const inputNombre = document.getElementById("nombre");
-const botonListo = document.getElementById("botonListo");
-const saludo = document.getElementById("saludo");
-const modalidadDiv = document.getElementById("modalidad");
-const seleccion = document.getElementById("seleccion");
-const materiasDiv = document.getElementById("materias");
-const botonesMateriasDiv = document.getElementById("botonesMaterias");
-const seleccionMateria = document.getElementById("seleccionMateria");
-const dificultadesDiv = document.getElementById("dificultades");
-const botonesDificultadDiv = document.getElementById("botonesDificultad");
-const resumenFinal = document.getElementById("resumenFinal");
-
-// Variables globales
+// =============================
+// 📘 VARIABLES PRINCIPALES
+// =============================
 let nombreUsuario = "";
 let modalidadSeleccionada = "";
 let materiaSeleccionada = "";
 let dificultadSeleccionada = "";
 
-// Lista de dificultades
-const dificultades = [
-  "Extremadamente Fácil","Muy Fácil","Fácil","Normal",
-  "Difícil","Muy Difícil","Extremo","Imposible 💀"
+// =============================
+// 🎯 ELEMENTOS HTML
+// =============================
+const inputNombre = document.getElementById("nombre");
+const btnListo = document.getElementById("btnListo");
+const saludo = document.getElementById("saludo");
+const seleccion = document.getElementById("seleccion");
+const seleccionMateria = document.getElementById("seleccionMateria");
+const resumenFinal = document.getElementById("resumenFinal");
+
+const ingresoNombreDiv = document.getElementById("ingresoNombre");
+const modalidadDiv = document.getElementById("modalidad");
+const materiasDiv = document.getElementById("materias");
+const dificultadesDiv = document.getElementById("dificultades");
+const botonesMaterias = document.getElementById("botonesMaterias");
+const botonesDificultad = document.getElementById("botonesDificultad");
+
+// =============================
+// 🚫 FILTRO DE NOMBRES INAPROPIADOS
+// =============================
+const palabrasProhibidas = [
+  "idiota", "tonto", "mierda", "puta", "fuck", "ass", "bitch",
+  "imbécil", "basura", "negro", "racista", "gay", "nazi", "sexo"
 ];
 
-// Materias por modalidad
-const materiasPorModalidad = {
-  "Primaria": ["Matemáticas","Ciencias","Geografía","Español","Historia","Inglés","Arte","Educación Física"],
-  "Secundaria": ["Álgebra","Física","Química","Historia Universal","Biología","Arte","Inglés"],
-  "Preparatoria": ["Cálculo","Física Avanzada","Literatura","Química","Historia Moderna","Filosofía","Idiomas"],
-  "Universidad": ["Programación","Economía","Ingeniería","Cálculo Integral","Estadística","Diseño","Psicología"],
-  "Postgrado": ["Gestión de Proyectos","Investigación Avanzada","Filosofía Aplicada","Educación Superior"]
-};
+// Detectar insultos también en otros idiomas
+function contienePalabrasProhibidas(texto) {
+  const normalizado = texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return palabrasProhibidas.some(palabra => normalizado.includes(palabra));
+}
 
-// 🔹 Habilitar botón "Listo" solo si hay texto
-inputNombre.addEventListener("input", () => {
-  botonListo.disabled = inputNombre.value.trim() === "";
-});
+// =============================
+// 💾 FUNCIONES LOCALSTORAGE
+// =============================
+function guardarDatos() {
+  const datos = {
+    nombreUsuario,
+    modalidadSeleccionada,
+    materiaSeleccionada,
+    dificultadSeleccionada
+  };
+  localStorage.setItem("estudioDatos", JSON.stringify(datos));
+}
 
-// 🔹 Acción al hacer clic en "Listo"
-botonListo.addEventListener("click", () => {
-  nombreUsuario = inputNombre.value.trim();
+function recuperarDatos() {
+  const datosGuardados = JSON.parse(localStorage.getItem("estudioDatos"));
+  if (!datosGuardados) return;
 
-  // Filtro de nombres inapropiados (puedes ampliar)
-  const palabrasBloqueadas = ["tonto","idiota","puto","fuck","shit","mierda"];
-  if (palabrasBloqueadas.some(p => nombreUsuario.toLowerCase().includes(p))) {
-    alert("⚠️ Ese nombre no está permitido. Intenta con otro.");
+  nombreUsuario = datosGuardados.nombreUsuario || "";
+  modalidadSeleccionada = datosGuardados.modalidadSeleccionada || "";
+  materiaSeleccionada = datosGuardados.materiaSeleccionada || "";
+  dificultadSeleccionada = datosGuardados.dificultadSeleccionada || "";
+
+  if (nombreUsuario) {
+    ingresoNombreDiv.style.display = "none";
+    modalidadDiv.style.display = "block";
+    saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
+
+    if (modalidadSeleccionada) {
+      seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
+      materiasDiv.style.display = "block";
+    }
+
+    if (materiaSeleccionada) {
+      seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
+      dificultadesDiv.style.display = "block";
+    }
+
+    if (dificultadSeleccionada) {
+      mostrarResumen();
+    }
+  }
+}
+
+// =============================
+// 🧠 INTERACCIÓN PRINCIPAL
+// =============================
+btnListo.addEventListener("click", () => {
+  const nombre = inputNombre.value.trim();
+
+  if (nombre === "") {
+    alert("Por favor, escribe tu nombre.");
     return;
   }
 
-  saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
-  saludo.classList.add("fadeIn");
+  if (contienePalabrasProhibidas(nombre)) {
+    alert("El nombre contiene palabras inapropiadas. Intenta con otro.");
+    return;
+  }
 
-  document.getElementById("ingresoNombre").style.display = "none";
+  nombreUsuario = nombre;
+  saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
+  ingresoNombreDiv.style.display = "none";
   modalidadDiv.style.display = "block";
-  modalidadDiv.classList.add("fadeIn");
+  guardarDatos();
 });
 
-// 🔹 Botones de modalidad
-const botonesModalidad = document.querySelectorAll(".modBtn");
-botonesModalidad.forEach(button => {
+// =============================
+// 🧩 SELECCIÓN DE MODALIDAD
+// =============================
+document.querySelectorAll(".modBtn").forEach(button => {
   button.addEventListener("click", () => {
     modalidadSeleccionada = button.textContent;
     seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
-    seleccion.classList.add("fadeIn");
-
-    // Limpiar selección anterior
-    botonesMateriasDiv.innerHTML = "";
-    materiaSeleccionada = "";
-    dificultadSeleccionada = "";
-    resumenFinal.innerHTML = "";
-    botonesDificultadDiv.innerHTML = "";
-    dificultadesDiv.style.display = "none";
-
-    // Crear botones de materias según modalidad
-    materiasPorModalidad[modalidadSeleccionada].forEach((materia,index)=>{
-      const btn = document.createElement("button");
-      btn.classList.add("matBtn","fadeIn");
-      btn.setAttribute("data-materia",materia);
-      btn.innerHTML = `<span>${materia}</span>`;
-      btn.style.animationDelay = `${index*0.1}s`;
-
-      btn.addEventListener("click", () => {
-        materiaSeleccionada = materia;
-        seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
-        seleccionMateria.classList.add("fadeIn");
-
-        dificultadSeleccionada = "";
-        botonesDificultadDiv.innerHTML = "";
-        resumenFinal.innerHTML = "";
-
-        mostrarDificultades();
-      });
-
-      botonesMateriasDiv.appendChild(btn);
-    });
-
     materiasDiv.style.display = "block";
-    materiasDiv.classList.add("fadeIn");
+    dificultadSeleccionada = "";
+    resumenFinal.textContent = "";
+    guardarDatos();
   });
 });
 
-// 🔹 Mostrar dificultades
-function mostrarDificultades() {
-  botonesDificultadDiv.innerHTML = "";
-  dificultades.forEach((dif,index)=>{
-    const btn = document.createElement("button");
-    btn.classList.add("difBtn","fadeIn");
-    btn.textContent = dif;
-    btn.style.animationDelay = `${index*0.1}s`;
-    btn.addEventListener("click", () => {
-      dificultadSeleccionada = dif;
-      mostrarResumen();
-    });
-    botonesDificultadDiv.appendChild(btn);
+// =============================
+// 📚 SELECCIÓN DE MATERIAS
+// =============================
+document.querySelectorAll(".matBtn").forEach(button => {
+  button.addEventListener("click", () => {
+    materiaSeleccionada = button.getAttribute("data-materia");
+    seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
+    dificultadesDiv.style.display = "block";
+    dificultadSeleccionada = "";
+    resumenFinal.textContent = "";
+    guardarDatos();
   });
-  dificultadesDiv.style.display = "block";
-  dificultadesDiv.classList.add("fadeIn");
+});
+
+// =============================
+// 💪 SELECCIÓN DE DIFICULTAD
+// =============================
+document.querySelectorAll(".difBtn").forEach(button => {
+  button.addEventListener("click", () => {
+    dificultadSeleccionada = button.textContent;
+    guardarDatos();
+    mostrarResumen();
+  });
+});
+
+// =============================
+// 🧾 MOSTRAR RESUMEN FINAL
+// =============================
+function mostrarResumen() {
+  if (nombreUsuario && modalidadSeleccionada && materiaSeleccionada && dificultadSeleccionada) {
+    resumenFinal.innerHTML = `
+      <p><strong>Resumen:</strong></p>
+      <p>👤 Nombre: ${nombreUsuario}</p>
+      <p>🎓 Modalidad: ${modalidadSeleccionada}</p>
+      <p>📘 Materia: ${materiaSeleccionada}</p>
+      <p>🔥 Dificultad: ${dificultadSeleccionada}</p>
+    `;
+  }
 }
 
-// 🔹 Mostrar resumen final
-function mostrarResumen() {
-  resumenFinal.innerHTML = `
-    <div class="fadeIn" style="margin-top:20px;padding:15px;background:rgba(255,255,255,0.9);border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.2);max-width:500px;margin-inline:auto;">
-      <h3>📘 Resumen de tu selección</h3>
-      <p><strong>Nombre:</strong> ${nombreUsuario}</p>
-      <p><strong>Modalidad:</strong> ${modalidadSeleccionada}</p>
-      <p><strong>Materia:</strong> ${materiaSeleccionada}</p>
-      <p><strong>Dificultad:</strong> ${dificultadSeleccionada}</p>
-    </div>
-  `;
-}
+// =============================
+// 🚀 CARGAR DATOS AL INICIO
+// =============================
+recuperarDatos();
