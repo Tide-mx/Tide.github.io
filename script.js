@@ -92,7 +92,7 @@ botonesModalidad.forEach(button => {
         // Mostrar dificultades
         mostrarDificultades();
       });
-@@ -98,6 +103,9 @@
+@@ -98,37 +103,40 @@
 
     materiasDiv.style.display = "block";
     materiasDiv.classList.add("fadeIn");
@@ -101,3 +101,35 @@ botonesModalidad.forEach(button => {
     dificultadesDiv.style.display = "none";
   });
 });
+
+// --- Mostrar dificultades ---
+function mostrarDificultades() {
+  botonesDificultadDiv.innerHTML = "";
+  dificultades.forEach((dif, index) => {
+    const btn = document.createElement("button");
+    btn.classList.add("difBtn", "fadeIn");
+    btn.textContent = dif;
+    btn.style.animationDelay = `${index * 0.1}s`;
+    btn.addEventListener("click", () => {
+      dificultadSeleccionada = dif;
+      mostrarResumen();
+    });
+    botonesDificultadDiv.appendChild(btn);
+  });
+
+  dificultadesDiv.style.display = "block";
+  dificultadesDiv.classList.add("fadeIn");
+}
+
+// --- Mostrar resumen final ---
+function mostrarResumen() {
+  resumenFinal.innerHTML = `
+    <div class="fadeIn" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); max-width: 500px; margin-inline: auto;">
+      <h3>📘 Resumen de tu selección</h3>
+      <p><strong>Nombre:</strong> ${nombreUsuario}</p>
+      <p><strong>Modalidad:</strong> ${modalidadSeleccionada}</p>
+      <p><strong>Materia:</strong> ${materiaSeleccionada}</p>
+      <p><strong>Dificultad:</strong> ${dificultadSeleccionada}</p>
+    </div>
+  `;
+}
