@@ -13,9 +13,7 @@
     <p>Inserta tu nombre:</p>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
     <button id="botonListo" disabled>Listo</button>
-    <p id="avisoErrores" class="fadeIn" style="color:red; font-size:0.9em; margin-top:10px; animation-delay:0.5s;">
-      ⚠️ Esta página puede tener errores.
-    </p>
+    <p id="avisoErrores" style="color:red;font-size:0.9em;margin-top:10px;">⚠️ Esta página puede tener errores.</p>
   </div>
 
   <p id="saludo"></p>
@@ -49,16 +47,16 @@
   <div id="resumenFinal"></div>
 
   <!-- Contenido y test -->
-  <div id="pantallaEstudio" style="display:none;">
-    <div id="bienvenida"></div>
-    <button id="verContenidoBtn" style="margin:10px;">Ver contenido</button>
-    <div id="contenidoTemas" style="margin-top:20px;"></div>
-    <button id="empezarTestBtn" style="display:none;margin-top:20px;">Empezar test</button>
-    <div id="testArea" style="margin-top:20px;"></div>
+  <div id="contenidoTest" style="display:none;">
+    <div id="infoUsuario"></div>
+    <button id="verContenidoBtn">Ver contenido</button>
+    <div id="temasDiv"></div>
+    <button id="empezarTestBtn" style="display:none;">Empezar test</button>
+    <div id="testDiv" style="display:none;"></div>
+    <div id="resultadosDiv" style="display:none;"></div>
   </div>
 
-  <script src="contenidos.js"></script> <!-- Temas y simulación IA -->
+  <script src="contenido.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
