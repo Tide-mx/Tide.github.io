@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     dificultad: ""
   };
 
-  // Recuperar datos al cargar la página
   if(localStorage.getItem("usuario")){
     usuario = JSON.parse(localStorage.getItem("usuario"));
     if(usuario.nombre){
@@ -58,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "Postgrado": ["Investigación Avanzada","Estadística","Filosofía Aplicada","Gestión de Proyectos","Educación Superior"]
   };
 
-  // Dificultades
   const dificultades = ["Extremadamente Fácil","Muy Fácil","Fácil","Normal","Difícil","Muy Difícil","Extremadamente Difícil"];
 
   // Botones de modalidad
@@ -75,14 +73,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function mostrarModalidad(modalidad){
     seleccion.textContent = `Has seleccionado: ${modalidad}`;
-    // Limpiar botones anteriores
     botonesMateriasDiv.innerHTML = "";
-    // Crear botones de materias
+
     materiasPorModalidad[modalidad].forEach(materia => {
       const btn = document.createElement("button");
-      btn.textContent = materia;
       btn.className = "matBtn";
       btn.setAttribute("data-materia", materia);
+
+      // Span para texto visible
+      const span = document.createElement("span");
+      span.textContent = materia;
+      btn.appendChild(span);
+
       btn.addEventListener("click", () => {
         usuario.materia = materia;
         mostrarMateria(materia);
@@ -91,18 +93,18 @@ document.addEventListener("DOMContentLoaded", () => {
         generarDificultades();
         guardarDatos();
       });
+
       botonesMateriasDiv.appendChild(btn);
     });
+
     materiasDiv.style.display = "block";
   }
 
-  // Mostrar materia seleccionada
   function mostrarMateria(materia){
     seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
     if(usuario.dificultad) actualizarResumen();
   }
 
-  // Generar botones de dificultad
   function generarDificultades(){
     botonesDificultadDiv.innerHTML = "";
     dificultades.forEach(diff => {
@@ -118,12 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Actualizar resumen final
   function actualizarResumen(){
     resumenFinal.textContent = `Resumen: ${usuario.nombre} | ${usuario.modalidad} | ${usuario.materia} | ${usuario.dificultad}`;
   }
 
-  // Guardar en localStorage
   function guardarDatos(){
     localStorage.setItem("usuario", JSON.stringify(usuario));
   }
