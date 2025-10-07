@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputNombre = document.getElementById("nombre");
   const botonListo = document.getElementById("botonListo");
   const saludo = document.getElementById("saludo");
+  const ingresoNombreDiv = document.getElementById("ingresoNombre");
   const modalidadDiv = document.getElementById("modalidad");
   const seleccion = document.getElementById("seleccion");
   const materiasDiv = document.getElementById("materias");
@@ -23,33 +24,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Lógica de Carga Inicial ---
   if(localStorage.getItem("usuario")){
     usuario = JSON.parse(localStorage.getItem("usuario"));
+    
     if(usuario.nombre){
-      saludo.textContent = `¡Hola, ${usuario.nombre}! Bienvenido/a.`;
-      inputNombre.value = usuario.nombre;
-      botonListo.disabled = false;
-      document.getElementById("ingresoNombre").style.display = "none";
+      ingresoNombreDiv.style.display = "none";
+      saludo.textContent = `¡Hola, ${usuario.nombre}! Por favor, continúa tu sesión.`;
       
-      // 💡 CORRECCIÓN VISIBILIDAD: Modalidad debe aparecer
       modalidadDiv.style.display = "block";
       modalidadDiv.classList.add("fadeIn");
     }
     
     if(usuario.modalidad) {
         mostrarModalidad(usuario.modalidad);
-        // Resaltar el botón de modalidad
         const btnMod = Array.from(botonesModalidad).find(b => b.textContent === usuario.modalidad);
         if (btnMod) btnMod.classList.add("seleccionado");
     }
 
     if(usuario.materia) {
         mostrarMateria(usuario.materia);
-        // Materias debe ser visible
         materiasDiv.classList.add("fadeIn"); 
     }
     
     if(usuario.dificultad) {
         generarDificultades();
-        // Dificultades debe ser visible
         dificultadesDiv.style.display = "block";
         dificultadesDiv.classList.add("fadeIn");
         actualizarResumen();
@@ -61,15 +57,18 @@ document.addEventListener("DOMContentLoaded", () => {
     botonListo.disabled = inputNombre.value.trim() === "";
   });
 
+  // --- Evento: Listo (Paso 1 completado) ---
   botonListo.addEventListener("click", () => {
     usuario.nombre = inputNombre.value.trim();
+    
+    // Animación de ocultar/mostrar
+    ingresoNombreDiv.style.display = "none"; 
+    
     saludo.textContent = `¡Hola, ${usuario.nombre}! Bienvenido/a.`;
-    document.getElementById("ingresoNombre").style.display = "none";
     
     modalidadDiv.style.display = "block";
-    // 💡 CORRECCIÓN VISIBILIDAD: Añadir la clase para que aparezca
-    modalidadDiv.classList.add("fadeIn");
-    
+    modalidadDiv.classList.add("fadeIn");
+    
     guardarDatos();
   });
 
@@ -81,26 +80,34 @@ document.addEventListener("DOMContentLoaded", () => {
     "Postgrado": ["Investigación Avanzada","Estadística","Filosofía Aplicada","Gestión de Proyectos","Educación Superior"]
   };
 
-  const dificultades = ["Extremadamente Fácil","Muy Fácil","Fácil","Normal","Difícil","Muy Difícil","Extremadamente Difícil"];
+  const dificultades = [
+    "Extremadamente Fácil", "Muy Fácil", "Fácil", 
+    "Normal", 
+    "Difícil", "Muy Difícil", 
+    "Extremadamente Difícil" // El CSS maneja estos colores
+  ];
 
+  // --- Evento: Modalidad seleccionada (Paso 2 completado) ---
   botonesModalidad.forEach(button => {
     button.addEventListener("click", () => {
-      // Limpiar selección previa
+      // Estilo
       botonesModalidad.forEach(btn => btn.classList.remove("seleccionado"));
-      // Aplicar selección actual
       button.classList.add("seleccionado");
       
+      // Lógica
       usuario.modalidad = button.textContent;
-      mostrarModalidad(usuario.modalidad);
       usuario.materia = "";
       usuario.dificultad = "";
-      actualizarResumen(); // Limpiar resumen al cambiar modalidad
+      actualizarResumen();
+      
+      mostrarModalidad(usuario.modalidad);
+      
       guardarDatos();
     });
   });
 
   function mostrarModalidad(modalidad){
-    seleccion.textContent = `Has seleccionado: ${modalidad}`;
+    seleccion.textContent = `Modalidad seleccionada: ${modalidad}`;
     botonesMateriasDiv.innerHTML = "";
     
     const materiaGuardada = usuario.materia;
@@ -110,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.className = "matBtn";
       btn.setAttribute("data-materia", materia);
       
-      // Aplicar estilo si esta materia es la que ya estaba seleccionada
       if (materia === materiaGuardada) {
           btn.classList.add("seleccionado");
       }
@@ -119,36 +125,36 @@ document.addEventListener("DOMContentLoaded", () => {
       span.textContent = materia;
       btn.appendChild(span);
 
+      // --- Evento: Materia seleccionada (Paso 3 completado) ---
       btn.addEventListener("click", (e) => {
-        // Limpiar selección previa de todas las materias
+        // Estilo
         document.querySelectorAll(".matBtn").forEach(b => b.classList.remove("seleccionado"));
-        // Aplicar selección actual
         e.currentTarget.classList.add("seleccionado");
         
+        // Lógica
         usuario.materia = materia;
-        mostrarMateria(materia);
         usuario.dificultad = "";
-        
+        actualizarResumen(); 
+
+        mostrarMateria(materia);
+        
         dificultadesDiv.style.display = "block";
-        // 💡 CORRECCIÓN VISIBILIDAD: Dificultades debe aparecer
-        dificultadesDiv.classList.add("fadeIn");
+        dificultadesDiv.classList.add("fadeIn");
 
         generarDificultades();
-        actualizarResumen(); // Limpiar dificultad del resumen
         guardarDatos();
       });
 
       botonesMateriasDiv.appendChild(btn);
     });
 
+    // Mostrar materias con animación
     materiasDiv.style.display = "block";
-    // 💡 CORRECCIÓN VISIBILIDAD: Materias debe aparecer
-    materiasDiv.classList.add("fadeIn");
+    materiasDiv.classList.add("fadeIn");
   }
 
   function mostrarMateria(materia){
     seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
-    if(usuario.dificultad) actualizarResumen();
   }
 
   function generarDificultades(){
@@ -157,18 +163,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const btn = document.createElement("button");
       btn.textContent = diff;
       btn.className = "difBtn";
+      btn.setAttribute("data-dificultad", diff); // Necesario para el CSS temático
       
-      // Aplicar estilo si esta dificultad es la que ya estaba seleccionada
       if (diff === usuario.dificultad) {
           btn.classList.add("seleccionado");
       }
       
+      // --- Evento: Dificultad seleccionada (Paso 4 completado) ---
       btn.addEventListener("click", (e) => {
-        // Limpiar selección previa
+        // Estilo
         document.querySelectorAll(".difBtn").forEach(b => b.classList.remove("seleccionado"));
-        // Aplicar selección actual
         e.currentTarget.classList.add("seleccionado");
 
+        // Lógica
         usuario.dificultad = diff;
         actualizarResumen();
         guardarDatos();
@@ -178,10 +185,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarResumen(){
-    resumenFinal.textContent = `Resumen: ${usuario.nombre} | ${usuario.modalidad} | ${usuario.materia} | ${usuario.dificultad}`;
+    resumenFinal.textContent = `${usuario.nombre} | ${usuario.modalidad} | ${usuario.materia} | Nivel: ${usuario.dificultad}`;
   }
 
-  // 💡 FUNCIÓN FALTANTE: Guarda el objeto usuario en localStorage
   function guardarDatos(){
     localStorage.setItem("usuario", JSON.stringify(usuario));
   }
