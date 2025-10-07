@@ -1,129 +1,150 @@
-/* Estilo general de la página */
+/* --- Fondo animado --- */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   text-align: center;
-  background: #f0f8ff;
-  color: #333;
-  margin-top: 50px;
+  color: #fff;
+  margin: 0;
+  padding-top: 50px;
+  min-height: 100vh;
+  background: linear-gradient(270deg, #1a73e8, #9333ea, #0ea5e9);
+  background-size: 600% 600%;
+  animation: fondoAnimado 12s ease infinite;
+  overflow-x: hidden;
 }
 
-/* Estilo para los inputs de texto */
+@keyframes fondoAnimado {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- Encabezado principal --- */
+h1 {
+  font-size: 2.2em;
+  background: linear-gradient(to right, #00ffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 30px;
+  text-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+/* --- Input del nombre --- */
 input {
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 200px;
-  margin-right: 10px;
-}
-
-/* Estilo general de todos los botones */
-button {
-  padding: 10px 20px;
-  border: none;
-  background: #0077cc;
-  color: white;
   border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  border: none;
+  width: 220px;
+  font-size: 1em;
+  outline: none;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
 }
 
-/* Botón deshabilitado */
+input:focus {
+  box-shadow: 0 0 15px rgba(0,255,255,0.7);
+}
+
+/* --- Botones generales --- */
+button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #fff;
+  margin: 8px;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+button:hover:enabled {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+/* --- Botón deshabilitado --- */
 button:disabled {
-  background: #999;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* Hover para todos los botones activos */
-button:hover:enabled {
-  background: #005fa3;
-  transform: scale(1.05);
+/* --- Modalidades y materias en tarjetas --- */
+#modalidad button, .matBtn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(6px);
 }
 
-/* Margen para botones */
-.modBtn, .difBtn, .matBtn {
-  margin: 5px;
+#modalidad button:hover, .matBtn:hover {
+  background: rgba(255,255,255,0.3);
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
-/* Mensajes */
-#saludo, #seleccion, #seleccionMateria, #seleccionDificultad {
+/* --- Materias con imágenes --- */
+.matBtn {
+  width: 200px;
+  height: 130px;
+  color: white;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   font-weight: bold;
-  margin-top: 20px;
-  font-size: 1.1em;
+  font-size: 1.05em;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.7);
 }
 
-/* --- Animaciones generales --- */
-.fade-in {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeIn 0.4s forwards;
+.matBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+/* --- Fondo de materias específicas (automático por JS opcionalmente) --- */
+.matBtn[data-materia*="Matemáticas"] { background-image: url('https://i.imgur.com/MuhY1eW.jpg'); }
+.matBtn[data-materia*="Lengua"] { background-image: url('https://i.imgur.com/8xqHoBo.jpg'); }
+.matBtn[data-materia*="Ciencias"] { background-image: url('https://i.imgur.com/y82C7FV.jpg'); }
+.matBtn[data-materia*="Historia"] { background-image: url('https://i.imgur.com/EfA6LFa.jpg'); }
+.matBtn[data-materia*="Arte"] { background-image: url('https://i.imgur.com/1I6tbLC.jpg'); }
+.matBtn[data-materia*="Física"] { background-image: url('https://i.imgur.com/2Oj1AEV.jpg'); }
+.matBtn[data-materia*="Química"] { background-image: url('https://i.imgur.com/1TTvL8A.jpg'); }
+.matBtn[data-materia*="Programación"] { background-image: url('https://i.imgur.com/vN4oY9S.jpg'); }
+
+/* --- Texto de selección y saludo --- */
+#saludo, #seleccion, #seleccionMateria {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-top: 20px;
+  color: #fff;
+}
+
+/* --- Resumen final --- */
+#resumenFinal {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 16px;
+  display: none;
+  width: 350px;
+  margin: 30px auto;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  animation: fadeIn 1s ease forwards;
 }
 
 @keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Resumen final con transición --- */
-#resumenFinal {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.4s ease;
-  margin-top: 30px;
-  padding: 15px;
-  background: #ffffffcc;
-  border: 2px solid #0077cc;
-  border-radius: 10px;
-  display: inline-block;
+/* --- Botón Reiniciar --- */
+#reiniciarBtn {
+  background: linear-gradient(135deg, #e11d48, #be123c);
 }
 
-#resumenFinal.show {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* --- Estilo del resumen en lista --- */
-#resumenFinal ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 15px 0;
-  text-align: left;
-}
-
-#resumenFinal li {
-  margin: 8px 0;
-  font-size: 1.1em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-#resumenFinal li span {
-  font-weight: bold;
-}
-
-/* Botones animados en cascada */
-.modBtn, .matBtn, .difBtn {
-  animation-fill-mode: both;
-}
-#avisoPestana {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #ffcc00;
-  color: #333;
-  font-weight: bold;
-  padding: 15px 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: all 0.5s ease;
-  z-index: 9999;
-}
-
-#avisoPestana.show {
-  opacity: 1;
-  transform: translateY(0);
+#reiniciarBtn:hover {
+  background: linear-gradient(135deg, #f43f5e, #b91c1c);
+  transform: scale(1.05);
 }
