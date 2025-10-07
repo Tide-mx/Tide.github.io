@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Elementos del DOM
   const inputNombre = document.getElementById("nombre");
   const botonListo = document.getElementById("botonListo");
   const saludo = document.getElementById("saludo");
@@ -12,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const botonesDificultadDiv = document.getElementById("botonesDificultad");
   const resumenFinal = document.getElementById("resumenFinal");
 
-  // Guardado y recuperación en localStorage
   let usuario = {
     nombre: "",
     modalidad: "",
@@ -34,12 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if(usuario.dificultad) actualizarResumen();
   }
 
-  // Activar botón solo si hay texto
   inputNombre.addEventListener("input", () => {
     botonListo.disabled = inputNombre.value.trim() === "";
   });
 
-  // Acción al hacer clic en "Listo"
   botonListo.addEventListener("click", () => {
     usuario.nombre = inputNombre.value.trim();
     saludo.textContent = `¡Hola, ${usuario.nombre}! Bienvenido/a.`;
@@ -48,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
     guardarDatos();
   });
 
-  // Materias según modalidad
   const materiasPorModalidad = {
     "Primaria": ["Matemáticas","Español","Ciencias","Historia","Arte","Educación Física","Inglés"],
     "Secundaria": ["Matemáticas","Lengua y Literatura","Biología","Química","Historia Universal","Arte","Tecnología","Inglés II"],
@@ -59,14 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const dificultades = ["Extremadamente Fácil","Muy Fácil","Fácil","Normal","Difícil","Muy Difícil","Extremadamente Difícil"];
 
-  // Botones de modalidad
   const botonesModalidad = document.querySelectorAll(".modBtn");
   botonesModalidad.forEach(button => {
     button.addEventListener("click", () => {
       usuario.modalidad = button.textContent;
       mostrarModalidad(usuario.modalidad);
-      usuario.materia = ""; // Reset materia
-      usuario.dificultad = ""; // Reset dificultad
+      usuario.materia = "";
+      usuario.dificultad = "";
       guardarDatos();
     });
   });
@@ -80,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.className = "matBtn";
       btn.setAttribute("data-materia", materia);
 
-      // Span para texto visible
       const span = document.createElement("span");
       span.textContent = materia;
       btn.appendChild(span);
@@ -88,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", () => {
         usuario.materia = materia;
         mostrarMateria(materia);
-        usuario.dificultad = ""; // Reset dificultad al cambiar materia
+        usuario.dificultad = "";
         dificultadesDiv.style.display = "block";
         generarDificultades();
         guardarDatos();
