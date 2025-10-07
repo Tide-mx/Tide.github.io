@@ -21,7 +21,7 @@ const dificultades = [
 
 const materiasPorModalidad = {
   "Primaria": ["Matemáticas","Ciencias","Geografía","Español","Historia","Inglés","Arte","Educación Física"],
-  "Secundaria": ["Álgebra","Física","Química","Historia Universal","Biología","Arte","Inglés"],
+  "Secundaria": ["Álgebra","Física","Química","Historia Universal","Biología","Arte II","Inglés II"],
   "Preparatoria": ["Cálculo","Física Avanzada","Literatura","Química","Historia Moderna","Filosofía","Idiomas"],
   "Universidad": ["Programación","Economía","Ingeniería","Cálculo Integral","Estadística","Diseño","Psicología"],
   "Postgrado": ["Gestión de Proyectos","Investigación Avanzada","Filosofía Aplicada","Educación Superior"]
