@@ -13,9 +13,7 @@
     <p>Inserta tu nombre:</p>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
     <button id="botonListo" disabled>Listo</button>
-
-    <!-- Aviso de errores -->
-    <p id="avisoErrores" class="fadeIn" style="color: red; font-size: 0.9em; margin-top: 10px; animation-delay: 0.5s;">
+    <p id="avisoErrores" class="fadeIn" style="color:red; font-size:0.9em; margin-top:10px; animation-delay:0.5s;">
       ⚠️ Esta página puede tener errores.
     </p>
   </div>
@@ -50,6 +48,17 @@
   <!-- Resumen final -->
   <div id="resumenFinal"></div>
 
+  <!-- Contenido y test -->
+  <div id="pantallaEstudio" style="display:none;">
+    <div id="bienvenida"></div>
+    <button id="verContenidoBtn" style="margin:10px;">Ver contenido</button>
+    <div id="contenidoTemas" style="margin-top:20px;"></div>
+    <button id="empezarTestBtn" style="display:none;margin-top:20px;">Empezar test</button>
+    <div id="testArea" style="margin-top:20px;"></div>
+  </div>
+
+  <script src="contenidos.js"></script> <!-- Temas y simulación IA -->
   <script src="script.js"></script>
 </body>
 </html>
+
