@@ -165,76 +165,77 @@ function mostrarResumen() {
   document.getElementById("botonComenzar").addEventListener("click", iniciarContenido);
 }
 
-// ----------------------
-// INICIAR CONTENIDO / TEMAS
-// ----------------------
+// INICIAR CONTENIDO
 function iniciarContenido() {
-  modalidadDiv.style.display = "none";
-  materiasDiv.style.display = "none";
-  dificultadesDiv.style.display = "none";
-  resumenFinal.style.display = "none";
-  seleccion.textContent = "";
+  // Ocultar secciones previas
+  document.getElementById("modalidad").style.display = "none";
+  document.getElementById("materias").style.display = "none";
+  document.getElementById("dificultades").style.display = "none";
+  document.getElementById("resumenFinal").style.display = "none";
 
-  inicioContenidoDiv.innerHTML = `
-    <div style="padding:14px;">
-      <p id="infoUsuario">¡Bienvenid@ ${nombreUsuario}!</p>
-      <p>Modalidad: <strong>${modalidadSeleccionada}</strong></p>
-      <p>Materia: <strong>${materiaSeleccionada}</strong></p>
-      <p>Dificultad: <strong>${dificultadSeleccionada}</strong></p>
-      <button id="verContenidoBtn" type="button" style="margin-top:10px;">Ver Contenido</button>
-      <div id="temasDiv" style="margin-top:12px;"></div>
-    </div>
-  `;
+  // Mostrar contenedor principal
+  const inicioContenidoDiv = document.getElementById("inicioContenido");
   inicioContenidoDiv.style.display = "block";
   inicioContenidoDiv.classList.add("fadeIn");
 
-  document.getElementById("verContenidoBtn").addEventListener("click", mostrarTemas);
+  // Mostrar datos del usuario y los temas
+  inicioContenidoDiv.innerHTML = `
+    <div id="infoUsuario" class="fadeIn">
+      <h2>📘 ¡Bienvenid@ ${nombreUsuario}!</h2>
+      <p><strong>Modalidad:</strong> ${modalidadSeleccionada}</p>
+      <p><strong>Materia:</strong> ${materiaSeleccionada}</p>
+      <p><strong>Dificultad:</strong> ${dificultadSeleccionada}</p>
+      <hr>
+      <h3>Temas disponibles:</h3>
+      <div id="temasDiv"></div>
+    </div>
+  `;
+
+  mostrarTemas();
 }
 
-// ----------------------
-// MOSTRAR TEMAS
-// ----------------------
+// MOSTRAR TEMAS CON "SABER MÁS"
 function mostrarTemas() {
   const temasDiv = document.getElementById("temasDiv");
   temasDiv.innerHTML = "";
 
-  let temas = [];
-  try {
-    if (window.contenidoMaterias && contenidoMaterias[modalidadSeleccionada] && contenidoMaterias[modalidadSeleccionada][materiaSeleccionada]) {
-      temas = contenidoMaterias[modalidadSeleccionada][materiaSeleccionada];
-    }
-  } catch(e) {}
-
-  if (temas.length === 0) temas = ["Tema 1", "Tema 2", "Tema 3"];
+  // Cargar los temas desde contenido.js
+  const temas = contenidoMaterias[modalidadSeleccionada]?.[materiaSeleccionada] || ["Tema 1", "Tema 2", "Tema 3"];
 
   temas.forEach(tema => {
     const div = document.createElement("div");
-    div.classList.add("temaItem");
+    div.classList.add("temaItem", "fadeIn");
     div.innerHTML = `
       <span>${tema}</span>
-      <button class="saberMasBtn" data-tema="${tema}" type="button" style="margin-left:10px;">Saber más</button>
+      <button class="saberMasBtn" data-tema="${tema}" style="margin-left:10px;">Saber más</button>
+      <div class="explicacionTema" style="display:none;margin-top:6px;padding:6px;background:rgba(255,255,255,0.9);border-radius:6px;"></div>
     `;
     temasDiv.appendChild(div);
   });
 
+  // Botón para el test (por ahora placeholder)
   const btnTest = document.createElement("button");
-  btnTest.type = "button";
-  btnTest.textContent = "Empezar Test";
+  btnTest.textContent = "🧠 Empezar Test";
   btnTest.style.marginTop = "15px";
-  btnTest.addEventListener("click", () => alert("Función de test aún no implementada"));
+  btnTest.addEventListener("click", () => alert("🧩 El test aún no está implementado."));
   temasDiv.appendChild(btnTest);
 
-  // Delegación Saber más
+  // Funcionalidad de "Saber más"
   temasDiv.addEventListener("click", e => {
     const btn = e.target.closest(".saberMasBtn");
     if (!btn) return;
+
     const tema = btn.getAttribute("data-tema");
-    const info = document.createElement("div");
-    info.style.marginTop = "8px";
-    info.style.padding = "8px";
-    info.style.background = "rgba(255,255,255,0.9)";
-    info.style.borderRadius = "8px";
-    info.innerHTML = `<strong>${tema}</strong><p>Explicación breve de ${tema} en ${materiaSeleccionada} (${modalidadSeleccionada}).</p>`;
-    btn.parentElement.appendChild(info);
+    const contenedor = btn.nextElementSibling;
+
+    if (contenedor.style.display === "none") {
+      contenedor.innerHTML = getExplicacion(modalidadSeleccionada, materiaSeleccionada, tema);
+      contenedor.style.display = "block";
+      btn.textContent = "Ocultar";
+    } else {
+      contenedor.style.display = "none";
+      btn.textContent = "Saber más";
+    }
   });
-                            }
+}
+
