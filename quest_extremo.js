@@ -543,4 +543,4 @@ const questExtremoPostgrado = {
 };
 
 // module.exports = questExtremoPostgrado;
-
+export default questExtremo;
