@@ -1,313 +1,201 @@
 // -------------------- script.js --------------------
 
-// Elementos del DOM
-const inputNombre = document.getElementById("nombre");
-const botonListo = document.getElementById("botonListo");
-const saludo = document.getElementById("saludo");
-const modalidadDiv = document.getElementById("modalidad");
-const seleccion = document.getElementById("seleccion");
-const materiasDiv = document.getElementById("materias");
-const botonesMateriasDiv = document.getElementById("botonesMaterias");
-const seleccionMateria = document.getElementById("seleccionMateria");
-const dificultadesDiv = document.getElementById("dificultades");
-const botonesDificultadDiv = document.getElementById("botonesDificultad");
-const resumenFinal = document.getElementById("resumenFinal");
-const inicioContenidoDiv = document.getElementById("contenidoTest");
-const infoUsuario = document.getElementById("infoUsuario");
-const temasDiv = document.getElementById("temasDiv");
-const testDiv = document.getElementById("testDiv");
-const resultadosDiv = document.getElementById("resultadosDiv");
-const verContenidoBtn = document.getElementById("verContenidoBtn");
-
-// Variables
-let nombreUsuario = "";
+// Variables globales
+let usuario = "";
 let modalidadSeleccionada = "";
 let materiaSeleccionada = "";
 let dificultadSeleccionada = "";
-let preguntasTest = [];
+let preguntasActuales = [];
 let respuestasUsuario = [];
+let preguntaIndex = 0;
 
-// Dificultades
-const dificultades = [
-  "Extremadamente Fácil","Muy Fácil","Fácil","Normal","Difícil","Muy Difícil","Extremo","Imposible 💀"
-];
+// Referencias del DOM
+const saludoDiv = document.getElementById("saludo");
+const seleccionDiv = document.getElementById("seleccion");
+const seleccionMateriaDiv = document.getElementById("seleccionMateria");
+const dificultadesDiv = document.getElementById("dificultades");
+const contenidoTestDiv = document.getElementById("contenidoTest");
+const resultadosDiv = document.getElementById("resultadosDiv");
+const botonesMateriasDiv = document.getElementById("botonesMaterias");
+const temasDiv = document.getElementById("temasDiv");
 
-// Materias por modalidad
-const materiasPorModalidad = {
-  "Primaria": ["Matemáticas","Ciencias","Geografía","Español","Historia","Inglés","Arte","Educación Física"],
-  "Secundaria": ["Álgebra","Física","Química","Historia Universal","Biología","Arte 2","Inglés 2"],
-  "Preparatoria": ["Cálculo","Física Avanzada","Literatura","Química","Historia Moderna","Filosofía","Idiomas"],
-  "Universidad": ["Programación","Economía","Ingeniería","Cálculo Integral","Estadística","Diseño","Psicología"],
-  "Postgrado": ["Gestión de Proyectos","Investigación Avanzada","Filosofía Aplicada","Educación Superior"]
-};
-
-// -------------------- BOTÓN LISTO --------------------
-inputNombre.addEventListener("input", () => {
-  botonListo.disabled = inputNombre.value.trim() === "";
+// -------------------- Saludo inicial --------------------
+document.getElementById("btnComenzar").addEventListener("click", () => {
+  usuario = document.getElementById("nombreUsuario").value.trim();
+  if (!usuario) return alert("Ingresa tu nombre para continuar");
+  saludoDiv.innerHTML = `¡Hola, ${usuario}! Bienvenido/a.`;
+  document.getElementById("modalidad").classList.add("fadeIn");
+  mostrarModalidades();
 });
 
-botonListo.addEventListener("click", () => {
-  nombreUsuario = inputNombre.value.trim();
-  const palabrasBloqueadas = ["tonto","idiota","puto","fuck","shit","mierda"];
-  if (palabrasBloqueadas.some(p => nombreUsuario.toLowerCase().includes(p))) {
-    alert("⚠️ Ese nombre no está permitido. Intenta con otro.");
-    return;
-  }
-
-  saludo.textContent = `¡Hola, ${nombreUsuario}! Bienvenido/a.`;
-  saludo.classList.add("fadeIn");
-
-  document.getElementById("ingresoNombre").style.display = "none";
-  modalidadDiv.style.display = "block";
-  modalidadDiv.classList.add("fadeIn");
-});
-
-// -------------------- BOTONES MODALIDAD --------------------
-document.querySelectorAll(".modBtn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    modalidadSeleccionada = btn.textContent;
-    seleccion.textContent = `Has seleccionado: ${modalidadSeleccionada}`;
-    seleccion.classList.add("fadeIn");
-
-    // Reiniciar selección
-    botonesMateriasDiv.innerHTML = "";
-    seleccionMateria.textContent = "";
-    dificultadSeleccionada = "";
-    botonesDificultadDiv.innerHTML = "";
-    resumenFinal.innerHTML = "";
-
-    // Mostrar materias
-    materiasPorModalidad[modalidadSeleccionada].forEach((materia, idx) => {
-      const btnMateria = document.createElement("button");
-      btnMateria.classList.add("matBtn","fadeIn");
-      btnMateria.setAttribute("data-materia",materia);
-      btnMateria.innerHTML = `<span>${materia}</span>`;
-      btnMateria.style.animationDelay = `${idx*0.1}s`;
-      btnMateria.addEventListener("click", () => seleccionarMateria(materia));
-      botonesMateriasDiv.appendChild(btnMateria);
-    });
-
-    materiasDiv.style.display = "block";
-    dificultadesDiv.style.display = "none";
+// -------------------- Mostrar modalidades --------------------
+function mostrarModalidades() {
+  const modalidades = ["Primaria", "Secundaria", "Preparatoria", "Universidad", "Postgrado"];
+  seleccionDiv.innerHTML = "<h3>Selecciona la modalidad:</h3>";
+  modalidades.forEach(mod => {
+    const btn = document.createElement("button");
+    btn.textContent = mod;
+    btn.onclick = () => seleccionarModalidad(mod);
+    seleccionDiv.appendChild(btn);
   });
-});
+}
 
-// -------------------- SELECCIONAR MATERIA --------------------
-function seleccionarMateria(materia){
-  materiaSeleccionada = materia;
-  seleccionMateria.textContent = `Materia seleccionada: ${materiaSeleccionada}`;
-  seleccionMateria.classList.add("fadeIn");
+// -------------------- Selección de modalidad --------------------
+function seleccionarModalidad(mod) {
+  modalidadSeleccionada = mod;
+  mostrarMaterias(mod);
+}
 
-  dificultadSeleccionada = "";
-  botonesDificultadDiv.innerHTML = "";
-  resumenFinal.innerHTML = "";
+// -------------------- Mostrar materias --------------------
+function mostrarMaterias(mod) {
+  botonesMateriasDiv.innerHTML = "";
+  const materias = Object.keys(contenidoMaterias[mod]);
+  materias.forEach(mat => {
+    const btn = document.createElement("button");
+    btn.className = "matBtn";
+    btn.dataset.materia = mat;
+    btn.innerHTML = `<span>${mat}</span>`;
+    btn.onclick = () => seleccionarMateria(mat);
+    botonesMateriasDiv.appendChild(btn);
+  });
+  seleccionMateriaDiv.classList.add("fadeIn");
+}
 
+// -------------------- Selección de materia --------------------
+function seleccionarMateria(mat) {
+  materiaSeleccionada = mat;
   mostrarDificultades();
 }
 
-// -------------------- MOSTRAR DIFICULTADES --------------------
-function mostrarDificultades(){
-  dificultadesDiv.style.display = "block";
-  botonesDificultadDiv.innerHTML = "";
-
-  dificultades.forEach((dif, idx)=>{
-    const btnDif = document.createElement("button");
-    btnDif.classList.add("difBtn","fadeIn");
-    btnDif.textContent = dif;
-    btnDif.style.animationDelay = `${idx*0.1}s`;
-    btnDif.addEventListener("click", () => seleccionarDificultad(dif));
-    botonesDificultadDiv.appendChild(btnDif);
+// -------------------- Mostrar dificultades --------------------
+function mostrarDificultades() {
+  dificultadesDiv.innerHTML = "<h3>Selecciona la dificultad:</h3>";
+  const niveles = ["Extremadamente Fácil", "Muy Fácil", "Fácil", "Normal", "Difícil", "Muy Difícil", "Extremo", "Imposible 💀"];
+  niveles.forEach(niv => {
+    const btn = document.createElement("button");
+    btn.textContent = niv;
+    btn.onclick = () => seleccionarDificultad(niv);
+    dificultadesDiv.appendChild(btn);
   });
+  dificultadesDiv.classList.add("fadeIn");
 }
 
-// -------------------- SELECCIONAR DIFICULTAD --------------------
-function seleccionarDificultad(dif){
-  dificultadSeleccionada = dif;
-  mostrarResumen();
+// -------------------- Selección de dificultad --------------------
+function seleccionarDificultad(niv) {
+  dificultadSeleccionada = niv;
+  cargarPreguntas();
 }
 
-// -------------------- MOSTRAR RESUMEN --------------------
-function mostrarResumen(){
-  resumenFinal.innerHTML = `
-    <div class="fadeIn" style="margin-top:20px;padding:15px;background:rgba(255,255,255,0.9);border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.2);max-width:500px;margin-inline:auto;">
-      <h3>📘 Resumen de tu selección</h3>
-      <p><strong>Nombre:</strong> ${nombreUsuario}</p>
-      <p><strong>Modalidad:</strong> ${modalidadSeleccionada}</p>
-      <p><strong>Materia:</strong> ${materiaSeleccionada}</p>
-      <p><strong>Dificultad:</strong> ${dificultadSeleccionada}</p>
-      <button id="botonComenzar" style="margin-top:10px;">Comenzar</button>
-    </div>
-  `;
-
-  document.getElementById("botonComenzar").addEventListener("click", () => iniciarContenido());
-}
-
-// -------------------- INICIAR CONTENIDO --------------------
-function iniciarContenido(){
-  modalidadDiv.style.display = "none";
-  materiasDiv.style.display = "none";
-  dificultadesDiv.style.display = "none";
-  resumenFinal.style.display = "none";
-  seleccion.textContent = "";
-
-  inicioContenidoDiv.style.display = "block";
-  infoUsuario.innerHTML = `
-    <p>¡Bienvenid@ ${nombreUsuario}!</p>
-    <p>Modalidad: ${modalidadSeleccionada}</p>
-    <p>Materia: ${materiaSeleccionada}</p>
-    <p>Dificultad: ${dificultadSeleccionada}</p>
-  `;
-
-  verContenidoBtn.style.display = "inline-block";
-  temasDiv.innerHTML = "";
-  testDiv.style.display = "none";
-  resultadosDiv.style.display = "none";
-
-  verContenidoBtn.onclick = () => mostrarTemas();
-}
-
-// -------------------- MOSTRAR TEMAS --------------------
-function mostrarTemas(){
-  temasDiv.innerHTML = "";
-  const cantidadTemas = dificultadNivel(dificultadSeleccionada)+3; // más difícil → más temas
-  for(let i=0;i<cantidadTemas;i++){
-    const tema = `${materiaSeleccionada} Tema ${i+1}`;
-    const div = document.createElement("div");
-    div.classList.add("temaItem");
-    div.innerHTML = `<span>${tema}</span> <button onclick="mostrarExplicacion('${tema}')">Saber más</button>`;
-    temasDiv.appendChild(div);
+// -------------------- Cargar preguntas desde quest --------------------
+async function cargarPreguntas() {
+  let questModule;
+  switch(dificultadSeleccionada){
+    case "Extremadamente Fácil": questModule = await import("./quest_extremadamente_facil.js"); break;
+    case "Muy Fácil": questModule = await import("./quest_muy_facil.js"); break;
+    case "Fácil": questModule = await import("./quest_facil.js"); break;
+    case "Normal": questModule = await import("./quest_normal.js"); break;
+    case "Difícil": questModule = await import("./quest_dificil.js"); break;
+    case "Muy Difícil": questModule = await import("./quest_muy_dificil.js"); break;
+    case "Extremo": questModule = await import("./quest_extremo.js"); break;
+    case "Imposible 💀": questModule = await import("./quest_imposible.js"); break;
+    default: questModule = await import("./quest_normal.js"); break;
   }
 
-  const btnTest = document.createElement("button");
-  btnTest.textContent = "Empezar Test";
-  btnTest.style.marginTop = "15px";
-  btnTest.onclick = () => iniciarTest();
-  temasDiv.appendChild(btnTest);
+  // Obtener todas las preguntas de la materia y modalidad
+  const allQuestions = questModule.default[materiaSeleccionada];
+  preguntasActuales = [].concat(...Object.values(allQuestions));
+  respuestasUsuario = Array(preguntasActuales.length).fill(null);
+  preguntaIndex = 0;
+
+  mostrarPregunta();
 }
 
-// -------------------- MOSTRAR EXPLICACION --------------------
-function mostrarExplicacion(tema){
-  alert(`Explicación del tema "${tema}" de ${materiaSeleccionada} (${modalidadSeleccionada})`);
-}
-
-// -------------------- FUNCIONES TEST --------------------
-function iniciarTest(){
-  const cantidadPreguntas = dificultadNivel(dificultadSeleccionada)+3;
-  preguntasTest = [];
-  respuestasUsuario = Array(cantidadPreguntas).fill(null);
-
-  for(let i=0;i<cantidadPreguntas;i++){
-    const tema = `${materiaSeleccionada} Tema ${i+1}`;
-    const correcta = `Respuesta correcta de ${tema}`;
-    const opciones = [correcta];
-    while(opciones.length<4){
-      opciones.push(`Opción falsa ${Math.floor(Math.random()*100)}`);
-    }
-    opciones.sort(()=>Math.random()-0.5);
-    preguntasTest.push({pregunta:`Pregunta sobre ${tema}`, opciones, correcta});
-  }
-
-  mostrarTest();
-}
-
-// -------------------- MOSTRAR TEST --------------------
-function mostrarTest(){
-  testDiv.innerHTML = "";
-  testDiv.style.display = "block";
-  resultadosDiv.style.display = "none";
-
-  preguntasTest.forEach((p, idx)=>{
-    const div = document.createElement("div");
-    div.style.margin = "10px";
-    div.innerHTML = `<p><strong>${p.pregunta}</strong></p>`;
-    p.opciones.forEach(op=>{
-      const btn = document.createElement("button");
-      btn.textContent = op;
-      btn.disabled = respuestasUsuario[idx]!==null;
-      btn.onclick = ()=>{
-        if(respuestasUsuario[idx]===null){
-          respuestasUsuario[idx]=op;
-          mostrarTest();
-        }
-      };
-      div.appendChild(btn);
-    });
-    testDiv.appendChild(div);
-  });
-
-  const btnFinalizar = document.createElement("button");
-  btnFinalizar.textContent = "Finalizar Test";
-  btnFinalizar.style.marginTop = "15px";
-  btnFinalizar.onclick = () => calcularResultados();
-  testDiv.appendChild(btnFinalizar);
-}
-
-// -------------------- CALCULAR RESULTADOS --------------------
-function calcularResultados(){
-  if(respuestasUsuario.includes(null)){
-    alert("¡Faltan preguntas por responder, verifica!");
+// -------------------- Mostrar pregunta --------------------
+function mostrarPregunta() {
+  if (preguntaIndex >= preguntasActuales.length) {
+    mostrarResultados();
     return;
   }
 
-  const correctas = respuestasUsuario.filter((r,i)=>r===preguntasTest[i].correcta).length;
-  const total = preguntasTest.length;
-  const porcentaje = Math.round((correctas/total)*100);
-
-  testDiv.style.display = "none";
-  resultadosDiv.style.display = "block";
-  resultadosDiv.innerHTML = `<h3>${porcentaje>=80 ? "¡Felicidades!" : porcentaje>=50 ? "¡Lo hiciste bien!" : "¡Inténtalo nuevamente!"}</h3>`;
-
-  // Canvas circulo
-  resultadosDiv.innerHTML += `<canvas id="canvasResultado" width="150" height="150"></canvas>`;
-  const canvas = document.getElementById("canvasResultado");
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0,0,150,150);
-  // fondo
-  ctx.beginPath();
-  ctx.arc(75,75,70,0,2*Math.PI);
-  ctx.fillStyle="#eee";
-  ctx.fill();
-  // progreso
-  ctx.beginPath();
-  ctx.arc(75,75,70,-Math.PI/2, -Math.PI/2 + 2*Math.PI*(porcentaje/100));
-  ctx.lineWidth=15;
-  ctx.strokeStyle="#3498db";
-  ctx.stroke();
-  // texto
-  ctx.font="20px Poppins";
-  ctx.fillStyle="#222";
-  ctx.textAlign="center";
-  ctx.textBaseline="middle";
-  ctx.fillText(`${porcentaje}%`,75,75);
-
-  // Info correctas/incorrectas
-  resultadosDiv.innerHTML += `<div style="display:flex;justify-content:space-between;width:150px;margin:10px auto;"><span>❌ ${total-correctas}</span><span>✅ ${correctas}</span></div>`;
-
-  // Botones ATRÁS y Reintentar
-  const btnAtras = document.createElement("button");
-  btnAtras.textContent = "ATRÁS";
-  btnAtras.onclick = ()=>{mostrarTemas(); resultadosDiv.style.display="none";};
-
-  const btnReintentar = document.createElement("button");
-  btnReintentar.textContent = "Reintentar";
-  btnReintentar.style.marginLeft="10px";
-  btnReintentar.onclick = ()=>{iniciarTest(); resultadosDiv.style.display="none";};
-
-  resultadosDiv.appendChild(btnAtras);
-  resultadosDiv.appendChild(btnReintentar);
+  const q = preguntasActuales[preguntaIndex];
+  contenidoTestDiv.innerHTML = `<h3>${q.pregunta}</h3>`;
+  q.opciones.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => seleccionarRespuesta(opt);
+    if (respuestasUsuario[preguntaIndex]) btn.disabled = true; // Ya respondida
+    contenidoTestDiv.appendChild(btn);
+  });
+  contenidoTestDiv.classList.add("fadeIn");
 }
 
-// -------------------- NIVEL DIFICULTAD --------------------
-function dificultadNivel(dif){
-  switch(dif){
-    case "Extremadamente Fácil": return 0;
-    case "Muy Fácil": return 0;
-    case "Fácil": return 1;
-    case "Normal": return 2;
-    case "Difícil": return 3;
-    case "Muy Difícil": return 4;
-    case "Extremo": return 5;
-    case "Imposible 💀": return 6;
-    default: return 0;
-  }
+// -------------------- Seleccionar respuesta --------------------
+function seleccionarRespuesta(opcion) {
+  respuestasUsuario[preguntaIndex] = opcion;
+  preguntaIndex++;
+  mostrarPregunta();
+}
+
+// -------------------- Resultados --------------------
+function mostrarResultados() {
+  contenidoTestDiv.innerHTML = "";
+  resultadosDiv.innerHTML = "<h3>Resultados:</h3>";
+  
+  const correctas = respuestasUsuario.filter((resp,i)=>resp===preguntasActuales[i].correcta).length;
+  const totales = preguntasActuales.length;
+  
+  const porcentaje = Math.round((correctas/totales)*100);
+
+  resultadosDiv.innerHTML += `
+    <canvas id="calificacion" width="150" height="150"></canvas>
+    <div>Correctas: ${correctas}</div>
+    <div>Incorrectas: ${totales-correctas}</div>
+    <button onclick="reintentar()">Reintentar</button>
+    <button onclick="cambiarMateria()">Atrás</button>
+  `;
+
+  dibujarCirculo(porcentaje);
+}
+
+// -------------------- Dibujar círculo de calificación --------------------
+function dibujarCirculo(porcentaje){
+  const canvas = document.getElementById("calificacion");
+  const ctx = canvas.getContext("2d");
+  const radio = canvas.width/2 - 10;
+  const x = canvas.width/2;
+  const y = canvas.height/2;
+
+  // Fondo gris
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.beginPath();
+  ctx.arc(x,y,radio,0,Math.PI*2);
+  ctx.strokeStyle = "#ddd";
+  ctx.lineWidth = 15;
+  ctx.stroke();
+
+  // Azul porcentaje
+  ctx.beginPath();
+  ctx.arc(x,y,radio,-Math.PI/2,(-Math.PI/2)+(Math.PI*2*(porcentaje/100)));
+  ctx.strokeStyle = "#3498db";
+  ctx.lineWidth = 15;
+  ctx.stroke();
+
+  // Texto
+  ctx.font = "20px Poppins";
+  ctx.fillStyle = "#222";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${porcentaje}%`,x,y);
+}
+
+// -------------------- Botones --------------------
+function reintentar() {
+  preguntaIndex = 0;
+  respuestasUsuario = Array(preguntasActuales.length).fill(null);
+  mostrarPregunta();
+}
+
+function cambiarMateria() {
+  resultadosDiv.innerHTML = "";
+  mostrarMaterias(modalidadSeleccionada);
 }
