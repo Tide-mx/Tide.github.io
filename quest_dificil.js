@@ -568,4 +568,4 @@ const questDificilPostgrado = {
 };
 
 // module.exports = questDificilPostgrado; // si usas Node.js
-
+export default questdificil;
