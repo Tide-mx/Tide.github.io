@@ -1034,6 +1034,6 @@ const questImposiblePostgrado = {
   }
 };
 
-
+export default questImposible;
 
 
