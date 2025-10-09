@@ -13,7 +13,9 @@
     <p>Inserta tu nombre:</p>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
     <button id="botonListo" disabled>Listo</button>
-    <p id="avisoErrores" style="color:red;font-size:0.9em;margin-top:10px;">⚠️ Esta página puede tener errores.</p>
+    <p id="avisoErrores" style="color:red;font-size:0.9em;margin-top:10px;">
+      ⚠️ Esta página puede tener errores.
+    </p>
   </div>
 
   <p id="saludo"></p>
@@ -40,20 +42,11 @@
   <!-- Dificultades -->
   <div id="dificultades" style="display:none;">
     <p>Selecciona la dificultad:</p>
-    <div id="botonesDificultad">
-      <button class="difBtn">Extremadamente Fácil</button>
-      <button class="difBtn">Muy Fácil</button>
-      <button class="difBtn">Fácil</button>
-      <button class="difBtn">Normal</button>
-      <button class="difBtn">Difícil</button>
-      <button class="difBtn">Muy Difícil</button>
-      <button class="difBtn">Extremo</button>
-      <button class="difBtn">Imposible 💀</button>
-    </div>
+    <div id="botonesDificultad"></div>
   </div>
 
   <!-- Resumen final -->
-  <div id="resumenFinal" style="display:none;"></div>
+  <div id="resumenFinal"></div>
 
   <!-- Contenido y test -->
   <div id="contenidoTest" style="display:none;">
@@ -65,18 +58,16 @@
     <div id="resultadosDiv" style="display:none;"></div>
   </div>
 
-  <!-- Scripts de contenido y preguntas -->
+  <!-- Scripts -->
   <script src="contenido.js"></script>
   <script src="quest_extremadamente_facil.js"></script>
   <script src="quest_muy_facil.js"></script>
   <script src="quest_facil.js"></script>
   <script src="quest_normal.js"></script>
-  <script src="quest_dificil.js"></script>
   <script src="quest_muy_dificil.js"></script>
+  <script src="quest_dificil.js"></script>
   <script src="quest_extremo.js"></script>
   <script src="quest_imposible.js"></script>
-
-  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>
