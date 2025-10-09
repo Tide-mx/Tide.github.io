@@ -394,5 +394,5 @@ questFacil["Postgrado"]={
 });
 
 // Export
-if(typeof module!=="undefined"){ module.exports=questFacil; }
+export default questFacil;
 
