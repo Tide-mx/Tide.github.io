@@ -1,6 +1,6 @@
-// quest.js - Preguntas para todas las modalidades, materias y temas
+// quest_muy_facil.js - Preguntas muy fáciles, un nivel arriba de "Extremadamente Fácil"
 
-const questDB = {
+const questMuyFacil = {
   "Primaria": {
     "Matemáticas": {
       "Suma": [],
@@ -164,61 +164,59 @@ const questDB = {
   }
 };
 
-// Función para generar 5 preguntas por tema
-function generarPreguntasPorTema(modalidad, materia, tema) {
+// Función para generar 5 preguntas muy fáciles por tema
+function generarPreguntasMuyFacil(modalidad, materia, tema) {
   const preguntas = [];
 
   for (let i = 0; i < 5; i++) {
     let pregunta, opciones, correcta;
 
-    // Preguntas numéricas
-    if (
-      ["Suma", "Resta", "Multiplicación", "División",
-       "Ecuaciones", "Inecuaciones", "Polinomios",
-       "Límites", "Derivadas", "Integrales",
-       "Integrales definidas", "Integrales indefinidas",
-       "Media y mediana", "Desviación estándar"].includes(tema)
-    ) {
-      const num1 = Math.floor(Math.random() * 50) + 1;
+    // Preguntas numéricas fáciles, números 1-50
+    if (["Suma","Resta","Multiplicación","División",
+         "Ecuaciones","Inecuaciones","Polinomios",
+         "Límites","Derivadas","Integrales",
+         "Integrales definidas","Integrales indefinidas",
+         "Media y mediana","Desviación estándar"].includes(tema)) {
+      const num1 = Math.floor(Math.random() * 50) + 1; // 1-50
       const num2 = Math.floor(Math.random() * 50) + 1;
 
       switch (tema) {
         case "Suma":
           correcta = num1 + num2;
-          pregunta = `¿Cuál es el resultado de ${num1} + ${num2}?`;
+          pregunta = `¿Cuánto es ${num1} + ${num2}?`;
           opciones = [
             correcta,
-            correcta + Math.floor(Math.random() * 5) + 1,
-            correcta - Math.floor(Math.random() * 5) - 1,
-            correcta + 10
+            correcta + 2,
+            correcta - 2,
+            correcta + 5
           ];
           break;
 
         case "Resta":
-          correcta = num1 + num2;
-          pregunta = `¿Cuál es el resultado de ${num1 + num2} - ${num1}?`;
+          correcta = num1;
+          pregunta = `¿Cuánto es ${num1 + num2} - ${num2}?`;
           opciones = [
             correcta,
-            correcta + Math.floor(Math.random() * 5) + 1,
-            correcta - Math.floor(Math.random() * 5) - 1,
-            correcta + 10
+            correcta + 2,
+            correcta - 2,
+            correcta + 5
           ];
           break;
 
         case "Multiplicación":
           correcta = num1 * num2;
-          pregunta = `¿Cuál es el resultado de ${num1} × ${num2}?`;
+          pregunta = `¿Cuánto es ${num1} × ${num2}?`;
           opciones = [
             correcta,
-            correcta + Math.floor(Math.random() * 5) + 1,
-            correcta - Math.floor(Math.random() * 5) - 1,
-            correcta + 10
+            correcta + 3,
+            correcta - 3,
+            correcta + 6
           ];
           break;
 
         case "División":
-          correcta = Math.floor(num1 / (num2 || 1));
-          pregunta = `¿Cuál es el resultado de ${num1 * (num2 || 1)} ÷ ${num2 || 1}?`;
+          correcta = num1;
+          pregunta = `¿Cuánto es ${num1 * num2} ÷ ${num2}?`;
           opciones = [
             correcta,
             correcta + 1,
@@ -232,14 +230,14 @@ function generarPreguntasPorTema(modalidad, materia, tema) {
           pregunta = `Calcula: ${num1} + ${num2}`;
           opciones = [
             correcta,
-            correcta + 1,
-            correcta - 1,
-            correcta + 2
+            correcta + 2,
+            correcta - 2,
+            correcta + 5
           ];
       }
     } else {
-      // Preguntas teóricas
-      pregunta = `Pregunta sobre ${tema} - opción ${i+1}`;
+      // Preguntas teóricas básicas
+      pregunta = `Pregunta muy fácil sobre ${tema} - opción ${i+1}`;
       correcta = `Respuesta correcta ${i+1} de ${tema}`;
       opciones = [
         correcta,
@@ -262,17 +260,16 @@ function generarPreguntasPorTema(modalidad, materia, tema) {
   return preguntas;
 }
 
-// Generar todo automáticamente
-for (const modalidad in questDB) {
-  for (const materia in questDB[modalidad]) {
-    for (const tema in questDB[modalidad][materia]) {
-      questDB[modalidad][materia][tema] = generarPreguntasPorTema(modalidad, materia, tema);
+// Generar todas las preguntas muy fáciles automáticamente
+for (const modalidad in questMuyFacil) {
+  for (const materia in questMuyFacil[modalidad]) {
+    for (const tema in questMuyFacil[modalidad][materia]) {
+      questMuyFacil[modalidad][materia][tema] = generarPreguntasMuyFacil(modalidad, materia, tema);
     }
   }
 }
 
-// Exportar para que lo uses en tu proyecto
-// module.exports = questDB; // Si usas Node.js
-// o dejarlo global en el navegador
-window.questDB = questDB;
-
+// Exportar para Node.js
+// module.exports = questMuyFacil;
+// O dejarlo global para navegador
+window.questMuyFacil = questMuyFacil;
