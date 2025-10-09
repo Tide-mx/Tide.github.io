@@ -1,10 +1,10 @@
 /* -------------------- style.css -------------------- */
 
-/* 🌈 Fondo más simple para rendimiento */
+/* 🌈 Fondo estático más ligero */
 body {
   font-family: "Poppins", sans-serif;
   text-align: center;
-  background: #e0f7fa; /* Fondo plano, más ligero que el degradado */
+  background: #e0f7fa; /* color sólido para mejorar rendimiento */
   color: #333;
   margin: 0;
   padding: 40px;
@@ -58,7 +58,7 @@ button:disabled {
 
 /* 🧩 Secciones */
 #modalidad, #materias, #dificultades, #resumenFinal, #contenidoTest {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   padding: 20px;
@@ -185,7 +185,6 @@ button:disabled {
 .matBtn[data-materia="Filosofía Aplicada"] { background-image: url('https://postgrados.uandes.cl/content/uploads/E-MANDE-E-14.jpg'); }
 .matBtn[data-materia="Idiomas"] { background-image: url('https://www.alphatrad.es/sites/alphatrad.es/files/images/articles/idiomas%20mas%20hablados%20en%20el%20mundo.jpg'); }
 .matBtn[data-materia="Educación Superior"] { background-image: url('https://www.unesco.org/sites/default/files/2022-05/Higher%20education-unleash%20the%20talent%20of%20next%20generation-Gorodenkoff-Shutterstock.jpg'); }
-/* ... Mantén todas las demás imágenes como las tienes ... */
 
 /* 🎯 Círculo de calificación del test */
 canvas {
@@ -206,31 +205,4 @@ canvas {
 #resultadosDiv button {
   margin-top: 5px;
   margin-right: 10px;
-}
-
-/* 🔹 Botones de dificultad */
-#botonesDificultad {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-.difBtn {
-  flex: 1 1 120px;
-  padding: 8px 12px;
-  font-size: 0.9em;
-  border-radius: 10px;
-}
-
-/* Ajuste responsive */
-@media screen and (max-width: 600px) {
-  .matBtn {
-    width: 120px;
-    height: 90px;
-    font-size: 0.9em;
   }
-  input {
-    width: 180px;
-  }
-}
