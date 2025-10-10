@@ -1,276 +1,220 @@
-// -------------------- script.js --------------------
+// ---------------------- script.js ----------------------
 
-// Variables globales
-let usuario = "";
-let modalidadSeleccionada = "";
-let materiaSeleccionada = "";
-let dificultadSeleccionada = "";
-let preguntasActuales = [];
-let respuestasUsuario = [];
-let preguntaIndex = 0;
-
-// Referencias del DOM
-const saludoDiv = document.getElementById("saludo");
-const seleccionDiv = document.getElementById("seleccion");
-const seleccionMateriaDiv = document.getElementById("seleccionMateria");
-const dificultadesDiv = document.getElementById("dificultades");
-const contenidoTestDiv = document.getElementById("contenidoTest");
-const resultadosDiv = document.getElementById("resultadosDiv");
+// Referencias a elementos del DOM
+const nombreInput = document.getElementById("nombre");
+const botonListo = document.getElementById("botonListo");
+const saludo = document.getElementById("saludo");
+const ingresoNombreDiv = document.getElementById("ingresoNombre");
+const modalidadDiv = document.getElementById("modalidad");
+const materiasDiv = document.getElementById("materias");
 const botonesMateriasDiv = document.getElementById("botonesMaterias");
-const temasDiv = document.getElementById("temasDiv");
+const seleccionMateria = document.getElementById("seleccionMateria");
+const dificultadesDiv = document.getElementById("dificultades");
+const botonesDificultadDiv = document.getElementById("botonesDificultad");
+const resumenFinal = document.getElementById("resumenFinal");
 
-// -------------------- Saludo inicial --------------------
-document.getElementById("btnComenzar").addEventListener("click", () => {
-  usuario = document.getElementById("nombreUsuario").value.trim();
-  if (!usuario) return alert("Ingresa tu nombre para continuar");
-  saludoDiv.innerHTML = `¡Hola, ${usuario}! Bienvenido/a.`;
-  document.getElementById("modalidad").classList.add("fadeIn");
-  mostrarModalidades();
-});
+// =================== ETAPA 1: INGRESAR NOMBRE ===================
 
-// Habilitar botón si hay texto
+// Habilita el botón "Listo" cuando hay texto
 nombreInput.addEventListener("input", () => {
   botonListo.disabled = nombreInput.value.trim() === "";
 });
 
-// Evento botón "Listo"
+// Al hacer clic en "Listo"
 botonListo.addEventListener("click", () => {
   const nombre = nombreInput.value.trim();
-  if(nombre){
-    saludo.textContent = `¡Hola, ${nombre}! Bienvenido/a.`;
-    document.getElementById("ingresoNombre").style.display = "none";
-    modalidadDiv.style.display = "block";
-    modalidadDiv.classList.add("fadeIn");
+  if (nombre !== "") {
+    saludo.textContent = `¡Hola, ${nombre}! Bienvenido/a a tu prueba.`;
+    ingresoNombreDiv.style.display = "none";
+    mostrarModalidades();
   }
 });
 
-// Selección de modalidad
-let modalidadSeleccionada = "";
-const modBtns = document.querySelectorAll(".modBtn");
-modBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    modalidadSeleccionada = btn.textContent;
-    document.getElementById("seleccion").textContent = `Modalidad seleccionada: ${modalidadSeleccionada}`;
-    modalidadDiv.style.display = "none";
+// =================== ETAPA 2: SELECCIÓN DE MODALIDAD ===================
 
-    // Mostrar materias
+function mostrarModalidades() {
+  modalidadDiv.style.display = "block";
+  modalidadDiv.classList.add("fadeIn");
+}
+
+let modalidadSeleccionada = "";
+
+// Escucha los clics en los botones de modalidad
+document.querySelectorAll(".modBtn").forEach((boton) => {
+  boton.addEventListener("click", () => {
+    modalidadSeleccionada = boton.textContent.trim();
+    modalidadDiv.style.display = "none";
     mostrarMaterias(modalidadSeleccionada);
   });
 });
 
-// Mostrar materias según modalidad
-function mostrarMaterias(modalidad){
-  botonesMateriasDiv.innerHTML = "";
-  const materias = Object.keys(contenidoMaterias[modalidad]);
-  materias.forEach(mat => {
-    const button = document.createElement("button");
-    button.textContent = mat;
-    button.classList.add("matBtn");
-    button.setAttribute("data-materia", mat);
-    button.addEventListener("click", () => {
-      seleccionMateria.textContent = `Materia seleccionada: ${mat}`;
-      materiasDiv.style.display = "none";
+// =================== ETAPA 3: SELECCIÓN DE MATERIA ===================
 
-      // Mostrar dificultad
-      mostrarDificultades(mat);
+function mostrarMaterias(modalidad) {
+  botonesMateriasDiv.innerHTML = "";
+
+  // Verifica si existen materias en contenido.js
+  if (!contenidoMaterias[modalidad]) {
+    botonesMateriasDiv.innerHTML = `<p>No hay materias registradas para ${modalidad}.</p>`;
+    return;
+  }
+
+  const materias = Object.keys(contenidoMaterias[modalidad]);
+  materias.forEach((materia) => {
+    const boton = document.createElement("button");
+    boton.textContent = materia;
+    boton.classList.add("matBtn");
+    boton.addEventListener("click", () => {
+      seleccionMateria.textContent = `Materia seleccionada: ${materia}`;
+      materiasDiv.style.display = "none";
+      mostrarDificultades(materia);
     });
-    botonesMateriasDiv.appendChild(button);
+    botonesMateriasDiv.appendChild(boton);
   });
+
   materiasDiv.style.display = "block";
   materiasDiv.classList.add("fadeIn");
 }
 
-// Mostrar dificultades
-function mostrarDificultades(materia){
-  botonesDificultadDiv.innerHTML = "";
-  const dificultades = ["Extremadamente Fácil","Muy Fácil","Fácil","Normal","Difícil","Muy Difícil","Extremo","Imposible 💀"];
-  dificultades.forEach(diff => {
-    const button = document.createElement("button");
-    button.textContent = diff;
-    button.addEventListener("click", () => {
-      dificultadesDiv.style.display = "none";
+// =================== ETAPA 4: SELECCIÓN DE DIFICULTAD ===================
 
-      // Mostrar resumen final
-      resumenFinal.textContent = `Resumen:
-Modalidad: ${modalidadSeleccionada}
-Materia: ${materia}
-Dificultad: ${diff}`;
-      resumenFinal.style.display = "block";
-      resumenFinal.classList.add("fadeIn");
+function mostrarDificultades(materia) {
+  botonesDificultadDiv.innerHTML = "";
+  const dificultades = [
+    "Extremadamente Fácil",
+    "Muy Fácil",
+    "Fácil",
+    "Normal",
+    "Difícil",
+    "Muy Difícil",
+    "Extremo",
+    "Imposible 💀",
+  ];
+
+  dificultades.forEach((dificultad) => {
+    const boton = document.createElement("button");
+    boton.textContent = dificultad;
+    boton.classList.add("diffBtn");
+    boton.addEventListener("click", () => {
+      dificultadesDiv.style.display = "none";
+      mostrarResumenFinal(modalidadSeleccionada, materia, dificultad);
     });
-    botonesDificultadDiv.appendChild(button);
+    botonesDificultadDiv.appendChild(boton);
   });
+
   dificultadesDiv.style.display = "block";
   dificultadesDiv.classList.add("fadeIn");
 }
-// -------------------- Mostrar modalidades --------------------
-function mostrarModalidades() {
-  const modalidades = ["Primaria", "Secundaria", "Preparatoria", "Universidad", "Postgrado"];
-  seleccionDiv.innerHTML = "<h3>Selecciona la modalidad:</h3>";
-  modalidades.forEach(mod => {
-    const btn = document.createElement("button");
-    btn.textContent = mod;
-    btn.onclick = () => seleccionarModalidad(mod);
-    seleccionDiv.appendChild(btn);
+
+// =================== ETAPA 5: RESUMEN FINAL ===================
+
+function mostrarResumenFinal(modalidad, materia, dificultad) {
+  resumenFinal.innerHTML = `
+    <h2>Resumen de selección</h2>
+    <p><strong>Modalidad:</strong> ${modalidad}</p>
+    <p><strong>Materia:</strong> ${materia}</p>
+    <p><strong>Dificultad:</strong> ${dificultad}</p>
+    <button id="empezarTest">Iniciar Test</button>
+  `;
+
+  resumenFinal.style.display = "block";
+  resumenFinal.classList.add("fadeIn");
+
+  document.getElementById("empezarTest").addEventListener("click", () => {
+    iniciarTest(modalidad, materia, dificultad);
   });
 }
 
-// -------------------- Selección de modalidad --------------------
-function seleccionarModalidad(mod) {
-  modalidadSeleccionada = mod;
-  mostrarMaterias(mod);
-}
+// =================== ETAPA 6: INICIAR TEST ===================
 
-// -------------------- Mostrar materias --------------------
-function mostrarMaterias(mod) {
-  botonesMateriasDiv.innerHTML = "";
-  const materias = Object.keys(contenidoMaterias[mod]);
-  materias.forEach(mat => {
-    const btn = document.createElement("button");
-    btn.className = "matBtn";
-    btn.dataset.materia = mat;
-    btn.innerHTML = `<span>${mat}</span>`;
-    btn.onclick = () => seleccionarMateria(mat);
-    botonesMateriasDiv.appendChild(btn);
-  });
-  seleccionMateriaDiv.classList.add("fadeIn");
-}
+function iniciarTest(modalidad, materia, dificultad) {
+  resumenFinal.innerHTML = `<h2>Cargando preguntas de ${materia} (${dificultad})...</h2>`;
 
-// -------------------- Selección de materia --------------------
-function seleccionarMateria(mat) {
-  materiaSeleccionada = mat;
-  mostrarDificultades();
-}
+  let preguntas = [];
 
-// -------------------- Mostrar dificultades --------------------
-function mostrarDificultades() {
-  dificultadesDiv.innerHTML = "<h3>Selecciona la dificultad:</h3>";
-  const niveles = ["Extremadamente Fácil", "Muy Fácil", "Fácil", "Normal", "Difícil", "Muy Difícil", "Extremo", "Imposible 💀"];
-  niveles.forEach(niv => {
-    const btn = document.createElement("button");
-    btn.textContent = niv;
-    btn.onclick = () => seleccionarDificultad(niv);
-    dificultadesDiv.appendChild(btn);
-  });
-  dificultadesDiv.classList.add("fadeIn");
-}
-
-// -------------------- Selección de dificultad --------------------
-function seleccionarDificultad(niv) {
-  dificultadSeleccionada = niv;
-  cargarPreguntas();
-}
-
-// -------------------- Cargar preguntas desde quest --------------------
-async function cargarPreguntas() {
-  let questModule;
-  switch(dificultadSeleccionada){
-    case "Extremadamente Fácil": questModule = await import("./quest_extremadamente_facil.js"); break;
-    case "Muy Fácil": questModule = await import("./quest_muy_facil.js"); break;
-    case "Fácil": questModule = await import("./quest_facil.js"); break;
-    case "Normal": questModule = await import("./quest_normal.js"); break;
-    case "Difícil": questModule = await import("./quest_dificil.js"); break;
-    case "Muy Difícil": questModule = await import("./quest_muy_dificil.js"); break;
-    case "Extremo": questModule = await import("./quest_extremo.js"); break;
-    case "Imposible 💀": questModule = await import("./quest_imposible.js"); break;
-    default: questModule = await import("./quest_normal.js"); break;
+  try {
+    switch (dificultad) {
+      case "Extremadamente Fácil":
+        preguntas = questExtremadamenteFacil[modalidad][materia];
+        break;
+      case "Muy Fácil":
+        preguntas = questMuyFacil[modalidad][materia];
+        break;
+      case "Fácil":
+        preguntas = questFacil[modalidad][materia];
+        break;
+      case "Normal":
+        preguntas = questNormal[modalidad][materia];
+        break;
+      case "Difícil":
+        preguntas = questDificil[modalidad][materia];
+        break;
+      case "Muy Difícil":
+        preguntas = questMuyDificil[modalidad][materia];
+        break;
+      case "Extremo":
+        preguntas = questExtremo[modalidad][materia];
+        break;
+      case "Imposible 💀":
+        preguntas = questImposible[modalidad][materia];
+        break;
+      default:
+        preguntas = [];
+    }
+  } catch (error) {
+    console.error("Error al cargar preguntas:", error);
   }
 
-  // Obtener todas las preguntas de la materia y modalidad
-  const allQuestions = questModule.default[materiaSeleccionada];
-  preguntasActuales = [].concat(...Object.values(allQuestions));
-  respuestasUsuario = Array(preguntasActuales.length).fill(null);
-  preguntaIndex = 0;
-
-  mostrarPregunta();
-}
-
-// -------------------- Mostrar pregunta --------------------
-function mostrarPregunta() {
-  if (preguntaIndex >= preguntasActuales.length) {
-    mostrarResultados();
+  if (!preguntas || preguntas.length === 0) {
+    resumenFinal.innerHTML = `<p>No hay preguntas disponibles para esta selección.</p>`;
     return;
   }
 
-  const q = preguntasActuales[preguntaIndex];
-  contenidoTestDiv.innerHTML = `<h3>${q.pregunta}</h3>`;
-  q.opciones.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.onclick = () => seleccionarRespuesta(opt);
-    if (respuestasUsuario[preguntaIndex]) btn.disabled = true; // Ya respondida
-    contenidoTestDiv.appendChild(btn);
-  });
-  contenidoTestDiv.classList.add("fadeIn");
+  mostrarPreguntas(preguntas);
 }
 
-// -------------------- Seleccionar respuesta --------------------
-function seleccionarRespuesta(opcion) {
-  respuestasUsuario[preguntaIndex] = opcion;
-  preguntaIndex++;
-  mostrarPregunta();
+// =================== ETAPA 7: MOSTRAR PREGUNTAS ===================
+
+function mostrarPreguntas(preguntas) {
+  resumenFinal.innerHTML = "";
+  let indice = 0;
+  let puntaje = 0;
+
+  function mostrarSiguiente() {
+    if (indice >= preguntas.length) {
+      resumenFinal.innerHTML = `
+        <h2>¡Test completado!</h2>
+        <p>Puntaje final: ${puntaje} / ${preguntas.length}</p>
+        <button onclick="location.reload()">Volver al inicio</button>
+      `;
+      return;
+    }
+
+    const pregunta = preguntas[indice];
+    resumenFinal.innerHTML = `
+      <h3>${pregunta.pregunta}</h3>
+      ${pregunta.opciones
+        .map(
+          (op, i) => `
+          <button class="opcionBtn" data-index="${i}">${op}</button>
+        `
+        )
+        .join("")}
+      <p>Pregunta ${indice + 1} de ${preguntas.length}</p>
+    `;
+
+    document.querySelectorAll(".opcionBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.textContent === pregunta.correcta.toString()) {
+          puntaje++;
+        }
+        indice++;
+        mostrarSiguiente();
+      });
+    });
+  }
+
+  mostrarSiguiente();
 }
 
-// -------------------- Resultados --------------------
-function mostrarResultados() {
-  contenidoTestDiv.innerHTML = "";
-  resultadosDiv.innerHTML = "<h3>Resultados:</h3>";
-  
-  const correctas = respuestasUsuario.filter((resp,i)=>resp===preguntasActuales[i].correcta).length;
-  const totales = preguntasActuales.length;
-  
-  const porcentaje = Math.round((correctas/totales)*100);
-
-  resultadosDiv.innerHTML += `
-    <canvas id="calificacion" width="150" height="150"></canvas>
-    <div>Correctas: ${correctas}</div>
-    <div>Incorrectas: ${totales-correctas}</div>
-    <button onclick="reintentar()">Reintentar</button>
-    <button onclick="cambiarMateria()">Atrás</button>
-  `;
-
-  dibujarCirculo(porcentaje);
-}
-
-// -------------------- Dibujar círculo de calificación --------------------
-function dibujarCirculo(porcentaje){
-  const canvas = document.getElementById("calificacion");
-  const ctx = canvas.getContext("2d");
-  const radio = canvas.width/2 - 10;
-  const x = canvas.width/2;
-  const y = canvas.height/2;
-
-  // Fondo gris
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.beginPath();
-  ctx.arc(x,y,radio,0,Math.PI*2);
-  ctx.strokeStyle = "#ddd";
-  ctx.lineWidth = 15;
-  ctx.stroke();
-
-  // Azul porcentaje
-  ctx.beginPath();
-  ctx.arc(x,y,radio,-Math.PI/2,(-Math.PI/2)+(Math.PI*2*(porcentaje/100)));
-  ctx.strokeStyle = "#3498db";
-  ctx.lineWidth = 15;
-  ctx.stroke();
-
-  // Texto
-  ctx.font = "20px Poppins";
-  ctx.fillStyle = "#222";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(`${porcentaje}%`,x,y);
-}
-
-// -------------------- Botones --------------------
-function reintentar() {
-  preguntaIndex = 0;
-  respuestasUsuario = Array(preguntasActuales.length).fill(null);
-  mostrarPregunta();
-}
-
-function cambiarMateria() {
-  resultadosDiv.innerHTML = "";
-  mostrarMaterias(modalidadSeleccionada);
-}
+// =================== FIN DEL SCRIPT ===================
